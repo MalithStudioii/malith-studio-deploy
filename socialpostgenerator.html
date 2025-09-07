@@ -169,7 +169,7 @@
             border-color: #8b5cf6;
             box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
         }
-
+        
         .main-btn {
             width: 100%;
             padding: 1rem;
@@ -181,7 +181,7 @@
             border-radius: 0.5rem;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -242,13 +242,13 @@
             height: 1.5rem;
             margin-top: 1rem;
         }
-
-        .share-section {
+        
+        .share-section, .feedback-section, .comments-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
             border-top: 1px solid #4b5563;
         }
-        .share-section h3 {
+        .share-section h3, .feedback-section h3, .comments-section h3 {
             font-size: 1.125rem;
             font-weight: 600;
             color: #d1d5db;
@@ -296,6 +296,198 @@
             opacity: 1;
         }
         
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 2rem;
+        }
+        .star-rating i {
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .star-rating:not(.disabled) i:hover {
+            transform: scale(1.2);
+        }
+        .star-rating i.hover, .star-rating i.selected {
+            color: #f59e0b;
+        }
+        #feedback-message {
+            text-align: center;
+            margin-top: 1rem;
+            color: #a5b4fc;
+            font-weight: 500;
+            min-height: 1.5rem;
+        }
+        
+        #feedback-stats {
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .average-rating-summary {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .average-rating-summary .rating-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        .average-rating-summary .average-star-display {
+            font-size: 1.5rem;
+            color: #f59e0b;
+            margin: 0.25rem 0;
+        }
+        .average-rating-summary .total-reviews {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .stat-row-label {
+            width: 60px;
+            text-align: right;
+            color: #9ca3af;
+        }
+        .progress-bar-container {
+            flex-grow: 1;
+            background-color: #111827;
+            border-radius: 9999px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #f59e0b;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+        .stat-row-percent {
+            width: 50px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        #comments-form {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+        #comments-list {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .comment-card {
+            background-color: rgba(17, 24, 39, 0.7);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #374151;
+        }
+        .comment-card p {
+            margin: 0 0 1rem 0;
+            color: #d1d5db;
+        }
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        .comment-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .reactions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .reaction-btn {
+            background-color: #374151;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        .reaction-btn:hover { transform: scale(1.1); }
+        .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
+        .toggle-reply-btn {
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .toggle-reply-btn:hover { text-decoration: underline; }
+        .reply-form-container {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #374151;
+        }
+        .reply-form-container input, .reply-form-container textarea {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .submit-reply-btn {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        .replies-list {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #374151;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .user-reply-card {
+            background-color: rgba(10, 15, 25, 0.7);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .admin-reply {
+            background-color: rgba(17, 24, 39, 0.7);
+            border-top: 1px solid #4b5563;
+            padding: 1rem;
+            margin: 1.5rem -1.5rem -1.5rem -1.5rem;
+            border-bottom-left-radius: 0.75rem;
+            border-bottom-right-radius: 0.75rem;
+        }
+        .reply-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: #c7d2fe;
+        }
+        .reply-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -432,6 +624,66 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
+        
+        <div class="feedback-section" id="feedback-section">
+            <h3 data-key="feedbackTitle">Was this tool helpful?</h3>
+            <div class="star-rating" id="star-rating">
+                <i class="fas fa-star" data-value="1"></i>
+                <i class="fas fa-star" data-value="2"></i>
+                <i class="fas fa-star" data-value="3"></i>
+                <i class="fas fa-star" data-value="4"></i>
+                <i class="fas fa-star" data-value="5"></i>
+            </div>
+            <p id="feedback-message"></p>
+            <div id="feedback-stats" style="display: none;">
+                <div class="average-rating-summary">
+                    <span class="rating-value"><span id="average-rating-value">0.0</span> / 5</span>
+                    <div class="average-star-display" id="average-star-display">
+                    </div>
+                    <p class="total-reviews" data-key="totalReviews">Based on <span id="total-ratings-count">0</span> reviews</p>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-row-label" data-key="stars5">5 Stars</span>
+                    <div class="progress-bar-container"><div class="progress-bar" id="bar-5"></div></div>
+                    <span class="stat-row-percent" id="percent-5">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-row-label" data-key="stars4">4 Stars</span>
+                    <div class="progress-bar-container"><div class="progress-bar" id="bar-4"></div></div>
+                    <span class="stat-row-percent" id="percent-4">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-row-label" data-key="stars3">3 Stars</span>
+                    <div class="progress-bar-container"><div class="progress-bar" id="bar-3"></div></div>
+                    <span class="stat-row-percent" id="percent-3">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-row-label" data-key="stars2">2 Stars</span>
+                    <div class="progress-bar-container"><div class="progress-bar" id="bar-2"></div></div>
+                    <span class="stat-row-percent" id="percent-2">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-row-label" data-key="stars1">1 Star</span>
+                    <div class="progress-bar-container"><div class="progress-bar" id="bar-1"></div></div>
+                    <span class="stat-row-percent" id="percent-1">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-section" id="comments-section">
+            <h3 data-key="commentsTitle">Comments</h3>
+            <form id="comments-form">
+                <div class="form-group">
+                    <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment" style="min-height: 80px;"></textarea>
+                </div>
+                <button type="submit" id="submit-comment" class="main-btn" data-key="commentSubmit">Submit Comment</button>
+            </form>
+            <div id="comments-list">
+            </div>
+        </div>
     </div>
 
     <div id="help-modal" class="modal-overlay">
@@ -443,7 +695,15 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, doc, runTransaction, getDoc, setDoc, arrayUnion, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const toolId = "social-post-generator";
+
         const translations = {
             backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
             title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
@@ -471,6 +731,7 @@
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
+            errorBlocked: { en: 'Could not generate post due to safety restrictions. Please try a different topic.', si: 'ආරක්ෂක සීමා කිරීම් නිසා සටහන සෑදීමට නොහැක. කරුණාකර වෙනත් මාතෘකාවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக இடுகையை உருவாக்க முடியவில்லை. தயவுசெய்து வேறு தலைப்பை முயற்சிக்கவும்.'},
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use Social Media Post Generator', si: 'Social Media Post Generator භාවිතා කරන ආකාරය', ta: 'Social Media Post Generator பயன்படுத்துவது எப்படி' },
@@ -478,51 +739,88 @@
                 en: `<ol><li>Enter a <strong>Topic</strong> for your social media post.</li><li>Select the <strong>Platform</strong> (e.g., Facebook, Instagram).</li><li>Choose the desired <strong>Tone</strong> for the post.</li><li>Select the <strong>Language</strong> for the output.</li><li>Click the <strong>Generate Post</strong> button.</li><li>The AI will create a post for you, which you can then copy.</li></ol>`,
                 si: `<ol><li>ඔබේ social media post එකට අදාළ <strong>මාතෘකාව</strong> ඇතුළත් කරන්න.</li><li>අදාළ <strong>වේදිකාව</strong> (උදා: Facebook, Instagram) තෝරන්න.</li><li>Post එකට අවශ්‍ය <strong>ස්වරය</strong> තෝරන්න.</li><li>ප්‍රතිඵලය අවශ්‍ය <strong>භාෂාව</strong> තෝරන්න.</li><li><strong>'සටහන සාදන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබ සඳහා post එකක් නිර්මාණය කරනු ඇත, එය ඔබට පිටපත් කරගත හැක.</li></ol>`,
                 ta: `<ol><li>உங்கள் சமூக ஊடக இடுகைக்கான <strong>தலைப்பை</strong> உள்ளிடவும்.</li><li>சரியான <strong>தளத்தை</strong> (எ.கா., Facebook, Instagram) தேர்ந்தெடுக்கவும்.</li><li>இடுகைக்கான விரும்பிய <strong>தொனியைத்</strong> தேர்ந்தெடுக்கவும்.</li><li>வெளியீட்டிற்கான <strong>மொழியைத்</strong> தேர்ந்தெடுக்கவும்.</li><li><strong>'பதிவை உருவாக்கவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்களுக்காக ஒரு பதிவை உருவாக்கும், அதை நீங்கள் நகலெடுக்கலாம்.</li></ol>`
+            },
+            feedbackTitle: { en: 'Was this tool helpful?', si: 'මෙම මෙවලම ප්‍රයෝජනවත්ද?', ta: 'இந்த கருவி பயனுள்ளதா?' },
+            feedbackThanks: { en: 'Thank you for your feedback!', si: 'ඔබගේ අදහසට ස්තූතියි!', ta: 'உங்கள் கருத்துக்கு நன்றி!' },
+            totalReviews: { en: 'Based on {count} reviews', si: 'ඇගයීම් {count}ක් මත පදනම්ව', ta: '{count} மதிப்புரைகளின் அடிப்படையில்' },
+            stars5: { en: '5 Stars', si: 'තරු 5', ta: '5 நட்சத்திரங்கள்' },
+            stars4: { en: '4 Stars', si: 'තරු 4', ta: '4 நட்சத்திரங்கள்' },
+            stars3: { en: '3 Stars', si: 'තරු 3', ta: '3 நட்சத்திரங்கள்' },
+            stars2: { en: '2 Stars', si: 'තරු 2', ta: '2 நட்சத்திரங்கள்' },
+            stars1: { en: '1 Star', si: 'තරු 1', ta: '1 நட்சத்திரம்' },
+            commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
+            commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' },
+            commentMessagePlaceholder: { en: 'Your Comment', si: 'ඔබේ අදහස', ta: 'உங்கள் கருத்து' },
+            commentSubmit: { en: 'Submit Comment', si: 'අදහස යොමු කරන්න', ta: 'கருத்தை சமர்ப்பிக்கவும்' },
+            replyBtn: { en: 'Reply', si: 'පිළිතුරු දෙන්න', ta: 'பதிலளி' },
+            replyMessagePlaceholder: { en: 'Your Reply', si: 'ඔබේ පිළිතුර', ta: 'உங்கள் பதில்' },
+            replySubmitBtn: { en: 'Submit Reply', si: 'පිළිතුර යොමු කරන්න', ta: 'பதிலைச் சமர்ப்பி' },
+            commentAutoReply: { 
+                en: 'Hi {name}, thank you for your feedback! We appreciate you taking the time to share your thoughts.',
+                si: 'ආයුබෝවන් {name}, ඔබගේ අදහසට බොහොම ස්තූතියි! ඔබගේ වටිනා කාලය යොදවා අදහස් දැක්වීම අපි අගය කරමු.',
+                ta: 'வணக்கம் {name}, உங்கள் கருத்துக்கு மிக்க நன்றி! உங்கள் எண்ணங்களைப் பகிர்ந்து கொள்ள நேரம் ஒதுக்கியதற்கு நன்றி.'
             }
         };
 
+        const dom = {
+            formContainer: document.getElementById('form-container'),
+            topicInput: document.getElementById('topic-input'),
+            platformSelect: document.getElementById('platform-select'),
+            toneSelect: document.getElementById('tone-select'),
+            languageSelect: document.getElementById('language-select'),
+            generateBtn: document.getElementById('generate-btn'),
+            generateBtnText: document.getElementById('generate-btn').querySelector('span'),
+            loader: document.getElementById('loader'),
+            resultBox: document.getElementById('result-box'),
+            resultText: document.getElementById('result-text'),
+            copyBtn: document.getElementById('copyBtn'),
+            newPostBtn: document.getElementById('newPostBtn'),
+            statusDiv: document.getElementById('status'),
+            languageBtn: document.getElementById('language-btn'),
+            languageOptions: document.getElementById('language-options'),
+            helpBtn: document.getElementById('help-btn'),
+            helpModal: document.getElementById('help-modal'),
+            closeModalBtn: document.getElementById('close-modal-btn'),
+            commentsForm: document.getElementById('comments-form'),
+            commentsList: document.getElementById('comments-list'),
+            starRatingContainer: document.getElementById('star-rating'),
+            feedbackMessage: document.getElementById('feedback-message'),
+            feedbackStats: document.getElementById('feedback-stats'),
+            feedbackSection: document.getElementById('feedback-section'),
+            commentsSection: document.getElementById('comments-section')
+        };
+        
         let currentLang = 'en';
 
-        const formContainer = document.getElementById('form-container');
-        const topicInput = document.getElementById('topic-input');
-        const platformSelect = document.getElementById('platform-select');
-        const toneSelect = document.getElementById('tone-select');
-        const languageSelect = document.getElementById('language-select');
-        const generateBtn = document.getElementById('generate-btn');
-        const generateBtnText = generateBtn.querySelector('span');
-        const loader = document.getElementById('loader');
-        const resultBox = document.getElementById('result-box');
-        const resultText = document.getElementById('result-text');
-        const copyBtn = document.getElementById('copyBtn');
-        const newPostBtn = document.getElementById('newPostBtn');
-        const statusDiv = document.getElementById('status');
-        const languageBtn = document.getElementById('language-btn');
-        const languageOptions = document.getElementById('language-options');
-        const helpBtn = document.getElementById('help-btn');
-        const helpModal = document.getElementById('help-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        
         function setLanguage(lang) {
             currentLang = lang;
-            if(lang === 'en') languageBtn.textContent = 'English';
-            if(lang === 'si') languageBtn.textContent = 'සිංහල';
-            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
-            languageOptions.classList.remove('show');
+            if(lang === 'en') dom.languageBtn.textContent = 'English';
+            if(lang === 'si') dom.languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') dom.languageBtn.textContent = 'தமிழ்';
+            dom.languageOptions.classList.remove('show');
             
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if (translations[key]?.[lang]) {
-                    if (key === 'helpContent') {
-                        el.innerHTML = translations[key][lang];
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                     if (key === 'totalReviews') {
+                        const countEl = element.querySelector('#total-ratings-count');
+                        const count = countEl ? countEl.textContent : '0';
+                        element.innerHTML = translations[key][lang].replace('{count}', `<span id="total-ratings-count">${count}</span>`);
+                    } else if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
                     } else {
-                        el.textContent = translations[key][lang];
+                        element.textContent = translations[key][lang];
                     }
                 }
             });
-             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-key-placeholder');
-                if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
             });
+
             const backBtn = document.querySelector('.back-btn');
             if (backBtn) {
                 const homeUrl = new URL(backBtn.href, window.location.origin);
@@ -530,164 +828,360 @@
                 backBtn.href = homeUrl.toString();
             }
         }
-        
+
         function getLangFromURL() {
             const params = new URLSearchParams(window.location.search);
             const lang = params.get('lang');
             return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
         }
 
-        function initializeShareButtons() {
-            const pageUrl = window.location.href;
-            const pageTitle = document.title;
-            const textToShare = `Check out this tool: ${pageTitle}`;
-
-            const facebookBtn = document.getElementById('share-facebook');
-            const twitterBtn = document.getElementById('share-twitter');
-            const whatsappBtn = document.getElementById('share-whatsapp');
-            const copyBtn = document.getElementById('copy-link');
-
-            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
-            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
-
-            copyBtn.addEventListener('click', () => {
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = pageUrl;
-                document.body.appendChild(tempTextArea);
-                tempTextArea.select();
-                tempTextArea.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand('copy');
-                    const copyMessage = document.getElementById('copy-message');
-                    copyMessage.classList.add('visible');
-                    setTimeout(() => {
-                        copyMessage.classList.remove('visible');
-                    }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy link: ', err);
-                }
-                document.body.removeChild(tempTextArea);
-            });
-        }
-        
-        languageBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            languageOptions.classList.toggle('show');
-        });
-        document.querySelectorAll('#language-options button').forEach(button => {
-            button.addEventListener('click', () => {
-                setLanguage(button.getAttribute('data-lang'));
-            });
-        });
-        window.addEventListener('click', (e) => {
-            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
-                languageOptions.classList.remove('show');
-            }
-        });
-        helpBtn.addEventListener('click', () => {
-            helpModal.style.display = 'flex';
-        });
-        closeModalBtn.addEventListener('click', () => {
-            helpModal.style.display = 'none';
-        });
-        helpModal.addEventListener('click', (e) => {
-            if (e.target === helpModal) {
-                helpModal.style.display = 'none';
-            }
-        });
-
-        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
-        const model = 'gemini-1.5-flash';
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-        generateBtn.addEventListener('click', async () => {
-            const topic = topicInput.value;
-            const platform = platformSelect.value;
-            const tone = toneSelect.value;
-            const language = languageSelect.value;
-
+        async function generatePost() {
+            const topic = dom.topicInput.value;
             if (!topic.trim()) {
-                statusDiv.textContent = 'Please enter a topic.';
+                dom.statusDiv.textContent = 'Please enter a topic.'; // This can be translated if needed
                 return;
             }
 
-            generateBtn.disabled = true;
-            generateBtnText.textContent = translations.generating[currentLang];
-            loader.style.display = 'inline-block';
-            resultBox.style.display = 'none';
-            statusDiv.textContent = '';
+            dom.generateBtn.disabled = true;
+            dom.generateBtnText.textContent = translations.generating[currentLang];
+            dom.loader.style.display = 'inline-block';
+            dom.resultBox.style.display = 'none';
+            dom.statusDiv.textContent = '';
+            
+            const platform = dom.platformSelect.value;
+            const tone = dom.toneSelect.value;
+            const language = dom.languageSelect.value;
 
-            // *** BUG FIX: Dynamic Platform Instruction ***
             let platformInstruction = '';
             switch (platform) {
-                case 'Facebook':
-                    platformInstruction = 'For Facebook, make it friendly and include a question to encourage comments.';
-                    break;
-                case 'X (Twitter)':
-                    platformInstruction = 'For X (Twitter), keep it concise and under 280 characters and include relevant hashtags.';
-                    break;
-                case 'Instagram':
-                    platformInstruction = 'For Instagram, include relevant emojis and 3-5 popular hashtags.';
-                    break;
-                case 'LinkedIn':
-                    platformInstruction = 'For LinkedIn, make it professional and engaging.';
-                    break;
+                case 'Facebook': platformInstruction = 'For Facebook, make it friendly and include a question to encourage comments.'; break;
+                case 'X (Twitter)': platformInstruction = 'For X (Twitter), keep it concise and under 280 characters and include relevant hashtags.'; break;
+                case 'Instagram': platformInstruction = 'For Instagram, include relevant emojis and 3-5 popular hashtags.'; break;
+                case 'LinkedIn': platformInstruction = 'For LinkedIn, make it professional and engaging.'; break;
             }
 
             const prompt = `Act as a professional social media manager. Write a social media post for the platform "${platform}" about the topic: "${topic}". The language of the post must be ${language}. The tone of the post should be ${tone}. ${platformInstruction}`;
             
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                 safetySettings: [
-                     { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-                 ]
-            };
-
             try {
-                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                // IMPORTANT: The fetch URL is changed to the local serverless function endpoint.
+                const response = await fetch('/api/generate', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ prompt: prompt }) 
+                });
+                
+                if (!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
+                }
                 const result = await response.json();
                 
-                if (result.candidates?.[0]?.content) {
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content) {
                     const post = result.candidates[0].content.parts[0].text;
-                    resultText.value = post;
-                    resultBox.style.display = 'block';
-                    formContainer.style.display = 'none'; // Hide the form
+                    dom.resultText.value = post;
+                    dom.resultBox.style.display = 'block';
+                    dom.formContainer.style.display = 'none';
                 } else {
-                    console.error("API Response Blocked:", result);
-                    throw new Error("No content received from API.");
+                    console.error("API Response Blocked or Empty:", result);
+                    throw new Error("Blocked");
                 }
             } catch (error) {
                 console.error("Error:", error);
-                statusDiv.textContent = translations.error[currentLang];
+                dom.statusDiv.textContent = error.message === "Blocked" ? translations.errorBlocked[currentLang] : translations.error[currentLang];
             } finally {
-                generateBtn.disabled = false;
-                generateBtnText.textContent = translations.generate[currentLang];
-                loader.style.display = 'none';
+                dom.generateBtn.disabled = false;
+                dom.generateBtnText.textContent = translations.generate[currentLang];
+                dom.loader.style.display = 'none';
             }
-        });
-        
-        copyBtn.addEventListener('click', () => {
-             if (resultText.value) {
-                 navigator.clipboard.writeText(resultText.value);
-                 copyBtn.textContent = translations.copied[currentLang];
-                 setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
-            }
-        });
-        
-        newPostBtn.addEventListener('click', () => {
-            resultBox.style.display = 'none';
-            formContainer.style.display = 'block';
-            topicInput.value = '';
-        });
+        }
 
-        const initialLang = getLangFromURL();
-        setLanguage(initialLang);
-        initializeShareButtons();
+        function initializeFeedbackSystem(db) {
+            const stars = dom.starRatingContainer.querySelectorAll('i');
+            const feedbackRef = doc(db, "artifacts", appId, "public/data/tool-feedback", toolId);
+
+            async function fetchAndDisplayStats() {
+                try {
+                    const docSnap = await getDoc(feedbackRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const totalRatings = data.totalRatings || 0;
+                        if (totalRatings === 0) return;
+
+                        const sumOfRatings = data.sumOfRatings || 0;
+                        const average = totalRatings > 0 ? (sumOfRatings / totalRatings) : 0;
+                        
+                        document.getElementById('average-rating-value').textContent = average.toFixed(1);
+                        const totalRatingsSpan = document.getElementById('total-ratings-count');
+                        totalRatingsSpan.textContent = totalRatings;
+                        totalRatingsSpan.parentElement.innerHTML = translations.totalReviews[currentLang].replace('{count}', `<span id="total-ratings-count">${totalRatings}</span>`);
+                        
+                        const container = document.getElementById('average-star-display');
+                        if (container) {
+                            container.innerHTML = '';
+                            for (let i = 0; i < 5; i++) {
+                                const star = document.createElement('i');
+                                if (average >= i + 0.75) star.className = 'fas fa-star';
+                                else if (average >= i + 0.25) star.className = 'fas fa-star-half-alt';
+                                else star.className = 'far fa-star';
+                                container.appendChild(star);
+                            }
+                        }
+                        
+                        const ratingsCount = data.ratingsCount || {};
+                        for (let i = 5; i >= 1; i--) {
+                            const count = ratingsCount[`star${i}`] || 0;
+                            const percentage = totalRatings > 0 ? ((count / totalRatings) * 100) : 0;
+                            document.getElementById(`bar-${i}`).style.width = `${percentage}%`;
+                            document.getElementById(`percent-${i}`).textContent = `${percentage.toFixed(0)}%`;
+                        }
+                        dom.feedbackStats.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error("Error fetching feedback stats:", error);
+                }
+            }
+            
+            async function handleRating(newRating) {
+                try {
+                    await runTransaction(db, async (transaction) => {
+                        const feedbackDoc = await transaction.get(feedbackRef);
+                        const data = feedbackDoc.exists() ? feedbackDoc.data() : {};
+                        const newTotal = (data.totalRatings || 0) + 1;
+                        const newSum = (data.sumOfRatings || 0) + newRating;
+                        const newCounts = data.ratingsCount || {};
+                        newCounts[`star${newRating}`] = (newCounts[`star${newRating}`] || 0) + 1;
+                        transaction.set(feedbackRef, { totalRatings: newTotal, sumOfRatings: newSum, ratingsCount: newCounts }, { merge: true });
+                    });
+                    
+                    dom.feedbackMessage.textContent = translations.feedbackThanks[currentLang];
+                    localStorage.setItem(`feedback-submitted-${toolId}`, 'true');
+                    dom.starRatingContainer.style.display = 'none';
+                    fetchAndDisplayStats();
+                } catch (e) {
+                    console.error("Firebase transaction failed: ", e);
+                }
+            }
+
+            if (localStorage.getItem(`feedback-submitted-${toolId}`)) {
+                dom.starRatingContainer.style.display = 'none';
+                if(dom.feedbackMessage) dom.feedbackMessage.style.display = 'none';
+                fetchAndDisplayStats();
+            } else {
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', () => {
+                        const rating = parseInt(star.dataset.value);
+                        stars.forEach(s => s.classList.toggle('hover', parseInt(s.dataset.value) <= rating));
+                    });
+                    star.addEventListener('click', () => handleRating(parseInt(star.dataset.value)));
+                });
+                dom.starRatingContainer.addEventListener('mouseout', () => stars.forEach(s => s.classList.remove('hover')));
+            }
+        }
+        
+        function initializeCommentsSystem(db) {
+            const commentsRef = doc(db, "artifacts", appId, "public/data/tool-comments", toolId);
+
+            dom.commentsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('comment-name').value;
+                const message = document.getElementById('comment-message').value;
+
+                if (name.trim() && message.trim()) {
+                    const newComment = {
+                        id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                        name, message, timestamp: Timestamp.now(),
+                        reactions: { like: 0, love: 0 },
+                        reply: { text: translations.commentAutoReply[currentLang].replace('{name}', name), timestamp: Timestamp.now() },
+                        user_replies: []
+                    };
+                    try {
+                        await setDoc(commentsRef, { comments: arrayUnion(newComment) }, { merge: true });
+                        dom.commentsForm.reset();
+                    } catch (error) {
+                        console.error("Error adding comment: ", error);
+                    }
+                }
+            });
+
+            onSnapshot(commentsRef, (docSnap) => {
+                dom.commentsList.innerHTML = '';
+                if (docSnap.exists() && docSnap.data().comments) {
+                    const allComments = docSnap.data().comments.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+                    allComments.forEach(comment => dom.commentsList.appendChild(createCommentCard(comment)));
+                    setLanguage(currentLang);
+                }
+            }, error => console.error("Error listening to comments:", error));
+        }
+
+        function createCommentCard(comment) {
+            const card = document.createElement('div');
+            card.className = 'comment-card';
+            
+            let userRepliesHTML = '<div class="replies-list">';
+            if (comment.user_replies && comment.user_replies.length > 0) {
+                comment.user_replies
+                    .sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis())
+                    .forEach(reply => {
+                        userRepliesHTML += `<div class="user-reply-card"><p>"${reply.message}"</p><div class="comment-footer"><span class="comment-author">- ${reply.name}</span></div></div>`;
+                    });
+            }
+            userRepliesHTML += '</div>';
+
+            let adminReplyHTML = '';
+            if (comment.reply && comment.reply.text) {
+                adminReplyHTML = `
+                    <div class="admin-reply">
+                        <div class="reply-header">
+                            <img src="https://malithstudio24-commits.github.io/Malith-Studio/logo.jpg" alt="Admin" class="reply-avatar">
+                            <strong>Malith Studio (Admin)</strong>
+                        </div>
+                        <p>${comment.reply.text}</p>
+                    </div>`;
+            }
+
+            card.innerHTML = `
+                <p>"${comment.message}"</p>
+                <div class="comment-footer"><span class="comment-author">- ${comment.name}</span></div>
+                <div class="comment-actions">
+                    <div class="reactions">
+                        <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
+                        <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
+                    </div>
+                    <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
+                </div>
+                <div class="reply-form-container" style="display: none;">
+                    <form class="reply-form" data-comment-id="${comment.id}">
+                        <div class="form-group"><input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required></div>
+                        <div class="form-group"><textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea></div>
+                        <button type="submit" class="main-btn submit-reply-btn" data-key="replySubmitBtn">Submit Reply</button>
+                    </form>
+                </div>
+                ${userRepliesHTML}
+                ${adminReplyHTML}`;
+            return card;
+        }
+
+        function initializeFirebaseEventListeners(db) {
+            dom.commentsList.addEventListener('click', async (e) => {
+                const commentsRef = doc(db, "artifacts", appId, "public/data/tool-comments", toolId);
+                const docSnap = await getDoc(commentsRef);
+                if (!docSnap.exists()) return;
+                const allComments = docSnap.data().comments || [];
+
+                const reactionBtn = e.target.closest('.reaction-btn');
+                const toggleBtn = e.target.closest('.toggle-reply-btn');
+                const replyForm = e.target.closest('.reply-form');
+
+                if (reactionBtn) {
+                    const commentIndex = allComments.findIndex(c => c.id === reactionBtn.dataset.commentId);
+                    if (commentIndex > -1) {
+                        allComments[commentIndex].reactions[reactionBtn.dataset.reaction]++;
+                        await setDoc(commentsRef, { comments: allComments });
+                    }
+                } else if (toggleBtn) {
+                    const formContainer = toggleBtn.parentElement.nextElementSibling;
+                    if(formContainer) formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+                } else if (replyForm) {
+                    e.preventDefault();
+                    const name = replyForm.querySelector('.reply-name').value;
+                    const message = replyForm.querySelector('.reply-message').value;
+                    if (name.trim() && message.trim()) {
+                        const newReply = { name, message, timestamp: Timestamp.now() };
+                        const commentIndex = allComments.findIndex(c => c.id === replyForm.dataset.commentId);
+                        if (commentIndex > -1) {
+                            allComments[commentIndex].user_replies.push(newReply);
+                            await setDoc(commentsRef, { comments: allComments });
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializeCoreEventListeners() {
+            dom.generateBtn.addEventListener('click', generatePost);
+            dom.copyBtn.addEventListener('click', () => {
+                if (dom.resultText.value) {
+                    navigator.clipboard.writeText(dom.resultText.value);
+                    dom.copyBtn.textContent = translations.copied[currentLang];
+                    setTimeout(() => { dom.copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+                }
+            });
+            dom.newPostBtn.addEventListener('click', () => {
+                dom.resultBox.style.display = 'none';
+                dom.formContainer.style.display = 'block';
+                dom.topicInput.value = '';
+            });
+
+            dom.languageBtn.addEventListener('click', () => dom.languageOptions.classList.toggle('show'));
+            document.querySelectorAll('#language-options button').forEach(button => {
+                button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
+            });
+
+            dom.helpBtn.addEventListener('click', () => dom.helpModal.style.display = 'flex');
+            dom.closeModalBtn.addEventListener('click', () => dom.helpModal.style.display = 'none');
+            window.addEventListener('click', (e) => {
+                if (e.target == dom.helpModal) dom.helpModal.style.display = 'none';
+                if (!dom.languageBtn.contains(e.target) && !dom.languageOptions.contains(e.target)) {
+                    dom.languageOptions.classList.remove('show');
+                }
+            });
+
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent('Check out this tool: ' + pageTitle)}`;
+            document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${encodeURIComponent('Check out this tool: ' + pageTitle + " " + pageUrl)}`;
+            document.getElementById('copy-link').addEventListener('click', () => {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    const msg = document.getElementById('copy-message');
+                    msg.classList.add('visible');
+                    setTimeout(() => msg.classList.remove('visible'), 2000);
+                });
+            });
+        }
+
+        function startApp() {
+            setLanguage(getLangFromURL());
+            initializeCoreEventListeners();
+            
+            if (!firebaseConfig || !firebaseConfig.apiKey) {
+                console.warn("Firebase config not found or invalid. Hiding Firebase-dependent features.");
+                if (dom.feedbackSection) dom.feedbackSection.style.display = 'none';
+                if (dom.commentsSection) dom.commentsSection.style.display = 'none';
+                return;
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                const auth = getAuth(app);
+                
+                const authUser = async () => {
+                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    initializeFeedbackSystem(db);
+                    initializeCommentsSystem(db);
+                    initializeFirebaseEventListeners(db);
+                };
+                
+                authUser().catch(error => {
+                     console.error("Firebase authentication error:", error);
+                    if (dom.feedbackSection) dom.feedbackSection.style.display = 'none';
+                    if (dom.commentsSection) dom.commentsSection.style.display = 'none';
+                });
+
+            } catch (error) {
+                console.error("Firebase initialization error:", error);
+                if (dom.feedbackSection) dom.feedbackSection.style.display = 'none';
+                if (dom.commentsSection) dom.commentsSection.style.display = 'none';
+            }
+        }
+
+        startApp();
+
     </script>
 </body>
 </html>
