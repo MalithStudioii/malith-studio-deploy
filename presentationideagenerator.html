@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for Presentation Idea Generator Page -->
+    <title>AI Presentation Idea & Outline Generator - Malith Studio®</title>
+    <meta name="description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil. Malith Studio's free AI tool helps you generate complete presentation outlines instantly.">
+    <meta name="keywords" content="presentation idea generator, ai presentation maker, presentation outline, free ai tool, malith studio, sri lanka, presentation ideas">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/presentationideagenerator.html">
+    <meta property="og:title" content="AI Presentation Idea & Outline Generator - Malith Studio®">
+    <meta property="og:description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil with our free AI tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-presentationideagenerator.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/presentationideagenerator.html">
+    <meta property="twitter:title" content="AI Presentation Idea & Outline Generator - Malith Studio®">
+    <meta property="twitter:description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil with our free AI tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-presentationideagenerator.jpg">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem; /* max-w-2xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media(min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 2fr 1fr;
+                align-items: flex-end;
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #result-container {
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            min-height: 200px;
+            color: #d1d5db;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        #result-container h2 { font-size: 1.5rem; color: #93c5fd; border-bottom: 1px solid #4b5563; padding-bottom: 0.5rem; margin-top: 1.5rem; }
+        #result-container h3 { font-size: 1.2rem; color: #a5b4fc; margin-top: 1.5rem; }
+        #result-container ul, #result-container ol { padding-left: 1.5rem; }
+        #result-container li { margin-bottom: 0.5rem; line-height: 1.6; }
+        #result-container strong { color: #c7d2fe; }
+
+        .output-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            color: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        #copyBtn { background-color: #4b5563; }
+        #copyBtn:hover { background-color: #6b7280; }
+        #clearBtn { background-color: #991b1b; }
+        #clearBtn:hover { background-color: #b91c1c; }
+
+        #status {
+            text-align: center;
+            color: #f87171;
+            height: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">AI Presentation Idea Generator</h1>
+            <p data-key="subtitle">Give your presentation a topic and generate structured ideas.</p>
+        </div>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="topic-input" data-key="topicLabel">Topic</label>
+                <input type="text" id="topic-input" data-key-placeholder="placeholderInput" placeholder="e.g., The Future of Renewable Energy">
+            </div>
+            <div class="form-group">
+                <label for="language-select" data-key="languageLabel">Output Language</label>
+                <select id="language-select">
+                    <option value="English" data-key="langEnglish">English</option>
+                    <option value="Sinhala" data-key="langSinhala">Sinhala</option>
+                    <option value="Tamil" data-key="langTamil">Tamil</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="generate-btn" class="main-btn">
+            <span data-key="generate">Generate Ideas</span>
+            <div id="loader" class="loader" style="display: none;"></div>
+        </button>
+
+        <div id="result-container"></div>
+        <div class="output-controls">
+            <button id="copyBtn" class="action-btn" data-key="copy" style="display: none;">Copy Ideas</button>
+            <button id="clearBtn" class="action-btn" data-key="clear" style="display: none;">Clear</button>
+        </div>
+        <div id="status"></div>
+
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use Idea Generator</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Presentation Idea Generator', si: 'AI ඉදිරිපත් කිරීමේ අදහස් සාදන්නා', ta: 'AI விளக்கக்காட்சி யோசனை ஜெனரேட்டர்' },
+            subtitle: { en: 'Give your presentation a topic and generate structured ideas.', si: 'ඔබේ ඉදිරිපත් කිරීමට මාතෘකාවක් ලබා දී ව්‍යුහගත අදහස් ජනනය කරන්න.', ta: 'உங்கள் விளக்கக்காட்சிக்கு ஒரு தலைப்பைக் கொடுத்து கட்டமைக்கப்பட்ட யோசனைகளை உருவாக்கவும்.' },
+            topicLabel: { en: 'Topic', si: 'මාතෘකාව', ta: 'தலைப்பு' },
+            placeholderInput: { en: 'e.g., The Future of Renewable Energy', si: 'උදා: පුනර්ජනනීය බලශක්තියේ අනාගතය', ta: 'எ.கா., புதுப்பிக்கத்தக்க ஆற்றலின் எதிர்காலம்' },
+            languageLabel: { en: 'Output Language', si: 'ප්‍රතිදාන භාෂාව', ta: 'வெளியீட்டு மொழி' },
+            langEnglish: { en: 'English', si: 'ඉංග්‍රීසි', ta: 'ஆங்கிலம்' },
+            langSinhala: { en: 'Sinhala', si: 'සිංහල', ta: 'சிங்களம்' },
+            langTamil: { en: 'Tamil', si: 'දෙමළ', ta: 'தமிழ்' },
+            generate: { en: 'Generate Ideas', si: 'අදහස් ජනනය කරන්න', ta: 'யோசனைகளை உருவாக்கவும்' },
+            generating: { en: 'Generating...', si: 'ජනනය කරමින්...', ta: 'உருவாக்குகிறது...' },
+            copy: { en: 'Copy Ideas', si: 'අදහස් පිටපත් කරන්න', ta: 'யோசனைகளை நகலெடு' },
+            clear: { en: 'Clear', si: 'මකන්න', ta: 'அழி' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            error: { en: 'An error occurred. Please check your API key and try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ API යතුර පරීක්ෂා කර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. உங்கள் API விசையைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'},
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Idea Generator', si: 'Idea Generator භාවිතා කරන ආකාරය', ta: 'Idea Generator பயன்படுத்துவது எப்படி' },
+            helpContent: {
+                en: `<ol><li>Enter a topic for your presentation in the input box.</li><li>Select the desired <strong>Output Language</strong>.</li><li>Click the <strong>Generate Ideas</strong> button.</li><li>The AI will create a structured outline for your presentation in the chosen language.</li><li>The result will appear in the box below, formatted with titles and bullet points.</li><li>Use the <strong>Copy Ideas</strong> and <strong>Clear</strong> buttons to manage the result.</li></ol>`,
+                si: `<ol><li>ඔබේ ඉදිරිපත් කිරීමට අදාළ මාතෘකාව input box එකේ type කරන්න.</li><li>අවශ්‍ය <strong>ප්‍රතිදාන භාෂාව</strong> තෝරන්න.</li><li><strong>'අදහස් ජනනය කරන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබ තෝරාගත් භාෂාවෙන් ඉදිරිපත් කිරීමට අදාළව ව්‍යුහගත සැලැස්මක් නිර්මාණය කරනු ඇත.</li><li>ප්‍රතිඵලය, මාතෘකා සහ bullet points සහිතව පහළ කොටුවේ දිස්වනු ඇත.</li><li>ප්‍රතිඵලය කළමනාකරණය කිරීමට <strong>'අදහස් පිටපත් කරන්න'</strong> සහ <strong>'මකන්න'</strong> යන බොත්තම් භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>உங்கள் விளக்கக்காட்சிக்கான தலைப்பை உள்ளீட்டுப் பெட்டியில் உள்ளிடவும்.</li><li>விரும்பிய <strong>வெளியீட்டு மொழியைத்</strong> தேர்ந்தெடுக்கவும்.</li><li><strong>'யோசனைகளை உருவாக்கவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI நீங்கள் தேர்ந்தெடுத்த மொழியில் உங்கள் விளக்கக்காட்சிக்கு ஒரு கட்டமைக்கப்பட்ட சுருக்கத்தை உருவாக்கும்.</li><li>முடிவு தலைப்புகள் மற்றும் புல்லட் புள்ளிகளுடன் கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>முடிவை நிர்வகிக்க <strong>'யோசனைகளை நகலெடு'</strong> மற்றும் <strong>'அழி'</strong> பொத்தான்களைப் பயன்படுத்தவும்.</li></ol>`
+            }
+        };
+
+        let currentLang = 'en';
+
+        const topicInput = document.getElementById('topic-input');
+        const languageSelect = document.getElementById('language-select');
+        const generateBtn = document.getElementById('generate-btn');
+        const generateBtnText = generateBtn.querySelector('span');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('result-container');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const statusDiv = document.getElementById('status');
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key]?.[lang]) {
+                    if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
+                    } else {
+                        element.textContent = translations[key][lang];
+                    }
+                }
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key]?.[lang]) element.placeholder = translations[key][lang];
+            });
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            });
+        }
+
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const model = 'gemini-1.5-flash';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+        generateBtn.addEventListener('click', async () => {
+            const topic = topicInput.value;
+            const language = languageSelect.value;
+            if (!topic.trim()) {
+                statusDiv.textContent = 'Please enter a topic.';
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtnText.textContent = translations.generating[currentLang];
+            loader.style.display = 'inline-block';
+            resultContainer.innerHTML = '';
+            copyBtn.style.display = 'none';
+            clearBtn.style.display = 'none';
+            statusDiv.textContent = '';
+
+            const prompt = `Generate a structured presentation outline for the topic: "${topic}". The language of the outline must be ${language}. Provide a title, an introduction, 3-5 main body points with sub-points, and a conclusion. Format the response using markdown with headings and bullet points.`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                ]
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content) {
+                    const ideas = result.candidates[0].content.parts[0].text;
+                    resultContainer.innerHTML = marked.parse(ideas);
+                    copyBtn.style.display = 'block';
+                    clearBtn.style.display = 'block';
+                } else {
+                    console.error("API Response Blocked:", result);
+                    throw new Error("No content received from API.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                statusDiv.textContent = translations.error[currentLang];
+            } finally {
+                generateBtn.disabled = false;
+                generateBtnText.textContent = translations.generate[currentLang];
+                loader.style.display = 'none';
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+             if (resultContainer.innerText) {
+                 navigator.clipboard.writeText(resultContainer.innerText);
+                 copyBtn.textContent = translations.copied[currentLang];
+                 setTimeout(() => {
+                     copyBtn.textContent = translations.copy[currentLang];
+                 }, 2000);
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            resultContainer.innerHTML = '';
+            topicInput.value = '';
+            copyBtn.style.display = 'none';
+            clearBtn.style.display = 'none';
+        });
+        
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+        initializeShareButtons();
+    </script>
+</body>
+</html>
+

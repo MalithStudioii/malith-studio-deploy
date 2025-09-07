@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for Font Converter Page -->
+    <title>Sinhala Font Converter (FM to Unicode) - Malith Studio®</title>
+    <meta name="description" content="Easily convert legacy Sinhala fonts like FM-Abhaya, FM-Bindumathi to standard Sinhala Unicode and back with Malith Studio's free online font converter tool.">
+    <meta name="keywords" content="sinhala font converter, fm to unicode, unicode to fm, fm abhaya converter, sinhala unicode converter, malith studio, sri lanka, font converter">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/fontconverter.html">
+    <meta property="og:title" content="Sinhala Font Converter (FM to Unicode) - Malith Studio®">
+    <meta property="og:description" content="Free online tool to convert legacy Sinhala fonts (FM-Abhaya, etc.) to standard Unicode and vice versa.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-fontconverter.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/fontconverter.html">
+    <meta property="twitter:title" content="Sinhala Font Converter (FM to Unicode) - Malith Studio®">
+    <meta property="twitter:description" content="Free online tool to convert legacy Sinhala fonts (FM-Abhaya, etc.) to standard Unicode and vice versa.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-fontconverter.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 64rem; /* max-w-5xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        /* --- Header Controls (Language + Help) --- */
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .converter-grid {
+                grid-template-columns: 1fr auto 1fr;
+                align-items: center;
+            }
+        }
+        .textarea-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .textarea-container label {
+            font-weight: 600;
+            color: #d1d5db;
+        }
+        textarea {
+            width: 100%;
+            height: 250px;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+         @media (min-width: 1024px) {
+            .controls {
+                flex-direction: column;
+            }
+        }
+        .convert-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .convert-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        .output-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            width: 150px;
+            padding: 0.5rem;
+            border: none;
+            color: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        #copy-output-btn { background-color: #4b5563; }
+        #copy-output-btn:hover { background-color: #6b7280; }
+        #clear-output-btn { background-color: #991b1b; }
+        #clear-output-btn:hover { background-color: #b91c1c; }
+        
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+
+        @font-face {
+            font-family: 'FM-Abhaya';
+            src: url('https://www.fonts-top.com/server/fonts/FM-Abhaya_2.001_80f2303a74959f632a76f2b86d9a955c.ttf') format('truetype');
+        }
+        #input-text.fm-font, #output-text.fm-font {
+            font-family: 'FM-Abhaya', sans-serif;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">Sinhala Font Converter</h1>
+            <p data-key="subtitle">Easily convert between FM fonts and Unicode.</p>
+        </div>
+
+        <div class="converter-grid">
+            <div class="textarea-container">
+                <label for="input-text" data-key="inputLabel">Input Text (FM Font or Unicode)</label>
+                <textarea id="input-text" data-key-placeholder="inputPlaceholder" placeholder="Enter the text you want to convert here..."></textarea>
+            </div>
+
+            <div class="controls">
+                <button id="fm-to-uni-btn" class="convert-btn">
+                    <span data-key="fmToUni">FM ➔ Unicode</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <button id="uni-to-fm-btn" class="convert-btn">
+                    <span data-key="uniToFm">Unicode ➔ FM</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <div class="textarea-container">
+                <label for="output-text" data-key="outputLabel">Output Text</label>
+                <textarea id="output-text" readonly data-key-placeholder="outputPlaceholder" placeholder="See the converted text here..."></textarea>
+                <div class="output-buttons">
+                    <button id="copy-output-btn" class="action-btn" data-key="copyBtn">Copy Output</button>
+                    <button id="clear-output-btn" class="action-btn" data-key="clearBtn">Clear</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use Font Converter</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
+            subtitle: { en: 'Easily convert between FM fonts and Unicode.', si: 'FM ෆොන්ට් සහ යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'FM எழுத்துருக்கள் மற்றும் யூனிகோட் இடையே எளிதாக மாற்றவும்.' },
+            inputLabel: { en: 'Input Text (FM Font or Unicode)', si: 'ආදාන පාඨය (FM ෆොන්ට් හෝ යුනිකෝඩ්)', ta: 'உள்ளீட்டு உரை (FM எழுத்துரு அல்லது யூனிகோட்)' },
+            inputPlaceholder: { en: 'Enter the text you want to convert here...', si: 'ඔබට පරිවර්තනය කිරීමට අවශ්‍ය පාඨය මෙහි යොදන්න...', ta: 'நீங்கள் மாற்ற விரும்பும் உரையை இங்கே உள்ளிடவும்...' },
+            fmToUni: { en: 'FM ➔ Unicode', si: 'FM ➔ යුනිකෝඩ්', ta: 'FM ➔ யூனிகோட்' },
+            uniToFm: { en: 'Unicode ➔ FM', si: 'යුනිකෝඩ් ➔ FM', ta: 'யூனிகோட் ➔ FM' },
+            outputLabel: { en: 'Output Text', si: 'ප්‍රතිදාන පාඨය', ta: 'வெளியீட்டு உரை' },
+            outputPlaceholder: { en: 'See the converted text here...', si: 'පරිවර්තනය කළ පාඨය මෙතැනින් බලන්න...', ta: 'மாற்றப்பட்ட உரையை இங்கே பார்க்கவும்...' },
+            copyBtn: { en: 'Copy Output', si: 'ප්‍රතිදානය පිටපත් කරන්න', ta: 'வெளியீட்டை நகலெடு' },
+            clearBtn: { en: 'Clear', si: 'මකන්න', ta: 'அழி' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Font Converter', si: 'Font Converter භාවිතා කරන ආකාරය', ta: 'Font Converter பயன்படுத்துவது எப்படி' },
+            helpContent: {
+                en: `<ol><li>Paste or type your text (either legacy FM font or standard Unicode) into the left input box.</li><li>Click <strong>FM ➔ Unicode</strong> to convert a legacy font to standard Unicode.</li><li>Click <strong>Unicode ➔ FM</strong> to convert standard Unicode to a legacy font.</li><li>The converted text will appear in the right output box.</li><li>Use the <strong>Copy Output</strong> and <strong>Clear</strong> buttons to manage the result.</li></ol>`,
+                si: `<ol><li>ඔබගේ text එක (පැරණි FM ෆොන්ට් හෝ සම්මත යුනිකෝඩ්) වම් පස ඇති input box එකේ paste කරන්න හෝ type කරන්න.</li><li>පැරණි ෆොන්ට් එකක් සම්මත යුනිකෝඩ් බවට පත් කිරීමට <strong>FM ➔ යුනිකෝඩ්</strong> බොත්තම ඔබන්න.</li><li>සම්මත යුනිකෝඩ්, පැරණි ෆොන්ට් එකක් බවට පත් කිරීමට <strong>යුනිකෝඩ් ➔ FM</strong> බොත්තම ඔබන්න.</li><li>පරිවර්තනය වූ text එක දකුණු පස ඇති output box එකේ දිස්වනු ඇත.</li><li>ප්‍රතිඵලය කළමනාකරණය කිරීමට <strong>'ප්‍රතිදානය පිටපත් කරන්න'</strong> සහ <strong>'මකන්න'</strong> යන බොත්තම් භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>உங்கள் உரையை (பழைய FM எழுத்துரு அல்லது நிலையான யூனிகோட்) இடது உள்ளீட்டுப் பெட்டியில் ஒட்டவும் அல்லது தட்டச்சு செய்யவும்.</li><li>பழைய எழுத்துருவை நிலையான யூனிகோடாக மாற்ற <strong>FM ➔ யூனிகோட்</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>நிலையான யூனிகோடை பழைய எழுத்துருவாக மாற்ற <strong>யூனிகோட் ➔ FM</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>மாற்றப்பட்ட உரை வலது வெளியீட்டுப் பெட்டியில் தோன்றும்.</li><li>முடிவை நிர்வகிக்க <strong>'வெளியீட்டை நகலெடு'</strong> மற்றும் <strong>'அழி'</strong> பொத்தான்களைப் பயன்படுத்தவும்.</li></ol>`
+            }
+        };
+
+        let currentLang = 'en';
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const fmToUniBtn = document.getElementById('fm-to-uni-btn');
+        const uniToFmBtn = document.getElementById('uni-to-fm-btn');
+        const copyOutputBtn = document.getElementById('copy-output-btn');
+        const clearOutputBtn = document.getElementById('clear-output-btn');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
+                    } else {
+                        element.textContent = translations[key][lang];
+                    }
+                }
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = pageUrl;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy link: ', err);
+                }
+                document.body.removeChild(tempTextArea);
+            });
+        }
+        
+        // --- FONT CONVERSION LOGIC (BUG FIXED & ENHANCED) ---
+        function convertFMToUnicode(text) {
+             text = text.replace(/f([lLGpPcCgGvVKlLdoOmMnNhrydYIiysL<])/g, 'เ$1');
+             text = text.replace(/%/g, '්‍ර');
+             text = text.replace(/C/g, 'ඣ');
+             text = text.replace(/c/g, 'ජ');
+             text = text.replace(/í/g, 'ඤ');
+             text = text.replace(/P/g, 'ඡ');
+             text = text.replace(/p/g, 'ච');
+             text = text.replace(/</g, 'ළ');
+             text = text.replace(/<x/g, 'ඟ');
+             text = text.replace(/<X/g, 'ඞ');
+             text = text.replace(/<g/g, 'ඝ');
+             text = text.replace(/<G/g, 'ඛ');
+             text = text.replace(/<l/g, 'ක');
+             text = text.replace(/Ë/g, 'ඬ');
+             text = text.replace(/V/g, 'ඪ');
+             text = text.replace(/v/g, 'ඩ');
+             text = text.replace(/:/g, 'ඨ');
+             text = text.replace(/;/g, 'ට');
+             text = text.replace(/K/g, 'ණ');
+             text = text.replace(/þ/g, 'ඳ');
+             text = text.replace(/O/g, 'ධ');
+             text = text.replace(/o/g, 'ද');
+             text = text.replace(/L/g, 'ථ');
+             text = text.replace(/k/g, 'ත');
+             text = text.replace(/N/g, 'භ');
+             text = text.replace(/n/g, 'බ');
+             text = text.replace(/M/g, 'ඵ');
+             text = text.replace(/m/g, 'ප');
+             text = text.replace(/U/g, 'ඹ');
+             text = text.replace(/u/g, 'ම');
+             text = text.replace(/h/g, 'ය');
+             text = text.replace(/r/g, 'ර');
+             text = text.replace(/,/g, 'ල');
+             text = text.replace(/j/g, 'ව');
+             text = text.replace(/Y/g, 'ශ');
+             text = text.replace(/I/g, 'ෂ');
+             text = text.replace(/i/g, 'ස');
+             text = text.replace(/y/g, 'හ');
+             text = text.replace(/</g, 'ළ');
+             text = text.replace(/f/g, 'ෆ');
+             text = text.replace(/Ê/g, 'ක්');
+             text = text.replace(/Ë/g, 'ක‍');
+             text = text.replace(/Ï/g, 'ර්‍');
+             text = text.replace(/Ì/g, 'ර්');
+             text = text.replace(/Ó/g, 'බ්‍ර');
+             text = text.replace(/Ô/g, 'බු');
+             text = text.replace(/ú/g, 'දු');
+             text = text.replace(/Æ/g, 'ඳු');
+             text = text.replace(/Ç/g, 'රු');
+             text = text.replace(/É/g, 'ෘ');
+             text = text.replace(/¿/g, 'ෑ');
+             text = text.replace(/½/g, '');
+             text = text.replace(/s/g, 'ි');
+             text = text.replace(/S/g, 'ී');
+             text = text.replace(/q/g, 'ු');
+             text = text.replace(/Q/g, 'ූ');
+             text = text.replace(/d/g, 'ා');
+             text = text.replace(/e/g, 'ැ');
+             text = text.replace(/E/g, 'ෑ');
+             text = text.replace(/a/g, '්');
+             text = text.replace(/x/g, 'ං');
+             text = text.replace(/B/g, 'ඊ');
+             text = text.replace(/b/g, 'ඉ');
+             text = text.replace(/W!/g, 'ඌ');
+             text = text.replace(/W/g, 'උ');
+             text = text.replace(/tA/g, 'ඓ');
+             text = text.replace(/ta/g, 'ඒ');
+             text = text.replace(/t/g, 'එ');
+             text = text.replace(/fA/g, 'ඖ');
+             text = text.replace(/fa/g, 'ඕ');
+             text = text.replace(/f/g, 'ඔ');
+             text = text.replace(/wE/g, 'ඈ');
+             text = text.replace(/we/g, 'ඇ');
+             text = text.replace(/wd/g, 'ආ');
+             text = text.replace(/w/g, 'අ');
+             text = text.replace(/เ([ක-ෆ])/g, '$1ෙ');
+             return text;
+        }
+
+        function convertUnicodeToFM(text) {
+             text = text.replace(/,/g, '\.');
+             text = text.replace(/ලා/g, "Æ");
+             text = text.replace(/หา/g, "¿");
+             text = text.replace(/ළු/g, "¨");
+             text = text.replace(/ලූ/g, "Æ");
+             text = text.replace(/บู/g, "Æ");
+             text = text.replace(/රු/g, "re");
+             text = text.replace(/රූ/g, "rE");
+             text = text.replace(/ක්/g, "la");
+             text = text.replace(/කා/g, "ld");
+             text = text.replace(/කැ/g, "le");
+             text = text.replace(/කෑ/g, "lE");
+             text = text.replace(/කි/g, "ls");
+             text = text.replace(/කී/g, "lS");
+             text = text.replace(/කු/g, "lq");
+             text = text.replace(/කූ/g, "lQ");
+             text = text.replace(/කෘ/g, "lD");
+             text = text.replace(/කෙ/g, "fl");
+             text = text.replace(/කේ/g, "fla");
+             text = text.replace(/කො/g, "fld");
+             text = text.replace(/කෝ/g, "flda");
+             text = text.replace(/කෞ/g, "flf");
+             text = text.replace(/ක/g, "l");
+             text = text.replace(/ඛ/g, "L");
+             text = text.replace(/ග/g, "g");
+             text = text.replace(/ඝ/g, "G");
+             text = text.replace(/ඞ/g, '›');
+             text = text.replace(/ඟ/g, 'ü');
+             text = text.replace(/ච/g, "p");
+             text = text.replace(/ඡ/g, "P");
+             text = text.replace(/ජ/g, "c");
+             text = text.replace(/ඣ/g, "C");
+             text = text.replace(/ඤ/g, "í");
+             text = text.replace(/ඥ/g, "CO");
+             text = text.replace(/ට/g, ";");
+             text = text.replace(/ඨ/g, ":");
+             text = text.replace(/ඩ/g, "v");
+             text = text.replace(/ඪ/g, "V");
+             text = text.replace(/ණ/g, "K");
+             text = text.replace(/ඬ/g, 'Ý');
+             text = text.replace(/ත/g, "k");
+             text = text.replace(/ථ/g, "L");
+             text = text.replace(/ද/g, "o");
+             text = text.replace(/ධ/g, "O");
+             text = text.replace(/න/g, "n");
+             text = text.replace(/ඳ/g, 'þ');
+             text = text.replace(/ප/g, "m");
+             text = text.replace(/ඵ/g, "M");
+             text = text.replace(/බ/g, "n");
+             text = text.replace(/භ/g, "N");
+             text = text.replace(/ම/g, "u");
+             text = text.replace(/ඹ/g, "U");
+             text = text.replace(/ය/g, "h");
+             text = text.replace(/ර/g, "r");
+             text = text.replace(/ල/g, ",");
+             text = text.replace(/ව/g, "j");
+             text = text.replace(/ශ/g, "Y");
+             text = text.replace(/ෂ/g, "I");
+             text = text.replace(/ස/g, "i");
+             text = text.replace(/හ/g, "y");
+             text = text.replace(/ළ/g, "<");
+             text = text.replace(/ෆ/g, "f");
+             text = text.replace(/අ/g, "w");
+             text = text.replace(/ආ/g, "wd");
+             text = text.replace(/ඇ/g, "we");
+             text = text.replace(/ඈ/g, "wE");
+             text = text.replace(/ඉ/g, "b");
+             text = text.replace(/ඊ/g, "B");
+             text = text.replace(/උ/g, "W");
+             text = text.replace(/ඌ/g, "W!");
+             text = text.replace(/එ/g, "t");
+             text = text.replace(/ඒ/g, "ta");
+             text = text.replace(/ඓ/g, "tA");
+             text = text.replace(/ඔ/g, "f");
+             text = text.replace(/ඕ/g, "fa");
+             text = text.replace(/ඖ/g, "fA");
+             text = text.replace(/ෙ/g, "f");
+             text = text.replace(/ේ/g, "fa");
+             text = text.replace(/ෛ/g, "fA");
+             text = text.replace(/ො/g, "fI");
+             text = text.replace(/ෝ/g, "fIa");
+             text = text.replace(/ෞ/g, "fIA");
+             text = text.replace(/ා/g, "d");
+             text = text.replace(/ැ/g, "e");
+             text = text.replace(/ෑ/g, "E");
+             text = text.replace(/ි/g, "s");
+             text = text.replace(/ී/g, "S");
+             text = text.replace(/ු/g, "q");
+             text = text.replace(/ූ/g, "Q");
+             text = text.replace(/ෘ/g, "D");
+             text = text.replace(/ං/g, "x");
+             text = text.replace(/ඃ/g, "y");
+             text = text.replace(/්/g, "a");
+             text = text.replace(/•/g, "•");
+             return text;
+        }
+
+        fmToUniBtn.addEventListener('click', () => {
+            inputText.classList.add('fm-font');
+            outputText.classList.remove('fm-font');
+            outputText.value = convertFMToUnicode(inputText.value);
+        });
+        
+        uniToFmBtn.addEventListener('click', () => {
+            inputText.classList.remove('fm-font');
+            outputText.classList.add('fm-font');
+            outputText.value = convertUnicodeToFM(inputText.value);
+        });
+
+        copyOutputBtn.addEventListener('click', () => {
+            if (outputText.value) {
+                outputText.select();
+                outputText.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                    copyOutputBtn.textContent = translations.copied[currentLang];
+                    setTimeout(() => {
+                        copyOutputBtn.textContent = translations.copyBtn[currentLang];
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+                window.getSelection().removeAllRanges();
+            }
+        });
+        clearOutputBtn.addEventListener('click', () => {
+            outputText.value = '';
+            inputText.value = '';
+        });
+
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+        // --- Initial Load ---
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+        initializeShareButtons();
+
+    </script>
+</body>
+</html>
+

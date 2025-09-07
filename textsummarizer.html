@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for Text Summarizer Page -->
+    <title>AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free</title>
+    <meta name="description" content="Save time by summarizing long articles, reports, and texts in Sinhala, English, or Tamil with Malith Studio's free AI-powered summarization tool.">
+    <meta name="keywords" content="text summarizer, ai summarizer, article summarizer, sinhala text summarizer, free summarizer, malith studio, sri lanka">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="og:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
+    <meta property="og:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="twitter:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
+    <meta property="twitter:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem; /* max-w-2xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        textarea {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+        #inputText {
+            height: 150px;
+        }
+        #outputText {
+            height: 200px;
+            background-color: #1f2937;
+        }
+        .main-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* === NEW: Styles for control buttons area === */
+        .controls-area {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            color: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            background-color: #4b5563;
+        }
+        .action-btn:hover { background-color: #6b7280; }
+        
+        #status {
+            text-align: center;
+            color: #f87171; /* Red for errors */
+            height: 1.5rem;
+            margin-top: 1rem;
+        }
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">AI Text Summarizer</h1>
+            <p data-key="subtitle">Paste your long text below and get a concise summary.</p>
+        </div>
+
+        <!-- === NEW: Input controls area with Load Sample button === -->
+        <div class="controls-area">
+             <button id="loadSampleBtn" class="action-btn" data-key="loadSample">Load Sample</button>
+        </div>
+        
+        <textarea id="inputText" data-key-placeholder="placeholderInput" placeholder="Enter your text here..."></textarea>
+        
+        <button id="summarizeBtn" class="main-btn">
+            <span data-key="summarize">Summarize</span>
+            <div id="loader" class="loader" style="display: none;"></div>
+        </button>
+
+        <textarea id="outputText" readonly data-key-placeholder="placeholderOutput" placeholder="Summary will appear here..."></textarea>
+        
+        <!-- === UPDATED: Moved copy button to the controls area === -->
+        <div class="controls-area">
+            <button id="copyBtn" class="action-btn" data-key="copy">Copy Summary</button>
+        </div>
+        <div id="status"></div>
+
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+    </div>
+    
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use Text Summarizer</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Text Summarizer', si: 'AI ලිපි සාරාංශකරණය', ta: 'AI உரை சுருக்கி' },
+            subtitle: { en: 'Paste your long text below and get a concise summary.', si: 'ඔබේ දීර්ඝ ලිපිය පහතින් අලවා සංක්ෂිප්ත සාරාංශයක් ලබා ගන්න.', ta: 'உங்கள் நீண்ட உரையை கீழே ஒட்டி சுருக்கமான சுருக்கத்தைப் பெறுங்கள்.' },
+            placeholderInput: { en: 'Enter your text here...', si: 'ඔබේ ලිපිය මෙහි ඇතුළත් කරන්න...', ta: 'உங்கள் உரையை இங்கே உள்ளிடவும்...' },
+            summarize: { en: 'Summarize', si: 'සාරාංශ කරන්න', ta: 'சுருக்கவும்' },
+            summarizing: { en: 'Summarizing...', si: 'සාරාංශ කරමින්...', ta: 'சுருக்கப்படுகிறது...' },
+            placeholderOutput: { en: 'Summary will appear here...', si: 'සාරාංශය මෙහි දිස්වනු ඇත...', ta: 'சுருக்கம் இங்கே தோன்றும்...' },
+            copy: { en: 'Copy Summary', si: 'සාරාංශය පිටපත් කරන්න', ta: 'சுருக்கத்தை நகலெடு' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            error: { en: 'An error occurred. Please check your API key and try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ API යතුර පරීක්ෂා කර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. உங்கள் API விசையைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'},
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Text Summarizer', si: 'Text Summarizer භාවිතා කරන ආකාරය', ta: 'Text Summarizer பயன்படுத்துவது எப்படி' },
+            helpContent: { 
+                en: `<ol><li>Paste the long text you want to summarize into the top text box, or click <strong>Load Sample</strong> to test.</li><li>Click the <strong>Summarize</strong> button.</li><li>The AI will process the text and generate a summary.</li><li>The summary will appear in the bottom text box.</li><li>Use the <strong>Copy Summary</strong> button to copy the result.</li></ol>`,
+                si: `<ol><li>ඔබට සාරාංශ කිරීමට අවශ්‍ය දීර්ඝ ලිපිය ඉහළ text box එකේ අලවන්න, නැතහොත් පරීක්ෂා කිරීමට <strong>'නියැදියක් යොදන්න'</strong> බොත්තම ඔබන්න.</li><li><strong>'සාරාංශ කරන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ලිපිය විශ්ලේෂණය කර සාරාංශයක් ජනනය කරනු ඇත.</li><li>සාරාංශය පහළ text box එකේ දිස්වනු ඇත.</li><li>ප්‍රතිඵලය පිටපත් කර ගැනීමට <strong>'සාරාංශය පිටපත් කරන්න'</strong> බොත්තම භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>நீங்கள் சுருக்க விரும்பும் நீண்ட உரையை மேல் உரைப் பெட்டியில் ஒட்டவும், அல்லது சோதிக்க <strong>'மாதிரியை ஏற்றவும்'</strong> என்பதைக் கிளிக் செய்யவும்.</li><li><strong>'சுருக்கவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உரையை ஆராய்ந்து ஒரு சுருக்கத்தை உருவாக்கும்.</li><li>சுருக்கம் கீழே உள்ள உரைப் பெட்டியில் தோன்றும்.</li><li>முடிவை நகலெடுக்க <strong>'சுருக்கத்தை நகலெடு'</strong> பொத்தானைப் பயன்படுத்தவும்.</li></ol>`
+            },
+            // === NEW TRANSLATIONS for Sample Text ===
+            loadSample: { en: 'Load Sample', si: 'නියැදියක් යොදන්න', ta: 'மாதிரியை ஏற்றவும்' },
+            sampleText: {
+                en: `Artificial Intelligence (AI) is rapidly transforming our world. From automating complex tasks in business to personalizing our daily digital experiences, AI's impact is widespread. Machine learning, a subset of AI, allows systems to learn from data and improve over time without being explicitly programmed. This technology powers everything from recommendation engines on streaming services to advanced medical diagnostics. As AI continues to evolve, it holds the promise of solving some of humanity's most pressing challenges, while also raising important ethical questions about privacy, bias, and the future of work.`,
+                si: `කෘත්‍රිම බුද්ධිය (AI) අපගේ ලෝකය වේගයෙන් පරිවර්තනය කරමින් පවතී. ව්‍යාපාර වල සංකීර්ණ කාර්යයන් ස්වයංක්‍රීයකරණයේ සිට අපගේ දෛනික ඩිජිටල් අත්දැකීම් පුද්ගලීකරණය දක්වා, AI හි බලපෑම ඉතා පුළුල් ය. AI හි උප අංශයක් වන යන්ත්‍ර ඉගෙනුම, පද්ධති වලට දත්ත වලින් ඉගෙන ගැනීමට සහ පැහැදිලිව වැඩසටහන්ගත නොකර කාලයත් සමඟ දියුණු වීමට ඉඩ සලසයි. මෙම තාක්ෂණය, වීඩියෝ සේවා වල නිර්දේශන පද්ධති වල සිට උසස් වෛද්‍ය රෝග විනිශ්චය දක්වා සෑම දෙයක්ම බලගන්වයි. AI අඛණ්ඩව විකාශනය වන විට, පෞද්ගලිකත්වය, පක්ෂග්‍රාහීත්වය සහ අනාගත රැකියා පිළිබඳ වැදගත් සදාචාරාත්මක ප්‍රශ්න මතු කරන අතරම, මනුෂ්‍යත්වයේ වඩාත්ම දැවෙන අභියෝග කිහිපයක් විසඳීමේ පොරොන්දුව එය දරයි.`,
+                ta: `செயற்கை நுண்ணறிவு (AI) நம் உலகத்தை வேகமாக மாற்றி வருகிறது. வணிகத்தில் சிக்கலான பணிகளை தானியக்கமாக்குவது முதல் நமது அன்றாட டிஜிட்டல் அனுபவங்களைத் தனிப்பயனாக்குவது வரை, AI-இன் தாக்கம் பரவலானது. AI-இன் துணைக்குழுவான இயந்திர கற்றல், கணினிகள் தரவிலிருந்து கற்றுக்கொள்ளவும், வெளிப்படையாக நிரல்படுத்தப்படாமல் காலப்போக்கில் மேம்படுத்தவும் அனுமதிக்கிறது. இந்த தொழில்நுட்பம், ஸ்ட்ரீமிங் சேவைகளில் உள்ள பரிந்துரை இயந்திரங்கள் முதல் மேம்பட்ட மருத்துவ நோயறிதல்கள் வரை அனைத்தையும் இயக்குகிறது. AI தொடர்ந்து বিকশিতந்து வருவதால், தனியுரிமை, சார்பு மற்றும் வேலையின் எதிர்காலம் பற்றிய முக்கியமான நெறிமுறை கேள்விகளை எழுப்பும் அதே வேளையில், மனிதகுலத்தின் மிகவும் அழுத்தமான சில சவால்களைத் தீர்க்கும் வாக்குறுதியையும் இது கொண்டுள்ளது.`
+            }
+        };
+
+        let currentLang = 'en';
+
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const summarizeBtn = document.getElementById('summarizeBtn');
+        const summarizeBtnText = summarizeBtn.querySelector('span');
+        const loader = document.getElementById('loader');
+        const copyBtn = document.getElementById('copyBtn');
+        const statusDiv = document.getElementById('status');
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const loadSampleBtn = document.getElementById('loadSampleBtn'); // Get the new button
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
+                    } else {
+                        element.textContent = translations[key][lang];
+                    }
+                }
+            });
+             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            });
+        }
+
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const model = 'gemini-1.5-flash';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+        summarizeBtn.addEventListener('click', async () => {
+            const textToSummarize = inputText.value;
+            if (!textToSummarize.trim()) {
+                statusDiv.textContent = 'Please enter some text to summarize.';
+                return;
+            }
+
+            summarizeBtn.disabled = true;
+            summarizeBtnText.textContent = translations.summarizing[currentLang];
+            loader.style.display = 'inline-block';
+            outputText.value = '';
+            statusDiv.textContent = '';
+
+            const prompt = `Summarize the following text concisely:\n\n${textToSummarize}`;
+            
+              const payload = {
+                  contents: [{ parts: [{ text: prompt }] }],
+                  safetySettings: [
+                      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                  ]
+              };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content) {
+                    const summary = result.candidates[0].content.parts[0].text;
+                    outputText.value = summary;
+                } else {
+                    console.error("API Response Blocked:", result);
+                    throw new Error("No content received from API. It might have been blocked due to safety settings.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                statusDiv.textContent = translations.error[currentLang];
+            } finally {
+                summarizeBtn.disabled = false;
+                summarizeBtnText.textContent = translations.summarize[currentLang];
+                loader.style.display = 'none';
+            }
+        });
+        
+        copyBtn.addEventListener('click', () => {
+             if (outputText.value) {
+                 navigator.clipboard.writeText(outputText.value);
+                 copyBtn.textContent = translations.copied[currentLang];
+                 setTimeout(() => {
+                     copyBtn.textContent = translations.copy[currentLang];
+                 }, 2000);
+             }
+        });
+
+        // === NEW: Event listener for Load Sample button ===
+        loadSampleBtn.addEventListener('click', () => {
+            if (translations.sampleText && translations.sampleText[currentLang]) {
+                inputText.value = translations.sampleText[currentLang];
+            }
+        });
+
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+        
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+        initializeShareButtons();
+    </script>
+</body>
+</html>
+

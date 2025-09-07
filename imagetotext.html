@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for Image to Text Page -->
+    <title>AI Image to Text (OCR) Converter - Malith Studio®</title>
+    <meta name="description" content="Extract text from images in Sinhala, English, and Tamil with Malith Studio's free AI-powered OCR tool. Convert photos to editable text instantly.">
+    <meta name="keywords" content="image to text, ocr, sinhala ocr, photo to text, ai ocr, malith studio, sri lanka, free tool">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="og:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="og:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="twitter:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="twitter:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem;}
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        
+        .upload-area {
+            border: 2px dashed #4b5563;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-area:hover {
+            border-color: #8b5cf6;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+        .upload-area p {
+            font-weight: 600;
+            color: #d1d5db;
+            margin: 0;
+        }
+        .upload-area-note {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        #image-input { display: none; }
+        #image-display-area {
+             display: none;
+             text-align: center;
+             margin-bottom: 1.5rem;
+        }
+        #image-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 0.5rem;
+            border: 1px solid #4b5563;
+            margin-bottom: 1rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .main-btn, .secondary-btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .main-btn {
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .secondary-btn {
+            background-color: #4b5563;
+        }
+        .secondary-btn:hover {
+            background-color: #6b7280;
+        }
+        
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .result-box {
+            position: relative;
+            margin-top: 2rem;
+        }
+        #result-text {
+            width: 100%;
+            min-height: 150px;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db;
+            font-family: monospace;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+        #copyBtn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4b5563;
+            border: none;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+        #copyBtn:hover { background-color: #6b7280; }
+        #status {
+            text-align: center;
+            color: #f87171;
+            height: 1.5rem;
+            margin-top: 1rem;
+        }
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header-controls">
+             <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">AI Image to Text (OCR)</h1>
+            <p data-key="subtitle">Upload an image and let AI extract the text for you.</p>
+        </div>
+
+        <label for="image-input" id="upload-area" class="upload-area">
+            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 19.5H5.25A2.25 2.25 0 013 17.25z" />
+            </svg>
+            <p data-key="upload-instruction">Click or drag image here</p>
+            <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP</span>
+        </label>
+        <input type="file" id="image-input" accept="image/*">
+        
+        <div id="image-display-area">
+            <img id="image-preview" src="" alt="Selected image preview">
+            <div class="action-buttons">
+                 <button id="recognize-btn" class="main-btn">
+                     <span data-key="recognize">Recognize Text</span>
+                     <div id="loader" class="loader" style="display: none;"></div>
+                 </button>
+                 <button id="reset-btn" class="secondary-btn" data-key="reset">Choose Another</button>
+            </div>
+        </div>
+
+        <div class="result-box" id="result-box" style="display: none;">
+            <textarea id="result-text" readonly data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
+            <button id="copyBtn" data-key="copy">Copy</button>
+        </div>
+        
+        <div id="status"></div>
+
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use Image to Text</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Image to Text (OCR)', si: 'AI පින්තූරයෙන් අකුරු (OCR)', ta: 'AI படத்திலிருந்து உரை (OCR)' },
+            subtitle: { en: 'Upload an image and let AI extract the text for you.', si: 'පින්තූරයක් upload කර AI මගින් අකුරු ලබා ගන්න.', ta: 'ஒரு படத்தைப் பதிவேற்றி, AI உங்களுக்காக உரையைப் பிரித்தெடுக்கட்டும்.' },
+            'upload-instruction': { en: 'Click or drag image here', si: 'මෙහි ක්ලික් කරන්න හෝ පින්තූරයක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது படத்தை இழுக்கவும்' },
+            'upload-note': { en: 'Supports: JPG, PNG, WEBP', si: 'සහය දක්වයි: JPG, PNG, WEBP', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP' },
+            recognize: { en: 'Recognize Text', si: 'අකුරු හඳුනාගන්න', ta: 'உரையை அடையாளம் காணவும்' },
+            recognizing: { en: 'Recognizing...', si: 'හඳුනාගනිමින්...', ta: 'அடையாளம் காண்கிறது...' },
+            reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
+            placeholderOutput: { en: 'Extracted text will appear here...', si: 'ලබාගත් පෙළ මෙහි දිස්වනු ඇත...', ta: 'பிரித்தெடுக்கப்பட்ட உரை இங்கே தோன்றும்...' },
+            copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Image to Text', si: 'Image to Text භාවිතා කරන ආකාරය', ta: 'Image to Text பயன்படுத்துவது எப்படி' },
+            helpContent: { 
+                en: `<ol><li>Click the 'Click or drag image here' area to select an image from your device.</li><li>Once the image is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the image and extract the text.</li><li>The extracted text will appear in the box below.</li><li>Use the <strong>Copy</strong> button to copy the text to your clipboard.</li></ol>`,
+                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් තේරීමට 'මෙහි ක්ලික් කරන්න හෝ පින්තූරයක් අදින්න' යන කොටස click කරන්න.</li><li>ඡායාරූපය දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඡායාරූපය විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පෙළ පිටපත් කර ගැනීමට <strong>'පිටපත් කරන්න'</strong> බොත්තම භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து படத்தைத் தேர்ந்தெடுக்க, 'இங்கே கிளிக் செய்யவும் அல்லது படத்தை இழுக்கவும்' என்ற பகுதியைக் கிளிக் செய்யவும்.</li><li>படம் காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI படத்தை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>உரையை நகலெடுக்க <strong>'நகலெடு'</strong> பொத்தானைப் பயன்படுத்தவும்.</li></ol>`
+            }
+        };
+
+        let currentLang = 'en';
+
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const imageDisplayArea = document.getElementById('image-display-area');
+        const imagePreview = document.getElementById('image-preview');
+        const recognizeBtn = document.getElementById('recognize-btn');
+        const recognizeBtnText = recognizeBtn.querySelector('span');
+        const loader = document.getElementById('loader');
+        const resetBtn = document.getElementById('reset-btn');
+        const resultBox = document.getElementById('result-box');
+        const resultText = document.getElementById('result-text');
+        const copyBtn = document.getElementById('copyBtn');
+        const statusDiv = document.getElementById('status');
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        let fileAsBase64 = null;
+        let fileMimeType = null;
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[key]?.[lang]) {
+                    if (key === 'helpContent') {
+                        el.innerHTML = translations[key][lang];
+                    } else {
+                        el.textContent = translations[key][lang];
+                    }
+                }
+            });
+             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+            });
+
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        function handleFile(file) {
+            uploadArea.style.display = 'none';
+            imageDisplayArea.style.display = 'block';
+            
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                imagePreview.src = reader.result;
+                fileAsBase64 = reader.result.split(',')[1];
+                fileMimeType = file.type;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetUI() {
+            uploadArea.style.display = 'flex';
+            imageDisplayArea.style.display = 'none';
+            resultBox.style.display = 'none';
+            imageInput.value = '';
+            fileAsBase64 = null;
+            fileMimeType = null;
+        }
+
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            });
+        }
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+        resetBtn.addEventListener('click', resetUI);
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const model = 'gemini-1.5-flash';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+        recognizeBtn.addEventListener('click', async () => {
+            if (!fileAsBase64) return;
+            
+            recognizeBtn.disabled = true;
+            resetBtn.disabled = true;
+            recognizeBtnText.textContent = translations.recognizing[currentLang];
+            loader.style.display = 'inline-block';
+            resultText.value = '';
+            copyBtn.style.display = 'none';
+            statusDiv.textContent = '';
+
+            const prompt = "Extract all text from this image.";
+            const payload = {
+                contents: [{ parts: [ { text: prompt }, { inline_data: { mime_type: fileMimeType, data: fileAsBase64 } } ] }],
+                 safetySettings: [
+                     { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                     { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                     { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                     { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                 ]
+            };
+
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content) {
+                    const extractedText = result.candidates[0].content.parts[0].text;
+                    resultText.value = extractedText;
+                    resultBox.style.display = 'block';
+                    copyBtn.style.display = 'block';
+                } else {
+                    console.error("API Response Blocked:", result);
+                    throw new Error("No text content received from API.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                statusDiv.textContent = translations.error[currentLang];
+            } finally {
+                recognizeBtn.disabled = false;
+                resetBtn.disabled = false;
+                recognizeBtnText.textContent = translations.recognize[currentLang];
+                loader.style.display = 'none';
+            }
+        });
+        
+        copyBtn.addEventListener('click', () => {
+             if (resultText.value) {
+                 navigator.clipboard.writeText(resultText.value);
+                 copyBtn.textContent = translations.copied[currentLang];
+                 setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+            }
+        });
+
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+        initializeShareButtons();
+    </script>
+</body>
+</html>
+

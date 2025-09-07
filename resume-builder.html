@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for Resume Builder Page -->
+    <title>Free Online Resume/CV Builder - Malith Studio®</title>
+    <meta name="description" content="Create a professional resume or CV in minutes with our free online builder. Choose templates, add your details, and download as a PDF. Perfect for job seekers in Sri Lanka.">
+    <meta name="keywords" content="resume builder, cv maker, free resume builder, online cv creator, malith studio, sri lanka, job application, curriculum vitae, sinhala cv">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/resume-builder.html">
+    <meta property="og:title" content="Free Online Resume/CV Builder - Malith Studio®">
+    <meta property="og:description" content="Create a professional resume in minutes with modern templates and download as a PDF for free.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-resumebuilder.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/resume-builder.html">
+    <meta property="twitter:title" content="Free Online Resume/CV Builder - Malith Studio®">
+    <meta property="twitter:description" content="Create a professional resume in minutes with modern templates and download as a PDF for free.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-resumebuilder.jpg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    
+    <style>
+        :root {
+            --dark-bg: #0b0f19;
+            --primary-blue: #6366f1;
+            --primary-purple: #8b5cf6;
+            --card-bg: rgba(31, 41, 55, 0.5);
+            --border-color: #374151;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --input-bg: #111827;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 1000; /* Ensure it's on top */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* --- Form Section (Left Side) --- */
+        .form-section {
+            width: 45%;
+            padding: 2rem;
+            background-color: #111827;
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 20;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-section h1 {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            font-size: 1.75rem;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            background-image: linear-gradient(to right, var(--primary-blue), var(--primary-purple));
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .accordion-item { margin-bottom: 1rem; border-radius: 0.5rem; overflow: hidden; border: 1px solid var(--border-color); }
+        .accordion-header {
+            background-color: var(--card-bg); padding: 1rem; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center; font-weight: 600;
+        }
+        .accordion-header i.fa-chevron-down { transition: transform 0.3s ease; }
+        .accordion-content {
+            padding: 1.5rem; background-color: rgba(17, 24, 39, 0.5); max-height: 0;
+            overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .accordion-item.active .accordion-content { max-height: 2500px; padding: 1.5rem; }
+        .accordion-item.active .accordion-header i.fa-chevron-down { transform: rotate(180deg); }
+        
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; background-color: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 0.5rem; padding: 0.75rem 1rem; color: var(--text-primary);
+            font-size: 1rem; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        input[type="file"] { padding: 0.5rem; }
+
+        .dynamic-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .add-btn {
+            background: none; border: 1px solid var(--border-color); color: var(--text-secondary);
+            border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+        }
+        .add-btn:hover { background-color: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+        .dynamic-entry { border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; position: relative; }
+        .remove-btn {
+            position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: none;
+            color: var(--text-secondary); cursor: pointer; font-size: 1rem;
+        }
+
+        .template-selector { text-align: center; margin-bottom: 2rem; }
+        .template-selector h3 { margin-bottom: 1rem; font-weight: 600; color: var(--text-secondary); }
+        .template-options { display: flex; justify-content: center; gap: 1rem; }
+        .template-btn {
+            padding: 0.5rem 1.5rem; border: 1px solid var(--border-color); background-color: var(--input-bg);
+            color: var(--text-primary); border-radius: 9999px; cursor: pointer; transition: all 0.3s;
+        }
+        .template-btn.active, .template-btn:hover { background-color: var(--primary-blue); border-color: var(--primary-blue); color: white; }
+
+        .action-buttons { display: flex; justify-content: center; margin-top: 2rem; position: relative; }
+        #download-pdf-btn {
+            background-image: linear-gradient(to right, var(--primary-blue), var(--primary-purple));
+            color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; border: none;
+            font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        #download-pdf-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
+        
+        .exam-results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .subject-result-item { display: flex; align-items: center; justify-content: space-between; }
+        .subject-result-item label { margin-bottom: 0; }
+        .subject-result-item select { width: 60px; padding: 0.25rem; }
+
+        .preview-section {
+            width: 55%; padding: 2rem; overflow-y: auto;
+            display: flex; justify-content: center; align-items: flex-start;
+        }
+        #resume-preview {
+            width: 8.27in; /* A4 Width */
+            background-color: white; color: #333;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); padding: 0.5in; box-sizing: border-box; transition: all 0.3s ease;
+        }
+        .preview-cv-title { text-align: center; font-size: 1.5rem; letter-spacing: 5px; margin-top: 0; margin-bottom: 0.75rem; font-weight: 600; text-decoration: underline; text-underline-offset: 8px;}
+        .preview-header { display: flex; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 0.75rem; margin-bottom: 1rem; }
+        .header-info { flex: 1; }
+        
+        .header-photo {
+            width: 100px;
+            height: 133px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin: 0 1rem 0 1.5rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .preview-contact p { margin: 2px 0; }
+        .preview-results-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .preview-results-table td { padding: 4px 2px; border-bottom: 1px solid #eee; vertical-align: top; }
+        .preview-results-table td:first-child { width: 80%; }
+        .preview-results-table td:last-child { width: 20%; text-align: center; font-weight: bold; }
+
+        .template-modern .preview-section-title { font-weight: 600; color: #222; border-bottom: 1px solid #ccc; padding-bottom: 0.25rem; }
+        .template-modern .preview-entry h4 { font-weight: 600; }
+        .template-modern .preview-skills-list { list-style: none; padding: 0; margin: 0; }
+        .template-modern .preview-skills-list li { background-color: #eee; color: #333; padding: 0.25rem 0.75rem; border-radius: 0.25rem; display: inline-block; margin: 0.25rem; }
+        .template-classic .preview-section-title { font-weight: bold; color: #000; border-bottom: 1.5px solid #000; padding-bottom: 0.2rem; }
+        .template-classic .preview-name { font-weight: normal !important; }
+        .template-classic .preview-entry h4 { font-weight: bold; }
+        .template-classic .preview-skills-list { padding-left: 1.5rem; }
+        .template-classic .preview-skills-list li { margin-bottom: 0.25rem; }
+        .template-classic .header-photo { border: 2px solid #333; }
+
+        body.lang-si #resume-preview { font-family: 'Noto Sans Sinhala', 'Iskola pota', serif; font-size: 13pt; }
+        body.lang-en #resume-preview.template-classic, body.lang-ta #resume-preview.template-classic { font-family: 'Times New Roman', Times, serif; font-size: 12pt; }
+        body.lang-en #resume-preview.template-modern, body.lang-ta #resume-preview.template-modern { font-family: 'Poppins', sans-serif; font-size: 10pt; }
+        
+        .preview-name {
+            font-weight: 600;
+        }
+        
+        body.lang-en #resume-preview.template-modern .preview-name, 
+        body.lang-ta #resume-preview.template-modern .preview-name { 
+            font-size: 2.2rem; 
+        }
+        body.lang-si #resume-preview.template-modern .preview-name { 
+            font-size: 2.5rem; 
+        }
+        .template-modern .preview-name {
+            margin-bottom: 0.5rem;
+        }
+        
+        .template-classic .preview-contact p {
+            margin: 2px 0;
+            line-height: 1.5;
+        }
+        .template-classic .preview-name {
+            font-size: inherit;
+            font-weight: bold;
+        }
+        
+        #crop-modal {
+            display: none; position: fixed; z-index: 1001; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937; margin: auto; padding: 20px;
+            border: 1px solid var(--border-color); border-radius: 0.75rem;
+            width: 90%; max-width: 500px; text-align: center;
+        }
+        .modal-content h2 { margin-top: 0; }
+        .img-container { width: 100%; height: 300px; margin-bottom: 1rem; }
+        #image-to-crop { display: block; max-width: 100%; }
+        .modal-buttons { margin-top: 1rem; display: flex; justify-content: center; gap: 1rem; }
+        .modal-buttons button { padding: 0.75rem 2rem; border-radius: 0.5rem; border: none; font-weight: 700; cursor: pointer; }
+        #crop-btn { background-color: var(--primary-blue); color: white; }
+        #cancel-crop-btn { background-color: #374151; color: var(--text-primary); }
+
+        @media (max-width: 1200px) {
+            .app-container { flex-direction: column; }
+            .form-section, .preview-section { width: 100%; height: auto; box-sizing: border-box; }
+            .preview-section { min-height: 100vh; }
+            .exam-results-grid { grid-template-columns: 1fr; }
+        }
+        
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--primary-blue);
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="app-container">
+        <div class="form-section">
+             <div class="header-controls">
+                <div class="language-switcher">
+                    <button id="language-btn">English</button>
+                    <div id="language-options">
+                        <button data-lang="en">English</button>
+                        <button data-lang="si">සිංහල</button>
+                        <button data-lang="ta">தமிழ்</button>
+                    </div>
+                </div>
+                <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+            </div>
+            <h1 data-key="mainTitle">CV නිර්මාණය කරමු</h1>
+            <div class="template-selector">
+                <h3 data-key="templateTitle">Template එකක් තෝරන්න</h3>
+                <div class="template-options">
+                    <button class="template-btn active" data-template="template-modern">Modern</button>
+                    <button class="template-btn" data-template="template-classic">Classic</button>
+                </div>
+            </div>
+            <div id="accordion">
+                <div class="accordion-item active">
+                    <div class="accordion-header"><span data-key="personalDetails"><i class="fas fa-user"></i> පුද්ගලික විස්තර</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">
+                        <div class="form-group"><label for="photo" data-key="photoLabel">ඡායාරූපය</label><input type="file" id="photo" accept="image/*"></div>
+                        <div class="form-group"><label for="name" data-key="fullNameLabel">සම්පූර්ණ නම</label><input type="text" id="name" data-key-placeholder="fullNamePlaceholder" placeholder="උදා: මලිත් දුශන්ත"></div>
+                        <div class="form-group"><label for="email" data-key="emailLabel">ඊමේල් ලිපිනය</label><input type="email" id="email" data-key-placeholder="emailPlaceholder" placeholder="උදා: your.email@example.com"></div>
+                        <div class="form-group"><label for="phone" data-key="phoneLabel">දුරකථන අංකය</label><input type="tel" id="phone" data-key-placeholder="phonePlaceholder" placeholder="උදා: 077 123 4567"></div>
+                        <div class="form-group"><label for="address" data-key="addressLabel">ලිපිනය</label><input type="text" id="address" data-key-placeholder="addressPlaceholder" placeholder="උදා: කොළඹ, ශ්‍රී ලංකාව"></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header"><span data-key="experience"><i class="fas fa-briefcase"></i> රැකියා පළපුරුද්ද</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">
+                        <div id="experience-list"></div>
+                        <div class="dynamic-section-header"><h4 data-key="addMore">තවත් එකතු කරන්න</h4><button class="add-btn" id="add-experience-btn"><i class="fas fa-plus"></i></button></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header"><span data-key="education"><i class="fas fa-graduation-cap"></i> අධ්‍යාපන සුදුසුකම්</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">
+                        <div id="education-list"></div>
+                        <div class="dynamic-section-header"><h4 data-key="addMore">තවත් එකතු කරන්න</h4><button class="add-btn" id="add-education-btn"><i class="fas fa-plus"></i></button></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header"><span data-key="examResults"><i class="fas fa-book"></i> O/L සහ A/L ප්‍රතිඵල</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">
+                        <h4 data-key="olResults" style="margin-top:0; margin-bottom: 1rem;">සාමාන්‍ය පෙළ ප්‍රතිඵල</h4>
+                        <div id="ol-results-list" class="exam-results-grid"></div>
+                        <h4 data-key="alResults" style="margin-top:2rem; margin-bottom: 1rem;">උසස් පෙළ ප්‍රතිඵල</h4>
+                        <div id="al-results-list" class="exam-results-grid"></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                     <div class="accordion-header"><span data-key="skills"><i class="fas fa-cogs"></i> කුසලතා</span><i class="fas fa-chevron-down"></i></div>
+                     <div class="accordion-content">
+                         <div class="form-group"><label for="skills" data-key="skillsLabel">ඔබේ කුසලතා (කොමාවකින් වෙන් කරන්න)</label><textarea id="skills" data-key-placeholder="skillsPlaceholder" placeholder="උදා: HTML, CSS, JavaScript, Teamwork"></textarea></div>
+                     </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button id="download-pdf-btn"><i class="fas fa-file-pdf"></i> <span data-key="downloadBtn">PDF ලෙස බාගන්න</span></button>
+            </div>
+
+            <div class="share-section">
+                <h3 data-key="shareTool">Share this Tool</h3>
+                <div class="share-buttons-container">
+                    <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+                </div>
+                <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <div id="resume-preview" class="template-modern">
+                <h1 class="preview-cv-title" data-key="cvTitle">CURRICULUM VITAE</h1>
+                <div class="preview-header">
+                    <div class="header-info">
+                        <div class="preview-contact">
+                            <p class="preview-name" id="preview-name">ඔබේ නම</p>
+                            <p id="preview-address"></p>
+                            <p id="preview-phone"></p>
+                            <p id="preview-email"></p>
+                        </div>
+                    </div>
+                    <div class="header-photo" id="preview-photo"></div>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-section-container" id="preview-experience-container"><h3 class="preview-section-title" data-key="previewExpTitle">රැකියා පළපුරුද්ද</h3><div id="preview-experience-list"></div></div>
+                    <div class="preview-section-container" id="preview-education-container"><h3 class="preview-section-title" data-key="previewEduTitle">අධ්‍යාපන සුදුසුකම්</h3><div id="preview-education-list"></div></div>
+                    <div class="preview-section-container" id="preview-exam-results-container" style="display: none;"><h3 class="preview-section-title" data-key="previewExamResultsTitle">විභාග ප්‍රතිඵල</h3><div id="preview-ol-results"></div><div id="preview-al-results"></div></div>
+                    <div class="preview-section-container" id="preview-skills-container"><h3 class="preview-section-title" data-key="previewSkillsTitle">කුසලතා</h3><ul class="preview-skills-list" id="preview-skills-list"></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="crop-modal">
+        <div class="modal-content">
+            <h2 data-key="cropImageTitle">ඡායාරූපය සකසන්න</h2>
+            <div class="img-container">
+                <img id="image-to-crop" alt="Image to crop">
+            </div>
+            <div class="modal-buttons">
+                <button id="cancel-crop-btn" data-key="cancelBtn">අවලංගු කරන්න</button>
+                <button id="crop-btn" data-key="cropBtn">තෝරන්න</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use Resume Builder</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const olSubjects = [
+            'Sinhala Language & Literature', 'Mathematics', 'Science', 'English Language', 'History', 'Religion',
+            'Business & Accounting Studies', 'Geography', 'Citizenship Education', 'Music (Oriental)', 'Music (Western)', 'Art', 'Dancing (Oriental)', 'Drama and Theatre', 'Information & Communication Technology (ICT)', 'Agriculture & Food Technology', 'Health & Physical Education', 'Home Economics'
+        ];
+        const alSubjects = [
+            'Combined Mathematics', 'Physics', 'Chemistry',
+            'Biology',
+            'Business Studies', 'Accounting', 'Economics',
+            'Engineering Technology', 'Bio-systems Technology', 'Science for Technology',
+            'Sinhala', 'Geography', 'Political Science', 'Logic & Scientific Method', 'History', 'Home Economics', 'Communication & Media Studies', 'Art', 'Drama and Theatre',
+            'Information & Communication Technology (ICT)', 'General English', 'General Information Technology (GIT)'
+        ];
+        const resultOptions = ['-', 'A', 'B', 'C', 'S', 'F', 'W'];
+        const translations = {
+            backToHome: { si: 'මුල් පිටුවට', en: 'Back to Home', ta: 'முகப்புக்குச் செல்' },
+            mainTitle: { si: 'CV නිර්මාණය කරමු', en: 'Let\'s Create a CV', ta: 'CV உருவாக்குவோம்' },
+            cvTitle: { si: 'ජීව දත්ත පත්‍රිකාව', en: 'CURRICULUM VITAE', ta: 'CURRICULUM VITAE' },
+            cropImageTitle: { si: 'ඡායාරූපය සකසන්න', en: 'Crop Image', ta: 'படத்தை செதுக்கு' },
+            cropBtn: { si: 'තෝරන්න', en: 'Crop', ta: 'செதுக்கு' },
+            cancelBtn: { si: 'අවලංගු කරන්න', en: 'Cancel', ta: 'ரத்துசெய்' },
+            templateTitle: { si: 'Template එකක් තෝරන්න', en: 'Choose a Template', ta: 'ஒரு டெம்ப்ளேட்டைத் தேர்ந்தெடுக்கவும்' },
+            personalDetails: { si: '<i class="fas fa-user"></i> පුද්ගලික විස්තර', en: '<i class="fas fa-user"></i> Personal Details', ta: '<i class="fas fa-user"></i> தனிப்பட்ட விபரங்கள்' },
+            photoLabel: { si: 'ඡායාරූපය', en: 'Photo', ta: 'புகைப்படம்' },
+            fullNameLabel: { si: 'සම්පූර්ණ නම', en: 'Full Name', ta: 'முழு பெயர்' },
+            fullNamePlaceholder: { si: 'උදා: මලිත් දුශන්ත', en: 'e.g., Malith Dushantha', ta: 'உதா: மலித் துஷாந்த' },
+            emailLabel: { si: 'ඊමේල් ලිපිනය', en: 'Email Address', ta: 'மின்னஞ்சல் முகவரி' },
+            emailPlaceholder: { si: 'උදා: your.email@example.com', en: 'e.g., your.email@example.com', ta: 'உதா: your.email@example.com' },
+            phoneLabel: { si: 'දුරකථන අංකය', en: 'Phone Number', ta: 'தொலைபேசி எண்' },
+            phonePlaceholder: { si: 'උදා: 077 123 4567', en: 'e.g., 077 123 4567', ta: 'உதா: 077 123 4567' },
+            addressLabel: { si: 'ලිපිනය', en: 'Address', ta: 'முகவரி' },
+            addressPlaceholder: { si: 'උදා: කොළඹ, ශ්‍රී ලංකාව', en: 'e.g., Colombo, Sri Lanka', ta: 'உதா: கொழும்பு, இலங்கை' },
+            experience: { si: '<i class="fas fa-briefcase"></i> රැකියා පළපුරුද්ද', en: '<i class="fas fa-briefcase"></i> Work Experience', ta: '<i class="fas fa-briefcase"></i> பணி அனுபவம்' },
+            addMore: { si: 'තවත් එකතු කරන්න', en: 'Add More', ta: 'மேலும் சேர்க்க' },
+            education: { si: '<i class="fas fa-graduation-cap"></i> අධ්‍යාපන සුදුසුකම්', en: '<i class="fas fa-graduation-cap"></i> Education', ta: '<i class="fas fa-graduation-cap"></i> கல்வி' },
+            examResults: { si: '<i class="fas fa-book"></i> O/L සහ A/L ප්‍රතිඵල', en: '<i class="fas fa-book"></i> O/L & A/L Results', ta: '<i class="fas fa-book"></i> O/L & A/L பெறுபேறுகள்' },
+            olResults: { si: 'සාමාන්‍ය පෙළ ප්‍රතිඵල', en: 'O/L Results', ta: 'O/L பெறுபேறுகள்' },
+            alResults: { si: 'උසස් පෙළ ප්‍රතිඵල', en: 'A/L Results', ta: 'A/L பெறுபேறுகள்' },
+            skills: { si: '<i class="fas fa-cogs"></i> කුසලතා', en: '<i class="fas fa-cogs"></i> Skills', ta: '<i class="fas fa-cogs"></i> திறன்கள்' },
+            skillsLabel: { si: 'ඔබේ කුසලතා (කොමාවකින් වෙන් කරන්න)', en: 'Your Skills (separate with a comma)', ta: 'உங்கள் திறன்கள் (காற்புள்ளியால் பிரிக்கவும்)' },
+            skillsPlaceholder: { si: 'උදා: HTML, CSS, JavaScript, Teamwork', en: 'e.g., HTML, CSS, JavaScript, Teamwork', ta: 'உதா: HTML, CSS, JavaScript, Teamwork' },
+            downloadBtn: { si: 'PDF ලෙස බාගන්න', en: 'Download as PDF', ta: 'PDF ஆக பதிவிறக்கம்' },
+            expField1: { si: 'රැකියාවේ තනතුර', en: 'Job Title', ta: 'பதவி' },
+            expField2: { si: 'සමාගම', en: 'Company', ta: 'நிறுவனம்' },
+            expField3: { si: 'කාලය (උදා: 2020 - 2022)', en: 'Dates (e.g., 2020 - 2022)', ta: 'காலம் (உதா: 2020 - 2022)' },
+            expField4: { si: 'විස්තරය', en: 'Description', ta: 'விளக்கம்' },
+            eduField1: { si: 'උපාධිය / සහතිකය', en: 'Degree / Certificate', ta: 'பட்டம் / சான்றிழ்' },
+            eduField2: { si: 'පාසල / විශ්වවිද්‍යාලය', en: 'School / University', ta: 'பள்ளி / பல்கலைக்கழகம்' },
+            eduField3: { si: 'කාලය (උදා: 2016 - 2020)', en: 'Dates (e.g., 2016 - 2020)', ta: 'காலம் (உதா: 2016 - 2020)' },
+            previewExpTitle: { si: 'රැකියා පළපුරුද්ද', en: 'Work Experience', ta: 'பணி அனுபவம்' },
+            previewEduTitle: { si: 'අධ්‍යාපන සුදුසුකම්', en: 'Education', ta: 'கல்வி' },
+            previewExamResultsTitle: { si: 'විභාග ප්‍රතිඵල', en: 'Examination Results', ta: 'பரீட்சை பெறுபேறுகள்' },
+            previewSkillsTitle: { si: 'කුසලතා', en: 'Skills', ta: 'திறன்கள்' },
+            shareTool: { si: 'මෙම මෙවලම බෙදාගන්න', en: 'Share this Tool', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { si: 'ලින්ක් එක කොපි විය!', en: 'Link Copied!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Resume Builder', si: 'Resume Builder භාවිතා කරන ආකාරය', ta: 'Resume Builder பயன்படுத்துவது எப்படி' },
+            helpContent: {
+                en: `<ol><li>Choose a <strong>Template</strong> (Modern or Classic) that best suits you.</li><li>Fill in your details in each section like <strong>Personal Details</strong>, <strong>Work Experience</strong> etc. using the accordion.</li><li>Upload a professional photo. You can crop it to fit perfectly.</li><li>See a live preview of your CV on the right side as you type.</li><li>Once you are happy with the result, click the <strong>Download as PDF</strong> button to save your CV.</li></ol>`,
+                si: `<ol><li>ඔබට ගැලපෙන <strong>Template</strong> එක (Modern හෝ Classic) තෝරාගන්න.</li><li>Accordion මෙනුව භාවිතයෙන් <strong>පුද්ගලික විස්තර</strong>, <strong>රැකියා පළපුරුද්ද</strong> වැනි එක් එක් කොටසේ ඔබේ තොරතුරු පුරවන්න.</li><li>වෘත්තීය ඡායාරූපයක් upload කරන්න. ඔබට එය අවශ්‍ය පරිදි crop කරගත හැක.</li><li>ඔබ type කරන විටම, ඔබගේ CV එකේ live preview එකක් දකුණු පසින් බලාගන්න.</li><li>සෑම දෙයක්ම නිවැරදි වූ පසු, <strong>'PDF ලෙස බාගන්න'</strong> බොත්තම click කර ඔබගේ CV එක save කරගන්න.</li></ol>`,
+                ta: `<ol><li>உங்களுக்கு மிகவும் பொருத்தமான <strong>டெம்ப்ளேட்டை</strong> (Modern அல்லது Classic) தேர்வு செய்யவும்.</li><li>Accordion மெனுவைப் பயன்படுத்தி <strong>தனிப்பட்ட விவரங்கள்</strong>, <strong>பணி அனுபவம்</strong> போன்ற ஒவ்வொரு பகுதியிலும் உங்கள் விவரங்களை நிரப்பவும்.</li><li>ஒரு தொழில்முறை புகைப்படத்தைப் பதிவேற்றவும். நீங்கள் அதைச் சரியாகப் பொருத்தமாக crop செய்யலாம்.</li><li>நீங்கள் தட்டச்சு செய்யும்போது உங்கள் CVயின் நேரடி மாதிரிக்காட்சியை வலது பக்கத்தில் பார்க்கவும்.</li><li>முடிவில் நீங்கள் திருப்தி அடைந்ததும், உங்கள் CVஐச் சேமிக்க <strong>'PDF ஆக பதிவிறக்கம்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li></ol>`
+            }
+        };
+        let currentLang = 'en';
+        let experienceCount = 0;
+        let educationCount = 0;
+        let cropper;
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.body.className = 'lang-' + lang;
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.dataset.key;
+                if(translations[key]?.[lang]) {
+                    if (key === 'helpContent' || key === 'personalDetails' || key === 'experience' || key === 'education' || key === 'examResults' || key === 'skills') {
+                         el.innerHTML = translations[key][lang];
+                    } else {
+                        el.textContent = translations[key][lang];
+                    }
+                }
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => el.placeholder = translations[el.dataset.keyPlaceholder]?.[lang] || el.placeholder);
+            document.querySelectorAll('.dynamic-entry label').forEach(label => {
+                const key = label.dataset.langKey;
+                if(key) label.innerText = translations[key][lang];
+            });
+
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+
+        function updatePreview() {
+            document.getElementById('preview-name').innerText = document.getElementById('name').value || '';
+            document.getElementById('preview-email').innerText = document.getElementById('email').value || '';
+            document.getElementById('preview-phone').innerText = document.getElementById('phone').value || '';
+            document.getElementById('preview-address').innerText = document.getElementById('address').value || '';
+            const skillsList = document.getElementById('preview-skills-list');
+            skillsList.innerHTML = '';
+            document.getElementById('skills').value.split(',').map(s => s.trim()).filter(s => s).forEach(skill => {
+                const li = document.createElement('li');
+                li.innerText = skill;
+                skillsList.appendChild(li);
+            });
+            document.getElementById('preview-skills-container').style.display = skillsList.hasChildNodes() ? 'block' : 'none';
+            updateDynamicPreview('experience');
+            updateDynamicPreview('education');
+            updateExamResultsPreview();
+        }
+        
+        function updateDynamicPreview(type) {
+             const previewList = document.getElementById(`preview-${type}-list`);
+             const container = document.getElementById(`preview-${type}-container`);
+             previewList.innerHTML = '';
+             let hasContent = false;
+             document.querySelectorAll(`#${type}-list .dynamic-entry`).forEach(entry => {
+                 const previewEntry = document.createElement('div');
+                 previewEntry.className = 'preview-entry';
+                 const field0 = entry.querySelector('[data-field="0"]');
+                 const field1 = entry.querySelector('[data-field="1"]');
+                 const field2 = entry.querySelector('[data-field="2"]');
+                 let entryContent = `<h4>${field0 ? field0.value : ''}</h4><p>${field1 ? field1.value : ''}</p><p>${field2 ? field2.value : ''}</p>`;
+                 if (type === 'experience') {
+                     const field3 = entry.querySelector('[data-field="3"]');
+                     entryContent += `<p>${field3 ? field3.value : ''}</p>`;
+                 }
+                 previewEntry.innerHTML = entryContent;
+                 previewList.appendChild(previewEntry);
+                 if (field0 && field0.value.trim() !== '') hasContent = true;
+             });
+             container.style.display = hasContent ? 'block' : 'none';
+        }
+
+        function updateExamResultsPreview() {
+            const selects = document.querySelectorAll('.exam-result-select');
+            const previewOlContainer = document.getElementById('preview-ol-results');
+            const previewAlContainer = document.getElementById('preview-al-results');
+            const mainContainer = document.getElementById('preview-exam-results-container');
+            let olResultsHTML = `<h4 data-key="olResults">${translations.olResults[currentLang]}</h4><table class="preview-results-table">`;
+            let alResultsHTML = `<h4 data-key="alResults" style="margin-top:1rem;">${translations.alResults[currentLang]}</h4><table class="preview-results-table">`;
+            let hasOlResults = false, hasAlResults = false;
+            selects.forEach(select => {
+                if (select.value !== '-') {
+                    const row = `<tr><td>${select.dataset.subject}</td><td>${select.value}</td></tr>`;
+                    if (select.dataset.type === 'ol') { olResultsHTML += row; hasOlResults = true; } 
+                    else { alResultsHTML += row; hasAlResults = true; }
+                }
+            });
+            olResultsHTML += '</table>';
+            alResultsHTML += '</table>';
+            previewOlContainer.innerHTML = hasOlResults ? olResultsHTML : '';
+            previewAlContainer.innerHTML = hasAlResults ? alResultsHTML : '';
+            mainContainer.style.display = (hasOlResults || hasAlResults) ? 'block' : 'none';
+        }
+
+        function addDynamicEntry(type) {
+            const count = type === 'experience' ? experienceCount++ : educationCount++;
+            const list = document.getElementById(`${type}-list`);
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'dynamic-entry';
+            entryDiv.id = `${type}-entry-${count}`;
+            const fieldKeys = type === 'experience' ? ['expField1', 'expField2', 'expField3', 'expField4'] : ['eduField1', 'eduField2', 'eduField3'];
+            fieldKeys.forEach((key, index) => {
+                const inputType = key === 'expField4' ? 'textarea' : 'input';
+                entryDiv.innerHTML += `<div class="form-group"><label for="${type}-${count}-${index}" data-lang-key="${key}">${translations[key][currentLang]}</label><${inputType} type="text" id="${type}-${count}-${index}" data-field="${index}"></${inputType}></div>`;
+            });
+            entryDiv.innerHTML += `<button class="remove-btn" data-type="${type}" data-count="${count}">&times;</button>`;
+            list.appendChild(entryDiv);
+        }
+
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            if (!facebookBtn) return; 
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = pageUrl;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy link: ', err);
+                }
+                document.body.removeChild(tempTextArea);
+            });
+        }
+
+        languageBtn.addEventListener('click', (e) => { e.stopPropagation(); languageOptions.classList.toggle('show'); });
+        document.querySelectorAll('#language-options button').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.lang)));
+        document.querySelectorAll('.accordion-header').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('active')));
+        document.querySelectorAll('.template-btn').forEach(btn => btn.addEventListener('click', () => {
+            document.querySelector('.template-btn.active').classList.remove('active');
+            btn.classList.add('active');
+            document.getElementById('resume-preview').className = '';
+            document.getElementById('resume-preview').classList.add(btn.dataset.template);
+            document.body.dispatchEvent(new Event('change'));
+        }));
+        document.getElementById('add-experience-btn').addEventListener('click', () => addDynamicEntry('experience'));
+        document.getElementById('add-education-btn').addEventListener('click', () => addDynamicEntry('education'));
+        document.querySelector('.form-section').addEventListener('click', e => { if (e.target.classList.contains('remove-btn')) { e.target.parentElement.remove(); updatePreview(); } });
+        document.querySelector('.form-section').addEventListener('keyup', updatePreview);
+        document.querySelector('.form-section').addEventListener('change', updatePreview);
+        
+        const photoInput = document.getElementById('photo');
+        const cropModal = document.getElementById('crop-modal');
+        const imageToCrop = document.getElementById('image-to-crop');
+        photoInput.addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageToCrop.src = e.target.result;
+                    cropModal.style.display = 'flex';
+                    if(cropper) { cropper.destroy(); }
+                    cropper = new Cropper(imageToCrop, { aspectRatio: 3 / 4, viewMode: 1 });
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+        document.getElementById('crop-btn').addEventListener('click', () => {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas({width: 300, height: 400});
+                document.getElementById('preview-photo').style.backgroundImage = `url('${canvas.toDataURL()}')`;
+                cropper.destroy();
+                cropModal.style.display = 'none';
+            }
+        });
+        document.getElementById('cancel-crop-btn').addEventListener('click', () => {
+            if(cropper) cropper.destroy();
+            cropModal.style.display = 'none';
+        });
+
+        document.getElementById('download-pdf-btn').addEventListener('click', () => {
+            const resumeElement = document.getElementById('resume-preview');
+            const name = document.getElementById('name').value.trim() || 'resume';
+            const opt = { 
+                margin: 0.3, 
+                filename: `${name.replace(/\s+/g, '-')}.pdf`, 
+                image: { type: 'jpeg', quality: 1.0 }, 
+                html2canvas: { scale: 3, useCORS: true, scrollY: 0 }, 
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } 
+            };
+            const originalMinHeight = resumeElement.style.minHeight;
+            resumeElement.style.boxShadow = 'none';
+            resumeElement.style.minHeight = 'auto';
+
+            html2pdf().from(resumeElement).set(opt).save().then(() => {
+                resumeElement.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+                resumeElement.style.minHeight = originalMinHeight;
+            });
+        });
+        
+        window.addEventListener('click', (e) => { if (!languageBtn.parentElement.contains(e.target)) languageOptions.classList.remove('show'); });
+        
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+        function init() {
+            const langFromUrl = new URLSearchParams(window.location.search).get('lang');
+            setLanguage(['en', 'si', 'ta'].includes(langFromUrl) ? langFromUrl : 'en');
+            const olList = document.getElementById('ol-results-list');
+            const alList = document.getElementById('al-results-list');
+            olSubjects.forEach(sub => olList.appendChild(createSubjectItem(sub, 'ol')));
+            alSubjects.forEach(sub => alList.appendChild(createSubjectItem(sub, 'al')));
+            addDynamicEntry('experience');
+            addDynamicEntry('education');
+            updatePreview();
+            initializeShareButtons();
+        }
+        
+        function createSubjectItem(subjectName, type) {
+            const id = `${type}-${subjectName.replace(/\s+/g, '-')}`;
+            const item = document.createElement('div');
+            item.className = 'subject-result-item';
+            let optionsHTML = resultOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+            item.innerHTML = `<label for="${id}">${subjectName}</label><select id="${id}" class="exam-result-select" data-subject="${subjectName}" data-type="${type}">${optionsHTML}</select>`;
+            return item;
+        }
+
+        init();
+    });
+    </script>
+</body>
+</html>
+

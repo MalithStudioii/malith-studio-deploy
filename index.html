@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7WQ3CSB4E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-H7WQ3CSB4E');
+    </script>
+    
+    <!-- SEO Meta Tags -->
+    <title>Malith Studio® | Innovative Web Tools for Productivity</title>
+    <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
+    <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
+    <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
+    <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
+    <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
+    <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        :root {
+            --glow-color: hsl(231, 79%, 58%);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Default Dark Mode Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #e5e7eb;
+            margin: 0;
+            overflow-x: hidden;
+            background-size: 200% 200%;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0b0f19; display: flex; justify-content: center;
+            align-items: center; z-index: 9999; transition: opacity 0.75s ease, visibility 0.75s ease;
+            opacity: 1; visibility: visible;
+        }
+        #preloader.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+        #preloader .logo-wrapper { position: relative; width: 80px; height: 80px; animation: pulse 1.5s infinite ease-in-out; }
+        #preloader .logo { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+
+        #background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center center; transition: background-image 1s ease-in-out; }
+        .orb { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%); animation: float 20s infinite ease-in-out; filter: blur(20px); }
+        @keyframes float { 0% { transform: translate(0px, 0px); } 50% { transform: translate(30vw, 30vh); } 100% { transform: translate(0px, 0px); } }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+        header { position: fixed; top: 0; left: 0; right: 0; background-color: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); padding: 1rem 0; z-index: 50; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: background-color 0.5s, border-color 0.5s; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo-container { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-wrapper { position: relative; width: 40px; height: 40px; }
+        .logo-wrapper::before { content: ""; position: absolute; inset: -2px; border-radius: 9999px; background: conic-gradient(from var(--angle), #6366f1, #a855f7, #ec4899, #f59e0b, #6366f1); animation: spin 5s linear infinite; filter: blur(5px); }
+        @keyframes spin { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
+        .logo { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; position: relative; z-index: 1; background: #0b0f19; }
+        .logo-text { font-size: 1.25rem; font-weight: 800; color: white; transition: color 0.5s;}
+        nav ul { display: none; list-style: none; margin: 0; padding: 0; gap: 1.5rem; }
+        @media (min-width: 1024px) { nav ul { display: flex; } }
+        nav a { color: #d1d5db; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        nav a:hover { color: #818cf8; }
+        
+        #home { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
+        .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; transition: color 0.5s;}
+        .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
+        @keyframes text-animation { to { background-position: 200% center; } }
+        .hero-content p { max-width: 600px; margin: 1.5rem auto; font-size: 1.125rem; color: #9ca3af; transition: color 0.5s;}
+        .cta-button { display: inline-block; background-image: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 700; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; border: none;}
+        .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
+        
+        section { padding: 6rem 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: #c7d2fe; transition: color 0.5s;}
+        
+        #featured-tool .container { max-width: 1024px; }
+        .featured-tool-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid #374151;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background-color 0.5s, border-color 0.5s;
+        }
+        @media (min-width: 768px) { .featured-tool-card { flex-direction: row; } }
+        .featured-image-container { flex-shrink: 0; width: 100%; }
+        @media (min-width: 768px) { .featured-image-container { width: 45%; } }
+        .featured-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-content-container { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+         @media (min-width: 768px) { .featured-content-container { padding: 3rem; } }
+        .featured-content-container h3 { font-size: 2rem; font-weight: 800; color: white; margin-top: 0; margin-bottom: 1rem; transition: color 0.5s; }
+        .featured-content-container p { font-size: 1.1rem; color: #9ca3af; line-height: 1.6; margin-bottom: 2rem; transition: color 0.5s; }
+        .featured-content-container .cta-button { align-self: flex-start; }
+
+        .feature-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; }
+        .feature-tag {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease, box-shadow 0.5s ease, border-color 0.5s ease, color 0.5s;
+        }
+        .feature-tag:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .feature-tag.glowing {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px 2px var(--glow-color);
+        }
+        
+        .search-filter-section { max-width: 800px; margin: 0 auto 3rem auto; }
+        .search-bar-wrapper { position: relative; margin-bottom: 1rem; }
+        .search-bar-wrapper .fa-search { position: absolute; top: 50%; left: 1.25rem; transform: translateY(-50%); color: #9ca3af; }
+        #searchInput { width: 100%; background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; border-radius: 9999px; padding: 0.9rem 1rem 0.9rem 3.5rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s; }
+        #searchInput:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+        .filter-buttons { display: flex; justify-content: center; gap: 0.5rem; }
+        .filter-btn { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; color: #d1d5db; padding: 0.5rem 1.25rem; border-radius: 9999px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .filter-btn:hover { background-color: #374151; }
+        .filter-btn.active { background-color: #6366f1; border-color: #6366f1; color: white; }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
+        @media (min-width: 640px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .tool-card, .service-card, .blog-post-preview { transition: background-color 0.5s, border-color 0.5s; }
+        .tool-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; border-radius: 0.75rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, border-color 0.5s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .tool-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+        .tool-card img { width: 100%; height: 180px; object-fit: cover; }
+        .tool-card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .tool-card-content h4, .service-card h4, .blog-post-preview h4 { font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.5rem 0; transition: color 0.5s;}
+        .tool-card-content p, .service-card p, .blog-post-preview p { color: #9ca3af; margin: 0; flex-grow: 1; transition: color 0.5s;}
+        .tool-card.hidden-card { display: none; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
+        @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+        .service-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; padding: 2rem; border-radius: 0.75rem; text-align: center; }
+        .service-card:hover { transform: translateY(-8px); }
+        .service-icon { background: linear-gradient(135deg, #6366f1, #8b5cf6); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; }
+        .service-icon svg { width: 32px; height: 32px; color: white; }
+
+        .about-content { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+        @media (min-width: 768px) { .about-content { flex-direction: row; } }
+        .about-image { position: relative; }
+        .about-image .logo-wrapper { width: 240px; height: 240px; }
+        
+        #contact { text-align: center; }
+        #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
+
+        .contact-buttons-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .contact-btn { display: flex !important; align-items: center; gap: 0.5rem; }
+
+        .language-switcher { position: relative; }
+        #language-btn { background: none; border: 1px solid #4b5563; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600; }
+        #language-options { display: none; position: absolute; right: 0; top: 100%; margin-top: 0.5rem; background-color: #1f2937; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.5rem; z-index: 10; }
+        #language-options button { display: block; background: none; border: none; color: white; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; }
+        #language-options button:hover { background-color: #4b5563; }
+
+        #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group input, .form-group textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s;}
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        #submit-comment { width: 100%; }
+        #comments-list { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { #comments-list { grid-template-columns: repeat(2, 1fr); } }
+        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; transition: background-color 0.5s, border-color 0.5s;}
+        .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; transition: color 0.5s;}
+        .comment-footer { display: flex; justify-content: space-between; align-items: center; }
+        .comment-author { font-weight: 600; color: #9ca3af; transition: color 0.5s;}
+        .reactions { display: flex; gap: 0.5rem; }
+        .reaction-btn { background-color: #374151; border: none; padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; }
+        .reaction-btn:hover { transform: scale(1.1); }
+        .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
+        
+        .comment-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+        .toggle-reply-btn { background: none; border: none; color: #a5b4fc; cursor: pointer; font-weight: 600; padding: 0.25rem 0.5rem; }
+        .toggle-reply-btn:hover { text-decoration: underline; }
+        .reply-form-container { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #374151; transition: border-color 0.5s; }
+        .reply-form-container input, .reply-form-container textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 0.9rem; box-sizing: border-box; margin-bottom: 0.75rem; transition: all 0.5s; }
+        .reply-form-container textarea { resize: vertical; }
+        .submit-reply-btn { width: 100%; padding: 0.5rem 1rem; font-size: 0.9rem; }
+        .replies-list { margin-top: 1.5rem; padding-left: 1rem; border-left: 2px solid #374151; transition: border-color 0.5s;}
+        .user-reply-card { background-color: rgba(17, 24, 39, 0.7); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; transition: background-color 0.5s;}
+        .user-reply-card p { margin: 0 0 0.75rem 0; font-size: 0.9rem; }
+        
+        .comment-reply { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #4b5563; padding: 1rem; margin: 1.5rem -1.5rem -1.5rem -1.5rem; transition: background-color 0.5s, border-color 0.5s;}
+        .reply-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; color: #c7d2fe; }
+        .reply-avatar { width: 24px; height: 24px; border-radius: 50%; }
+        .comment-reply p { margin: 0; font-size: 0.9rem; color: #d1d5db; }
+        
+        #back-to-top { position: fixed; bottom: 2rem; right: 2rem; background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100; }
+        #back-to-top.visible { opacity: 1; visibility: visible; }
+        #back-to-top:hover { transform: scale(1.1); }
+
+        footer { background-color: rgba(17, 24, 39, 0.8); padding: 2rem; margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); transition: background-color 0.5s, border-color 0.5s; }
+        .footer-links { margin-bottom: 1rem; }
+        .footer-links a { color: #9ca3af; text-decoration: none; margin: 0 1rem; transition: color 0.3s; }
+        .footer-links a:hover { color: white; }
+        .footer-copyright { color: #6b7280; font-size: 0.875rem; }
+
+        .blog-post-preview { background-color: rgba(31, 41, 55, 0.2); border: 1px solid #374151; border-radius: 0.75rem; padding: 1.5rem; transition: background-color 0.3s, background-color 0.5s, border-color 0.5s; text-decoration: none; display: block; color: inherit; }
+        .blog-post-preview:hover { background-color: rgba(31, 41, 55, 0.5); }
+        .text-center { text-align: center; }
+        .mt-12 { margin-top: 3rem; }
+
+        /* UPDATED: Theme switcher style for new scroll effect */
+        #theme-switcher { 
+            position: fixed; 
+            bottom: 2rem; 
+            left: 2rem; 
+            display: flex; 
+            background-color: rgba(31, 41, 55, 0.5); 
+            backdrop-filter: blur(10px); 
+            border-radius: 9999px; 
+            padding: 0.5rem; 
+            border: 1px solid #374151; 
+            z-index: 100; 
+            gap: 0.5rem; 
+            transition: background-color 0.5s, border-color 0.5s, opacity 0.4s ease-in-out;
+        }
+        #theme-switcher.scrolled {
+            opacity: 0.4;
+        }
+        #theme-switcher.scrolled:hover {
+            opacity: 1;
+        }
+        
+        .theme-btn { border: 2px solid #4b5563; background: none; padding: 0; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
+        .theme-btn:hover { border-color: #6366f1; }
+        .theme-btn.active { border-color: #8b5cf6; transform: scale(1.1); box-shadow: 0 0 10px rgba(139, 92, 246, 0.7); }
+        
+        #mode-toggle {
+            background: none;
+            border: none;
+            color: #d1d5db;
+            font-size: 1.25rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.5s;
+        }
+
+        body.light-mode { background-color: #f3f4f6; color: #111827; }
+        .light-mode header, .light-mode footer { background-color: rgba(255, 255, 255, 0.8); border-color: rgba(0, 0, 0, 0.1); }
+        .light-mode #preloader { background-color: #f3f4f6; }
+        .light-mode .logo-text, .light-mode .hero-content h1 { color: #1f2937; }
+        .light-mode .hero-content p, .light-mode #contact p, .light-mode .about-text p { color: #4b5563; }
+        .light-mode nav a { color: #4b5563; }
+        .light-mode .section-title { color: #1d4ed8; }
+        .light-mode .featured-tool-card { background-color: rgba(255, 255, 255, 0.7); border-color: #e5e7eb; }
+        .light-mode .featured-content-container h3 { color: #111827; }
+        .light-mode .featured-content-container p { color: #374151; }
+        .light-mode .feature-tag { background-color: rgba(0, 0, 0, 0.03); border-color: rgba(0, 0, 0, 0.1); color: #1f2937; }
+        .light-mode #searchInput { background-color: #e5e7eb; border-color: #d1d5db; color: #111827; }
+        .light-mode .filter-btn { background-color: #e5e7eb; border-color: #d1d5db; color: #374151; }
+        .light-mode .tool-card, .light-mode .service-card, .light-mode .blog-post-preview { background-color: rgba(255, 255, 255, 0.7); border-color: #e5e7eb; }
+        .light-mode .tool-card-content h4, .light-mode .service-card h4, .light-mode .blog-post-preview h4 { color: #1f2937; }
+        .light-mode .tool-card-content p, .light-mode .service-card p, .light-mode .blog-post-preview p { color: #4b5563; }
+        .light-mode #comments-form, .light-mode .comment-card { background-color: #e5e7eb; border-color: #d1d5db; }
+        .light-mode .form-group input, .light-mode .form-group textarea, .light-mode .reply-form-container input, .light-mode .reply-form-container textarea { background-color: #f9fafb; border-color: #d1d5db; color: #111827; }
+        .light-mode .comment-card p, .light-mode .comment-reply p, .light-mode .user-reply-card p { color: #1f2937; }
+        .light-mode .comment-author { color: #4b5563; }
+        .light-mode .replies-list, .light-mode .reply-form-container, .light-mode .comment-reply { border-color: #d1d5db; }
+        .light-mode .user-reply-card, .light-mode .comment-reply { background-color: #f9fafb; }
+        .light-mode #theme-switcher { background-color: rgba(255, 255, 255, 0.5); border-color: #d1d5db; }
+        .light-mode #mode-toggle { color: #1f2937; }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="logo-wrapper">
+            <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
+        </div>
+    </div>
+    <div id="background-container">
+        <div id="background-animation"></div>
+    </div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo-container">
+                    <div class="logo-wrapper"><img src="logo.jpg" alt="Malith Studio® Logo" class="logo"></div>
+                    <span class="logo-text">Malith Studio®</span>
+                </div>
+                <ul>
+                    <li><a href="#home" data-key="navHome">Home</a></li>
+                    <li><a href="#projects" data-key="navProjects">Projects</a></li>
+                    <li><a href="#services" data-key="navServices">Services</a></li>
+                    <li><a href="#blog" data-key="navBlog">Blog</a></li>
+                    <li><a href="#about" data-key="navAbout">About Us</a></li>
+                    <li><a href="#comments" data-key="navComments">Comments</a></li>
+                    <li><a href="#contact" data-key="navContact">Get In Touch</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button id="language-btn">English</button>
+                    <div id="language-options">
+                        <button data-lang="en">English</button>
+                        <button data-lang="si">සිංහල</button>
+                        <button data-lang="ta">தமிழ்</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 data-key="heroWelcome">Welcome to</h1>
+                    <div class="animated-text">Malith Studio®</div>
+                    <p data-key="heroSubtitle">We build innovative tools that simplify your digital life. Saving your time is our priority.</p>
+                    <a href="#projects" class="cta-button" data-key="heroButton">Go to Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="featured-tool">
+            <div class="container">
+                <h2 class="section-title" data-key="featuredTitle">Featured Tool</h2>
+                <div class="featured-tool-card">
+                    <div class="featured-image-container">
+                        <img src="tool-resumebuilder.jpg" alt="Resume Builder Tool in action">
+                    </div>
+                    <div class="featured-content-container">
+                        <h3 data-key="featuredToolName">Resume Builder</h3>
+                        <p data-key="featuredToolDesc">Create a professional, modern resume in minutes. Our new tool guides you step-by-step, with beautiful templates and complete privacy. Your data never leaves your browser.</p>
+                        <a href="resume-builder.html" class="cta-button" data-key="featuredToolButton">Try it Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
+                <div class="feature-tags-container">
+                    <span class="feature-tag"><i class="fas fa-bolt"></i> Fast & Lightweight</span>
+                    <span class="feature-tag"><i class="fas fa-shield-halved"></i> Privacy-friendly</span>
+                    <span class="feature-tag"><i class="fas fa-mobile-screen-button"></i> Mobile Ready</span>
+                    <span class="feature-tag"><i class="fas fa-gift"></i> Always Free</span>
+                </div>
+                <div class="search-filter-section">
+                    <div class="search-bar-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search tools... (voice, qr, font, social, ...)">
+                    </div>
+                    <div id="filterContainer" class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="ai">AI</button>
+                        <button class="filter-btn" data-filter="text">Text</button>
+                        <button class="filter-btn" data-filter="utility">Utility</button>
+                    </div>
+                </div>
+                <div id="toolsGrid" class="projects-grid">
+                    <a href="voicetype.html" class="tool-card" data-category="ai text utility"><img src="tool-voicetype.jpg" alt="Voice Typing Tool"><div class="tool-card-content"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
+                    <a href="imagetotext.html" class="tool-card" data-category="ai text utility"><img src="tool-imagetotext.jpg" alt="Image to Text (OCR)"><div class="tool-card-content"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
+                    <a href="textsummarizer.html" class="tool-card" data-category="ai text"><img src="tool-textsummarizer.jpg" alt="Text Summarizer"><div class="tool-card-content"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
+                    <a href="todolist.html" class="tool-card" data-category="utility"><img src="tool-todolist.jpg" alt="To-Do List"><div class="tool-card-content"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
+                    <a href="qrcodegenerator.html" class="tool-card" data-category="utility"><img src="tool-qrcodegenerator.jpg" alt="QR Code Generator"><div class="tool-card-content"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
+                    <a href="passwordgenerator.html" class="tool-card" data-category="utility"><img src="tool-passwordgenerator.jpg" alt="Password Generator"><div class="tool-card-content"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
+                    <a href="presentationideagenerator.html" class="tool-card" data-category="ai"><img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas"><div class="tool-card-content"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
+                    <a href="fontconverter.html" class="tool-card" data-category="text utility"><img src="tool-fontconverter.jpg" alt="Sinhala Font Converter"><div class="tool-card-content"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
+                    <a href="socialpostgenerator.html" class="tool-card" data-category="ai text"><img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator"><div class="tool-card-content"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
+                    <a href="resume-builder.html" class="tool-card" data-category="utility text"><img src="tool-resumebuilder.jpg" alt="Resume Builder Tool"><div class="tool-card-content"><h4 data-key="project10Title">Resume Builder</h4><p data-key="project10Desc">Create a professional resume quickly with our easy-to-use builder.</p></div></a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="services">
+            <div class="container">
+                <h2 class="section-title" data-key="servicesTitle">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg></div><h4 data-key="service1Title">Custom Tool Development</h4><p data-key="service1Desc">We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg></div><h4 data-key="service2Title">Modern Web Solutions</h4><p data-key="service2Desc">From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.5 13.5L18 15l-1.5 1.5" /></svg></div><h4 data-key="service3Title">AI Integration</h4><p data-key="service3Desc">We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="blog">
+             <div class="container">
+                 <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
+                 <div class="projects-grid">
+                         <a href="blog.html#post-ai-game-changer" class="blog-post-preview">
+                             <h4 data-key="blogNewestTitle">Why AI is a Game-Changer for Everyday Productivity</h4>
+                             <p data-key="blogNewestDesc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
+                         </a>
+                         <a href="blog.html#post-resume-builder" class="blog-post-preview">
+                             <h4 data-key="blogSecondNewestTitle">Announcing Our Newest Tool: The Resume Builder!</h4>
+                             <p data-key="blogSecondNewestDesc">We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.</p>
+                         </a>
+                 </div>
+                 <div class="text-center mt-12">
+                     <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
+                 </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title" data-key="aboutTitle">About Us</h2>
+                <div class="about-content">
+                     <div class="about-image"><div class="logo-wrapper"><img src="logo.jpg" alt="Malith Studio® Logo" class="logo"></div></div>
+                     <div class="about-text">
+                         <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
+                         <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comments">
+            <div class="container">
+                 <h2 class="section-title" data-key="commentsTitle">Comments</h2>
+                 <form id="comments-form">
+                         <div class="form-group">
+                             <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
+                         </div>
+                         <div class="form-group">
+                             <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
+                         </div>
+                         <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
+                 </form>
+                 <div id="comments-list">
+                 </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
+                <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, let's create something amazing together, and connect with us on our other social networks here.</p>
+                <div class="contact-buttons-container">
+                    <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn"><i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span></a>
+                    <a href="https://www.facebook.com/groups/1889931538411601/?ref=share&mibextid=NSMWBT" target="_blank" class="cta-button contact-btn"><i class="fab fa-facebook"></i> <span data-key="contactFacebook">Facebook</span></a>
+                    <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn"><i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span></a>
+                    <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn"><i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="privacy.html" data-key="footerPrivacy">Privacy Policy</a>
+            </div>
+            <p class="footer-copyright" data-key="footerCopyright">© 2025 Malith Studio®. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="#home" id="back-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/></svg>
+    </a>
+    
+    <!-- UPDATED: Theme switcher with Light/Dark toggle -->
+    <div id="theme-switcher">
+        <button id="mode-toggle" title="Toggle light/dark mode"><i class="fas fa-sun"></i></button>
+        <button class="theme-btn active" data-theme="default"></button>
+        <button class="theme-btn" data-theme="theme1.jpg"></button>
+        <button class="theme-btn" data-theme="theme2.jpg"></button>
+        <button class="theme-btn" data-theme="theme3.jpg"></button>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, arrayUnion, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        const authUser = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication error:", error);
+            }
+        };
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                setDoc(docRef, {}, { merge: true });
+                fetchAndDisplayComments(docRef);
+            }
+        });
+        
+        authUser();
+
+        const commentsForm = document.getElementById('comments-form');
+        const commentsList = document.getElementById('comments-list');
+        
+        commentsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('comment-name').value;
+            const message = document.getElementById('comment-message').value;
+
+            if (name.trim() && message.trim()) {
+                try {
+                    const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
+                    
+                    const newComment = {
+                        id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                        name: name,
+                        message: message,
+                        timestamp: new Date(),
+                        reactions: { like: 0, love: 0, idea: 0 },
+                        reply: {
+                            text: replyMessage,
+                            timestamp: new Date()
+                        },
+                        user_replies: [] 
+                    };
+
+                    const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                    await updateDoc(docRef, {
+                        comments: arrayUnion(newComment)
+                    });
+
+                    commentsForm.reset();
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                }
+            }
+        });
+
+        function fetchAndDisplayComments(docRef) {
+             onSnapshot(docRef, (docSnap) => {
+                 commentsList.innerHTML = '';
+                 if (docSnap.exists() && docSnap.data().comments) {
+                    const allComments = docSnap.data().comments;
+                    allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
+
+                    allComments.forEach(comment => {
+                        const commentCard = document.createElement('div');
+                        commentCard.className = 'comment-card';
+                        
+                        let adminReplyHTML = '';
+                        if (comment.reply && comment.reply.text) {
+                            adminReplyHTML = `
+                                <div class="comment-reply">
+                                    <div class="reply-header">
+                                        <img src="logo.jpg" alt="Admin" class="reply-avatar">
+                                        <strong>Malith Studio (Admin)</strong>
+                                    </div>
+                                    <p>${comment.reply.text}</p>
+                                </div>
+                            `;
+                        }
+
+                        let userRepliesHTML = '<div class="replies-list">';
+                        if (comment.user_replies && comment.user_replies.length > 0) {
+                           comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
+                           comment.user_replies.forEach(reply => {
+                                userRepliesHTML += `
+                                   <div class="user-reply-card">
+                                       <p>"${reply.message}"</p>
+                                       <div class="comment-footer">
+                                           <span class="comment-author">- ${reply.name}</span>
+                                       </div>
+                                   </div>
+                                `;
+                           });
+                        }
+                        userRepliesHTML += '</div>';
+
+                        commentCard.innerHTML = `
+                            <p>"${comment.message}"</p>
+                            <div class="comment-footer">
+                                <span class="comment-author">- ${comment.name}</span>
+                            </div>
+                            <div class="comment-actions">
+                                <div class="reactions">
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
+                                </div>
+                                <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
+                            </div>
+                            <div class="reply-form-container" style="display: none;">
+                               <form class="reply-form" data-comment-id="${comment.id}">
+                                   <input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required>
+                                   <textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea>
+                                   <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
+                               </form>
+                            </div>
+                            ${userRepliesHTML}
+                            ${adminReplyHTML}
+                        `;
+                        commentsList.appendChild(commentCard);
+                    });
+                 }
+                 setLanguage(currentLang, false); 
+             }, (error) => {
+                 console.error("Snapshot listener error:", error);
+             });
+        }
+
+        commentsList.addEventListener('click', async (e) => {
+            const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) return;
+            const allComments = docSnap.data().comments || [];
+
+            const reactionBtn = e.target.closest('.reaction-btn');
+            if(reactionBtn) {
+                const commentId = reactionBtn.dataset.commentId;
+                const reaction = reactionBtn.dataset.reaction;
+                
+                const commentIndex = allComments.findIndex(c => c.id === commentId);
+                if (commentIndex > -1) {
+                    allComments[commentIndex].reactions[reaction]++;
+                    await updateDoc(docRef, { comments: allComments });
+                }
+                return;
+            }
+
+            const toggleBtn = e.target.closest('.toggle-reply-btn');
+            if (toggleBtn) {
+                const formContainer = toggleBtn.parentElement.nextElementSibling;
+                if (formContainer) {
+                    formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+                }
+                return;
+            }
+
+            const replyForm = e.target.closest('.reply-form');
+            if(replyForm) {
+                 e.preventDefault();
+                 const commentId = replyForm.dataset.commentId;
+                 const name = replyForm.querySelector('.reply-name').value;
+                 const message = replyForm.querySelector('.reply-message').value;
+
+                 if (name.trim() && message.trim() && commentId) {
+                    const newReply = { name: name, message: message, timestamp: new Date() };
+                    const commentIndex = allComments.findIndex(c => c.id === commentId);
+                    if (commentIndex > -1) {
+                        allComments[commentIndex].user_replies.push(newReply);
+                        await updateDoc(docRef, { comments: allComments });
+                        replyForm.reset();
+                        replyForm.parentElement.style.display = 'none';
+                    }
+                 }
+            }
+        });
+    </script>
+
+    <script>
+        const translations = {
+            navHome: { en: 'Home', si: 'මුල් පිටුව', ta: 'முகப்பு' },
+            navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
+            navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
+            navBlog: { en: 'Blog', si: 'බ්ලොග්', ta: 'வலைப்பதிவு' },
+            navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
+            navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
+            navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
+            heroSubtitle: { en: 'We build innovative tools that simplify your digital life. Saving your time is our priority.', si: 'ඔබේ ඩිජිටල් ජීවිතය සරල කරන නව්‍ය මෙවලම් අපි නිර්මාණය කරමු. ඔබේ කාලය ඉතිරි කිරීම අපගේ ප්‍රමුඛතාවයයි.', ta: 'உங்கள் டிஜிட்டல் வாழ்க்கையை எளிதாக்கும் புதுமையான கருவிகளை நாங்கள் உருவாக்குகிறோம். உங்கள் நேரத்தை சேமிப்பது எங்கள் முன்னுரிமை.' },
+            heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
+            
+            featuredTitle: { en: 'Featured Tool', si: 'විශේෂාංග මෙවලම', ta: 'சிறப்பு கருவி' },
+            featuredToolName: { en: 'Resume Builder', si: 'Resume සාදන්නා', ta: 'ரெஸ்யூம் பில்டர்' },
+            featuredToolDesc: { en: 'Create a professional, modern resume in minutes. Our new tool guides you step-by-step, with beautiful templates and complete privacy. Your data never leaves your browser.', si: 'විනාඩි කිහිපයකින් වෘත්තීය, නවීන resume පත්‍රිකාවක් සාදාගන්න. අපගේ නවතම මෙවලම, අලංකාර සැකිලි සහ සම්පූර්ණ පෞද්ගලිකත්වය සමඟින්, ඔබට පියවරෙන් පියවර මග පෙන්වයි. ඔබගේ දත්ත ඔබගේ බ්‍රව්සරයෙන් පිටතට යන්නේ නැත.', ta: 'நிமிடங்களில் ஒரு தொழில்முறை, நவீன ரெஸ்யூமை உருவாக்கவும். எங்கள் புதிய கருவி, அழகான வார்ப்புருக்கள் மற்றும் முழுமையான தனியுரிமையுடன், படிப்படியாக உங்களுக்கு வழிகாட்டுகிறது. உங்கள் தரவு உங்கள் உலாவியை விட்டு வெளியேறாது.' },
+            featuredToolButton: { en: 'Try it Now', si: 'දැන් උත්සාහ කරන්න', ta: 'இப்போதே முயற்சிக்கவும்' },
+
+            projectsTitle: { en: 'Our Projects', si: 'අපගේ නිර්මාණ', ta: 'எங்கள் திட்டங்கள்' },
+            servicesTitle: { en: 'Our Services', si: 'අපගේ සේවාවන්', ta: 'எங்கள் சேவைகள்' },
+            blogTitle: { en: 'Recent Updates', si: 'නවතම ලිපි', ta: 'சமீபத்திய புதுப்பிப்புகள்' },
+            blogViewAll: { en: 'View All Posts', si: 'සියලුම ලිපි බලන්න', ta: 'அனைத்து பதிவுகளையும் காண்க' },
+            
+            blogNewestTitle: { en: 'Why AI is a Game-Changer for Everyday Productivity', si: 'දෛනික ඵලදායිතාව සඳහා AI වෙනසක් ඇති කරන්නේ ඇයි?', ta: 'தினசரி உற்பத்தித்திறனுக்கு AI ஏன் ஒரு கேம்-சேஞ்சர்?' },
+            blogNewestDesc: { en: "Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...", si: 'කෘත්‍රිම බුද්ධිය තවදුරටත් හුදු වචනයක් නොවේ; එය අපගේ දෛනික ඵලදායිතාව සැලකිය යුතු ලෙස වැඩිදියුණු කළ හැකි ප්‍රායෝගික මෙවලමකි...', ta: 'செயற்கை நுண்ணறிவு என்பது ஒரு சலசலப்பான வார்த்தை மட்டுமல்ல; இது நமது அன்றாட உற்பத்தித்திறனை கணிசமாக மேம்படுத்தக்கூடிய ஒரு நடைமுறைக் கருவியாகும்...' },
+            blogSecondNewestTitle: { en: 'Announcing Our Newest Tool: The Resume Builder!', si: 'අපගේ නවතම මෙවලම හඳුන්වාදීම: Resume Builder!', ta: 'எங்கள் புதிய கருவியை அறிவிக்கிறோம்: ரெஸ்யூம் பில்டர்!' },
+            blogSecondNewestDesc: { en: 'We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.', si: 'Malith Studio® මෙවලම් පවුලට අලුතින්ම එකතු වූ සාමාජිකයා, "Resume Builder" හඳුන්වා දීමට ලැබීම අපට මහත් සතුටක්! විනාඩි කිහිපයකින් අලංකාර CV එකක් හදාගන්න.', ta: 'Malith Studio® கருவிகளின் குடும்பத்தில் சமீபத்திய கூடுதலாக ரெஸ்யூம் பில்டரை அறிவிப்பதில் நாங்கள் மகிழ்ச்சியடைகிறோம்! சில நிமிடங்களில் ஒரு நேர்த்தியான CV ஐ உருவாக்கவும்.' },
+
+            aboutTitle: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
+            commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
+            commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' },
+            commentMessagePlaceholder: { en: 'Your Comment', si: 'ඔබේ අදහස', ta: 'உங்கள் கருத்து' },
+            commentSubmit: { en: 'Submit Comment', si: 'අදහස යොමු කරන්න', ta: 'கருத்தை சமர்ப்பிக்கவும்' },
+            contactTitle: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            contactDesc: { en: "Have a question or a project in mind? We'd love to hear from you. Reach out to us, let's create something amazing together, and connect with us on our other social networks here.", si: 'ප්‍රශ්නයක් හෝ ව්‍යාපෘතියක් සිතේ තිබේද? අපි ඔබෙන් අසන්නට කැමතියි. අප හා සම්බන්ධ වන්න, අපි එක්ව විශ්මිත දෙයක් නිර්මාණය කරමු සහ අපගේ අනෙකුත් සමාජ ජාල වෙත මෙතනින් සම්බන්ධ වෙන්න', ta: 'உங்களுக்கு ஒரு கேள்வி அல்லது திட்டம் உள்ளதா? உங்களிடமிருந்து கேட்க நாங்கள் விரும்புகிறோம். எங்களைத் தொடர்புகொண்டு, நாம் ஒன்றிணைந்து அற்புதமான ஒன்றை உருவாக்குவோம், மேலும் எங்கள் பிற சமூக வலைப்பின்னல்களில் இங்கே எங்களுடன் இணையுங்கள்.'},
+            contactEmail: { en: 'Email Us', si: 'ඊමේල් කරන්න', ta: 'மின்னஞ்சல்' },
+            contactFacebook: { en: 'Facebook', si: 'ෆේස්බුක්', ta: 'முகநூல்' },
+            contactYoutube: { en: 'YouTube', si: 'යූටියුබ්', ta: 'யூடியூப்' },
+            contactTiktok: { en: 'TikTok', si: 'ටික්ටොක්', ta: ' டிக்டாக்' },
+            service1Title: { en: 'Custom Tool Development', si: 'විශේෂිත මෙවලම් සංවර්ධනය', ta: 'தனிப்பயன் கருவி மேம்பாடு' },
+            service1Desc: { en: 'We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.', si: 'අපි ඔබගේ විශේෂිත අවශ්‍යතා සඳහාම ගැලපෙන වෙබ් මෙවලම් නිර්මාණය කරමු. එහිදී ඔබගේ කාලය ඉතිරි කිරීම සඳහා කාර්යක්ෂමතාව සහ පරිශීලක-හිතකාමී බව කෙරෙහි අවධානය යොමු කරමු.', ta: 'உங்கள் நேரத்தை சேமிக்க, செயல்திறன் மற்றும் பயனர் நட்பை மையமாகக் கொண்டு, உங்கள் குறிப்பிட்ட தேவைகளுக்கு ஏற்ப தனிப்பயன் இணையக் கருவிகளை நாங்கள் உருவாக்குகிறோம்.' },
+            service2Title: { en: 'Modern Web Solutions', si: 'නවීන වෙබ් විසඳුම්', ta: 'நவீன வலை தீர்வுகள்' },
+            service2Desc: { en: 'From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.', si: 'පුද්ගලික portfolio වල සිට කුඩා ව්‍යාපාරික වෙබ් අඩවි දක්වා, ඕනෑම උපාංගයකට ගැලපෙන, දෘශ්‍යමය වශයෙන් ආකර්ෂණීය සහ ප්‍රතිචාරාත්මක වෙබ් අඩවි අපි නිර්මාණය කරමු.', ta: 'தனிப்பட்ட портஃபோலியோக்கள் முதல் சிறு வணிக தளங்கள் வரை, எந்தவொரு சாதனத்திலும் hoàn hảoமாக செயல்படும் பார்வைக்கு ஈர்க்கக்கூடிய மற்றும் பதிலளிக்கக்கூடிய வலைத்தளங்களை நாங்கள் உருவாக்குகிறோம்.' },
+            service3Title: { en: 'AI Integration', si: 'AI ඒකාබද්ධ කිරීම', ta: 'AI ஒருங்கிணைப்பு' },
+            service3Desc: { en: 'We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.', si: 'කාර්යයන් ස්වයංක්‍රීය කරන සහ බුද්ධිමත් විසඳුම් සපයන දක්ෂ මෙවලම් නිර්මාණය කරමින්, AI හි බලයෙන් අපි ඔබගේ වෙබ් යෙදුම් වැඩිදියුණු කරමු.', ta: 'பணிகளை தானியக்கமாக்கும் மற்றும் புத்திசாலித்தனமான தீர்வுகளை வழங்கும் சிறந்த கருவிகளை உருவாக்கி, AI இன் சக்தியுடன் உங்கள் வலை பயன்பாடுகளை நாங்கள் மேம்படுத்துகிறோம்.' },
+            aboutDesc1: { en: 'Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.', si: 'මලිත් ස්ටුඩියෝ® ආරම්භ කරන ලද්දේ සරල මෙහෙවරක් ඇතිවය: මිනිසුන්ට සැබවින්ම උපකාර වන ඩිජිටල් මෙවලම් නිර්මාණය කිරීම. සංකීර්ණ මෘදුකාංග වලින් පිරුණු ලෝකයක, කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන සරල, බුද්ධිමය, සහ බලවත් විසඳුම් ගොඩනැගීම කෙරෙහි අපි අවධානය යොමු කරමු.', ta: 'மலித் ஸ்டுடியோ® ஒரு எளிய நோக்கத்துடன் நிறுவப்பட்டது: மக்களுக்கு உண்மையாக உதவும் டிஜிட்டல் கருவிகளை உருவாக்குவது. சிக்கலான மென்பொருட்கள் நிறைந்த உலகில், பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் எளிய, உள்ளுணர்வு மற்றும் சக்திவாய்ந்த தீர்வுகளை உருவாக்குவதில் நாங்கள் கவனம் செலுத்துகிறோம்.' },
+            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය කරමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டல் பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
+            project1Title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
+            project1Desc: { en: 'A modern tool designed to type using voice in Sinhala, English, and Tamil.', si: 'සිංහල, ඉංග්‍රීසි, සහ දෙමළ භාෂාවලින් කටහඬ භාවිතයෙන් ටයිප් කිරීමට නිර්මාණය කරන ලද නවීන මෙවලමකි.', ta: 'சிங்களம், ஆங்கிலம் மற்றும் தமிழில் குரல் மூலம் தட்டச்சு செய்ய வடிவமைக்கப்பட்ட ஒரு நவீன கருவி.' },
+            project2Title: { en: 'Image to Text (OCR)', si: 'පින්තූරයෙන් අකුරු (OCR)', ta: 'படத்திலிருந்து உரை (OCR)' },
+            project2Desc: { en: 'Easily convert text in a photo into editable text.', si: 'ඡායාරූපයක ඇති අකුරු, සංස්කරණය කළ හැකි පෙළක් බවට පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'ஒரு புகைப்படத்தில் உள்ள உரையை எளிதாக திருத்தக்கூடிய உரையாக மாற்றவும்.' },
+            project3Title: { en: 'Text Summarizer', si: 'ලිපි සාරාංශකරණය', ta: 'உரை சுருக்கம்' },
+            project3Desc: { en: "Don't waste time reading long articles, just summarize the most important points.", si: 'ረጅም ලිපි කියවීමට කාලය නාස්ති නොකර, වැදගත්ම කරුණු පමණක් සාරාංශගත කරන්න.', ta: 'நீண்ட கட்டுரைகளைப் படிப்பதில் நேரத்தை வீணாக்காதீர்கள், மிக முக்கியமான புள்ளிகளைச் சுருக்கவும்.' },
+            project4Title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' },
+            project4Desc: { en: 'Organize your daily tasks simply and efficiently. Your list is saved in your browser.', si: 'ඔබේ දෛනික කාර්යයන් සරලව හා කාර්යක්ෂමව සංවිධානය කරන්න. ඔබගේ ලැයිස්තුව ඔබගේ බ්‍රව්සරයේම සුරැකේ.', ta: 'உங்கள் தினசரி பணிகளை எளிமையாகவும் திறமையாகவும் ஒழுங்கமைக்கவும். உங்கள் பட்டியல் உங்கள் உலாவியில் சேமிக்கப்படும்.' },
+            project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
+            project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' },
+            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' },
+            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපද සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
+            project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' },
+            project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
+            project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
+            project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොන්ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
+            project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
+            project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' },
+            project10Title: { en: 'Resume Builder', si: 'Resume සාදන්නා', ta: 'ரெஸ்யூம் பில்டர்' },
+            project10Desc: { en: 'Create a professional resume quickly with our easy-to-use builder.', si: 'අපගේ භාවිතයට පහසු මෙවලම භාවිතයෙන් වෘත්තීය මට්ටමේ Resume පත්‍රිකාවක් ඉක්මනින් සාදාගන්න.', ta: 'பயன்படுத்த எளிதான எங்கள் கருவி மூலம் ஒரு தொழில்முறை ரெஸ்யூமை விரைவாக உருவாக்கவும்.' },
+            footerPrivacy: { en: 'Privacy Policy', si: 'රහස්‍යතා ප්‍රතිපත්තිය', ta: 'தனியுரிமைக் கொள்கை' },
+            footerCopyright: { en: '© 2025 Malith Studio®. All rights reserved.', si: '© 2025 මලිත් ස්ටුඩියෝ®. सर्व हक्क राखीव.', ta: '© 2025 மலித் ஸ்டுடியோ®. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.' },
+            replyBtn: { en: 'Reply', si: 'පිළිතුරු දෙන්න', ta: 'பதிலளி' },
+            replyMessagePlaceholder: { en: 'Your Reply', si: 'ඔබේ පිළිතුර', ta: 'உங்கள் பதில்' },
+            replySubmitBtn: { en: 'Submit Reply', si: 'පිළිතුර යොමු කරන්න', ta: 'பதிலைச் சமர்ப்பி' },
+        };
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        let currentLang = 'en';
+
+        function setLanguage(lang, updateLinks = true) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.style.display = 'none';
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+
+             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+             });
+            
+             document.querySelectorAll('.contact-btn span').forEach(span => {
+                 const key = span.getAttribute('data-key');
+                 if (translations[key] && translations[key][lang]) {
+                     span.textContent = translations[key][lang];
+                 }
+             });
+
+            if (updateLinks) {
+                document.querySelectorAll('a[href*=".html"]').forEach(link => {
+                     if(link.href.includes('.html')){
+                         const url = new URL(link.href, window.location.origin);
+                         url.searchParams.set('lang', lang);
+                         link.href = url.toString();
+                     }
+                });
+            }
+        }
+        
+         languageBtn.addEventListener('click', () => {
+             languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+         });
+
+         document.querySelectorAll('#language-options button').forEach(button => {
+             button.addEventListener('click', () => {
+                 setLanguage(button.getAttribute('data-lang'));
+             });
+         });
+
+         document.addEventListener('click', (e) => {
+             if (!languageBtn.contains(e.target)) {
+                 languageOptions.style.display = 'none';
+             }
+         });
+        
+         const sections = document.querySelectorAll('section');
+         const observer = new IntersectionObserver((entries) => {
+             entries.forEach(entry => {
+                 if (entry.isIntersecting) {
+                     entry.target.classList.add('visible');
+                 }
+             });
+         }, { threshold: 0.1 });
+
+         sections.forEach(section => {
+             observer.observe(section);
+         });
+
+         document.addEventListener('DOMContentLoaded', () => {
+             const bgContainer = document.getElementById('background-container');
+             const themeSwitcher = document.getElementById('theme-switcher');
+             const themeBtns = document.querySelectorAll('.theme-btn');
+            
+             themeBtns.forEach(btn => {
+                 const theme = btn.dataset.theme;
+                 if (theme === 'default') {
+                     btn.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                 } else {
+                     btn.style.backgroundImage = `url('${theme}')`;
+                 }
+             });
+
+             const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
+            
+             bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+
+
+             themeBtns.forEach((btn, index) => {
+                 btn.addEventListener('click', () => {
+                     themeBtns.forEach(b => b.classList.remove('active'));
+                     btn.classList.add('active');
+                     const themeImage = themes[index];
+                     if (themeImage === 'default') {
+                         bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                     } else {
+                         bgContainer.style.backgroundImage = `url('${themeImage}')`;
+                     }
+                 });
+             });
+
+             const bgAnimation = document.getElementById('background-animation');
+             const numberOfOrbs = 15;
+
+             for (let i = 0; i < numberOfOrbs; i++) {
+                 const orb = document.createElement('div');
+                 orb.classList.add('orb');
+                 const size = Math.random() * 200 + 50;
+                 orb.style.width = `${size}px`;
+                 orb.style.height = `${size}px`;
+                 orb.style.top = `${Math.random() * 100}vh`;
+                 orb.style.left = `${Math.random() * 100}vw`;
+                 orb.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                 orb.style.animationDelay = `-${Math.random() * 10}s`;
+                 const orbAnim = document.createElement('style');
+                 orbAnim.innerHTML = `
+                     @keyframes float-orb-${i} {
+                         0% { transform: translate(0, 0) scale(1); }
+                         33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
+                         66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
+                         100% { transform: translate(0, 0) scale(1); }
+                     }
+                 `;
+                 document.head.appendChild(orbAnim);
+                 orb.style.animationName = `float-orb-${i}`;
+                 bgAnimation.appendChild(orb);
+             }
+            
+             window.addEventListener('load', function() {
+                 const preloader = document.getElementById('preloader');
+                 if (preloader) {
+                     preloader.classList.add('loaded');
+                 }
+             });
+
+             const backToTopButton = document.getElementById('back-to-top');
+             window.addEventListener('scroll', () => {
+                 if (window.scrollY > 300) {
+                     if(backToTopButton) backToTopButton.classList.add('visible');
+                 } else {
+                     if(backToTopButton) backToTopButton.classList.remove('visible');
+                 }
+             });
+             
+             const modeToggle = document.getElementById('mode-toggle');
+             const body = document.body;
+             const modeIcon = modeToggle.querySelector('i');
+
+             const applyTheme = (theme) => {
+                 if (theme === 'light') {
+                     body.classList.add('light-mode');
+                     modeIcon.classList.remove('fa-sun');
+                     modeIcon.classList.add('fa-moon');
+                 } else {
+                     body.classList.remove('light-mode');
+                     modeIcon.classList.remove('fa-moon');
+                     modeIcon.classList.add('fa-sun');
+                 }
+             };
+
+             modeToggle.addEventListener('click', () => {
+                 const currentTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+                 applyTheme(currentTheme);
+                 localStorage.setItem('malith-studio-theme', currentTheme);
+             });
+
+             const savedTheme = localStorage.getItem('malith-studio-theme') || 'dark';
+             applyTheme(savedTheme);
+
+             // --- THEME SWITCHER SCROLL EFFECT ---
+            if (themeSwitcher) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        themeSwitcher.classList.add('scrolled');
+                    } else {
+                        themeSwitcher.classList.remove('scrolled');
+                    }
+                });
+            }
+         });
+
+         setLanguage(currentLang);
+        
+         if ('serviceWorker' in navigator) {
+             window.addEventListener('load', () => {
+                 navigator.serviceWorker.register('/Malith-Studio/sw.js').then(registration => {
+                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                 }, err => {
+                     console.log('ServiceWorker registration failed: ', err);
+                 });
+             });
+         }
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const filterContainer = document.getElementById('filterContainer');
+            const toolsGrid = document.getElementById('toolsGrid');
+            
+            if (!searchInput || !filterContainer || !toolsGrid) return;
+
+            const toolCards = toolsGrid.querySelectorAll('.tool-card');
+            const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+
+            function updateToolsView() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const activeFilter = filterContainer.querySelector('.active').dataset.filter;
+
+                toolCards.forEach(card => {
+                    const titleElement = card.querySelector('h4');
+                    const descriptionElement = card.querySelector('p');
+                    const cardCategory = card.dataset.category || '';
+
+                    const titleKey = titleElement.dataset.key;
+                    const descKey = descriptionElement.dataset.key;
+                    
+                    const title_en = translations[titleKey]?.en.toLowerCase() || '';
+                    const title_si = translations[titleKey]?.si.toLowerCase() || '';
+                    const title_ta = translations[titleKey]?.ta.toLowerCase() || '';
+
+                    const desc_en = translations[descKey]?.en.toLowerCase() || '';
+                    const desc_si = translations[descKey]?.si.toLowerCase() || '';
+                    const desc_ta = translations[descKey]?.ta.toLowerCase() || '';
+
+                    const matchesFilter = (activeFilter === 'all') || cardCategory.includes(activeFilter);
+
+                    const matchesSearch = title_en.includes(searchTerm) || desc_en.includes(searchTerm) ||
+                                          title_si.includes(searchTerm) || desc_si.includes(searchTerm) ||
+                                          title_ta.includes(searchTerm) || desc_ta.includes(searchTerm);
+
+                    if (matchesFilter && matchesSearch) {
+                        card.classList.remove('hidden-card');
+                    } else {
+                        card.classList.add('hidden-card');
+                    }
+                });
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterContainer.querySelector('.active').classList.remove('active');
+                    button.classList.add('active');
+                    updateToolsView();
+                });
+            });
+
+            searchInput.addEventListener('input', updateToolsView);
+
+             document.querySelectorAll('#language-options button').forEach(button => {
+                 button.addEventListener('click', () => {
+                     setTimeout(updateToolsView, 100); 
+                 });
+             });
+
+            const featureTagsContainer = document.querySelector('.feature-tags-container');
+            if (featureTagsContainer) {
+                const tags = featureTagsContainer.querySelectorAll('.feature-tag');
+                const glowColors = [
+                    'hsl(231, 79%, 68%)', 
+                    'hsl(280, 80%, 70%)',
+                    'hsl(330, 85%, 65%)', 
+                    'hsl(160, 80%, 55%)', 
+                    'hsl(45, 90%, 65%)',  
+                    'hsl(190, 80%, 60%)'
+                ];
+                let currentTagIndex = -1;
+
+                const startGlowEffect = () => {
+                    let firstTagIndex = Math.floor(Math.random() * tags.length);
+                    currentTagIndex = firstTagIndex;
+                    const firstTag = tags[firstTagIndex];
+                    const firstColor = glowColors[Math.floor(Math.random() * glowColors.length)];
+                    if (firstTag) {
+                        firstTag.style.setProperty('--glow-color', firstColor);
+                        firstTag.classList.add('glowing');
+                    }
+
+                    setInterval(() => {
+                        if (currentTagIndex !== -1 && tags[currentTagIndex]) {
+                            tags[currentTagIndex].classList.remove('glowing');
+                        }
+
+                        let newTagIndex;
+                        do {
+                            newTagIndex = Math.floor(Math.random() * tags.length);
+                        } while (newTagIndex === currentTagIndex && tags.length > 1);
+                        
+                        currentTagIndex = newTagIndex;
+                        const randomColor = glowColors[Math.floor(Math.random() * glowColors.length)];
+                        const newTag = tags[currentTagIndex];
+
+                        if (newTag) {
+                            newTag.style.setProperty('--glow-color', randomColor);
+                            newTag.classList.add('glowing');
+                        }
+                    }, 5000);
+                };
+                startGlowEffect();
+            }
+        });
+    </script>
+</body>
+</html>
+

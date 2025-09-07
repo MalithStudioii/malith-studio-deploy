@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags for QR Code Generator Page -->
+    <title>Free QR Code Generator (Text, URL, Phone) - Malith Studio®</title>
+    <meta name="description" content="Create custom QR codes instantly for text, URLs, and phone numbers with Malith Studio's free online generator. Download your QR code as a PNG or PDF file.">
+    <meta name="keywords" content="qr code generator, create qr code, free qr tool, qr code for url, qr code for phone, malith studio, sri lanka, online qr generator">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/qrcodegenerator.html">
+    <meta property="og:title" content="Free QR Code Generator (Text, URL, Phone) - Malith Studio®">
+    <meta property="og:description" content="Create custom QR codes instantly for text, URLs, and phone numbers with our free online tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-qrcodegenerator.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/qrcodegenerator.html">
+    <meta property="twitter:title" content="Free QR Code Generator (Text, URL, Phone) - Malith Studio®">
+    <meta property="twitter:description" content="Create custom QR codes instantly for text, URLs, and phone numbers with our free online tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-qrcodegenerator.jpg">
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 36rem; /* max-w-md */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background-color: #111827;
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background-color: #8b5cf6;
+            color: white;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .input-group, .phone-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .phone-group {
+            flex-direction: row;
+        }
+
+        #qr-text, #phone-number {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+         #country-code {
+            padding: 0.75rem;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            color: #f9fafb;
+        }
+
+        .main-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .main-btn:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .qr-result {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        #qrcode {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            line-height: 0;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-options {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .download-btn {
+             background-color: #4b5563;
+             border: none;
+             color: white;
+             padding: 0.6rem 1.2rem;
+             border-radius: 0.5rem;
+             font-weight: 500;
+             cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #6b7280;
+        }
+        
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html#projects" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">QR Code Generator</h1>
+            <p data-key="subtitle">Turn your web address, phone number, or any text into a QR code.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="text" data-key="tabText">Text / URL</button>
+            <button class="tab-btn" data-tab="phone" data-key="tabPhone">Phone Number</button>
+        </div>
+
+        <div id="text-tab" class="tab-content active">
+            <div class="input-group">
+                <textarea id="qr-text" rows="4" data-key-placeholder="placeholderText" placeholder="Enter text or URL"></textarea>
+            </div>
+        </div>
+
+        <div id="phone-tab" class="tab-content">
+            <div class="phone-group">
+                <select id="country-code"></select>
+                <input type="tel" id="phone-number" data-key-placeholder="placeholderPhone" placeholder="77 123 4567">
+            </div>
+        </div>
+
+        <button id="generate-btn" class="main-btn" data-key="generateBtn">Generate QR Code</button>
+
+        <div class="qr-result" id="qr-result" style="display: none;">
+            <div id="qrcode"></div>
+            <div class="download-options">
+                <button id="download-png-btn" class="download-btn" data-key="downloadPng">Download PNG</button>
+                <button id="download-pdf-btn" class="download-btn" data-key="downloadPdf">Download PDF</button>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use QR Code Generator</h2>
+            <div data-key="helpContent">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
+            subtitle: { en: 'Turn your web address, phone number, or any text into a QR code.', si: 'ඔබේ වෙබ් ලිපිනය, දුරකථන අංකය, හෝ ඕනෑම පෙළක් QR කේතයක් බවට පත් කරන්න.', ta: 'உங்கள் இணைய முகவரி, தொலைபேசி எண் அல்லது எந்த உரையையும் QR குறியீடாக மாற்றவும்.' },
+            tabText: { en: 'Text / URL', si: 'පෙළ / URL', ta: 'உரை / URL' },
+            tabPhone: { en: 'Phone Number', si: 'දුරකථන අංකය', ta: 'தொலைபேசி எண்' },
+            placeholderText: { en: 'Enter text or URL', si: 'පෙළ හෝ URL ඇතුළත් කරන්න', ta: 'உரை அல்லது URL ஐ உள்ளிடவும்' },
+            placeholderPhone: { en: '77 123 4567', si: '77 123 4567', ta: '77 123 4567' },
+            generateBtn: { en: 'Generate QR Code', si: 'QR කේතය සාදන්න', ta: 'QR குறியீட்டை உருவாக்கவும்' },
+            downloadPng: { en: 'Download PNG', si: 'PNG බාගන්න', ta: 'PNG பதிவிறக்கம்' },
+            downloadPdf: { en: 'Download PDF', si: 'PDF බාගන්න', ta: 'PDF பதிவிறக்கம்' },
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use QR Code Generator', si: 'QR Code Generator භාවිතා කරන ආකාරය', ta: 'QR Code Generator பயன்படுத்துவது எப்படி' },
+            helpContent: {
+                en: `<ol><li>Select the type of QR code you want to create (<strong>Text/URL</strong> or <strong>Phone Number</strong>).</li><li>Enter the required information in the input field.</li><li>Click the <strong>Generate QR Code</strong> button.</li><li>Your QR code will appear below.</li><li>Use the <strong>Download PNG</strong> or <strong>Download PDF</strong> buttons to save your QR code.</li></ol>`,
+                si: `<ol><li>ඔබට සෑදීමට අවශ්‍ය QR කේත වර්ගය (<strong>'පෙළ / URL'</strong> හෝ <strong>'දුරකථන අංකය'</strong>) තෝරන්න.</li><li>අදාළ තොරතුරු input field එකේ ඇතුළත් කරන්න.</li><li><strong>'QR කේතය සාදන්න'</strong> බොත්තම ඔබන්න.</li><li>ඔබගේ QR කේතය පහළින් දිස්වනු ඇත.</li><li>QR කේතය save කර ගැනීමට <strong>'PNG බාගන්න'</strong> හෝ <strong>'PDF බාගන්න'</strong> බොත්තම් භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>நீங்கள் உருவாக்க விரும்பும் QR குறியீட்டின் வகையைத் தேர்ந்தெடுக்கவும் (<strong>உரை / URL</strong> அல்லது <strong>தொலைபேசி எண்</strong>).</li><li>தேவையான தகவல்களை உள்ளீட்டுப் புலத்தில் உள்ளிடவும்.</li><li><strong>'QR குறியீட்டை உருவாக்கவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>உங்கள் QR குறியீடு கீழே தோன்றும்.</li><li>உங்கள் QR குறியீட்டைச் சேமிக்க <strong>'PNG பதிவிறக்கம்'</strong> அல்லது <strong>'PDF பதிவிறக்கம்'</strong> பொத்தான்களைப் பயன்படுத்தவும்.</li></ol>`
+            }
+        };
+
+        let currentLang = 'en';
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const generateBtn = document.getElementById('generate-btn');
+        const qrResultEl = document.getElementById('qr-result');
+        const qrcodeEl = document.getElementById('qrcode');
+        const qrTextEl = document.getElementById('qr-text');
+        const countryCodeEl = document.getElementById('country-code');
+        const phoneNumberEl = document.getElementById('phone-number');
+        const downloadPngBtn = document.getElementById('download-png-btn');
+        const downloadPdfBtn = document.getElementById('download-pdf-btn');
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        let activeTab = 'text';
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
+                    } else {
+                        element.textContent = translations[key][lang];
+                    }
+                }
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        const countryCodes = [
+            { "name": "Sri Lanka", "code": "LK", "dial_code": "+94" },
+            { "name": "India", "code": "IN", "dial_code": "+91" },
+            { "name": "United States", "code": "US", "dial_code": "+1" },
+            { "name": "United Kingdom", "code": "GB", "dial_code": "+44" },
+        ];
+
+        function populateCountryCodes() {
+            countryCodes.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.dial_code;
+                option.textContent = `${country.code.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))} ${country.name} (${country.dial_code})`;
+                countryCodeEl.appendChild(option);
+            });
+        }
+        
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = pageUrl;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy link: ', err);
+                }
+                document.body.removeChild(tempTextArea);
+            });
+        }
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTab = btn.dataset.tab;
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if(content.id === `${activeTab}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        generateBtn.addEventListener('click', () => {
+            let dataToEncode = '';
+            if (activeTab === 'text') {
+                dataToEncode = qrTextEl.value.trim();
+            } else {
+                const phone = phoneNumberEl.value.trim().replace(/\s/g, '');
+                if (phone) {
+                    dataToEncode = `tel:${countryCodeEl.value}${phone}`;
+                }
+            }
+
+            if (dataToEncode) {
+                qrcodeEl.innerHTML = '';
+                const qr = qrcode(0, 'M');
+                qr.addData(dataToEncode);
+                qr.make();
+                qrcodeEl.innerHTML = qr.createImgTag(6, 8);
+                qrResultEl.style.display = 'block';
+            }
+        });
+
+        downloadPngBtn.addEventListener('click', () => {
+            const img = qrcodeEl.querySelector('img');
+            if (img) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = 'qrcode.png';
+                link.click();
+            }
+        });
+
+        downloadPdfBtn.addEventListener('click', () => {
+            const img = qrcodeEl.querySelector('img');
+            if(img) {
+                const pdf = new jsPDF();
+                const imgData = img.src;
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = 100;
+                const imgHeight = 100;
+                const x = (pdfWidth - imgWidth) / 2;
+                const y = (pdfHeight - imgHeight) / 2;
+                pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                pdf.save('qrcode.pdf');
+            }
+        });
+
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+        populateCountryCodes();
+        initializeShareButtons();
+    </script>
+</body>
+</html>
+

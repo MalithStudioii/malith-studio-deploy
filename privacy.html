@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Malith Studio®</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            line-height: 1.7;
+            margin: 0;
+            padding: 1rem;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* --- Language Switcher Styles --- */
+        .language-switcher {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 20;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+        }
+        #language-options.show {
+            display: block;
+        }
+        #language-options button {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            box-sizing: border-box;
+        }
+        #language-options button:hover {
+            background-color: #4b5563;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 56rem; /* max-w-3xl */
+            margin: 6rem auto 2rem auto;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1, h2 {
+            color: #93c5fd;
+            border-bottom: 1px solid #4b5563;
+            padding-bottom: 0.5rem;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2.5rem;
+        }
+        p, li {
+            color: #d1d5db;
+        }
+        a {
+            color: #a5b4fc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="language-switcher">
+        <button id="language-btn">English</button>
+        <div id="language-options">
+            <button data-lang="en">English</button>
+            <button data-lang="si">සිංහල</button>
+            <button data-lang="ta">தமிழ்</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 data-key="title">Privacy Policy</h1>
+        <p data-key="lastUpdated">Last updated: September 03, 2025</p>
+
+        <h2 data-key="section1Title">Introduction</h2>
+        <p data-key="section1Content">Welcome to Malith Studio®. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website and use our tools. By using our site, you agree to the collection and use of information in accordance with this policy.</p>
+
+        <h2 data-key="section2Title">Information We Collect</h2>
+        <p data-key="section2Intro">We collect information in the following ways to provide and improve our services:</p>
+        <ul>
+            <li data-key="section2Point1"><strong>Comments Section:</strong> When you leave a comment, we collect the name and message you provide. This information is stored in our secure Firebase database to be displayed publicly on the website.</li>
+            <li data-key="section2Point2"><strong>AI-Powered Tools:</strong> For our AI tools (Text Summarizer, Presentation Idea Generator, Image to Text), the text or images you provide are sent to Google's Gemini API for processing. We do not store this input data on our servers. Your interaction with these tools is subject to Google's Privacy Policy.</li>
+            <li data-key="section2Point3"><strong>To-Do List Tool:</strong> The tasks you create in the To-Do List are stored locally in your browser's `localStorage`. This data is completely private to you and is never transmitted to our servers or any third party.</li>
+            <li data-key="section2Point4"><strong>Resume Builder:</strong> All data you enter into the Resume Builder, including personal details, work history, and your photo, is processed and stored entirely within your web browser. This information is never sent to our servers or any third party, ensuring your complete privacy. The generated PDF is created directly on your device.</li>
+        </ul>
+
+        <h2 data-key="section3Title">How We Use Your Information</h2>
+        <p data-key="section3Content">We use the information we collect to operate and maintain our website, display user-generated content (comments), and provide the functionality of our tools. We do not sell or share your personal information with third parties for marketing purposes.</p>
+
+        <h2 data-key="section4Title">Third-Party Services</h2>
+        <p data-key="section4Content">Our website relies on the following third-party services, which have their own privacy policies:</p>
+        <ul>
+            <li data-key="section4Point1"><strong>Google AI (Gemini):</strong> Powers our AI tools. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a>.</li>
+            <li data-key="section4Point2"><strong>Firebase:</strong> Used for our real-time comments database. <a href="https://firebase.google.com/policies/privacy" target="_blank">Firebase Privacy Policy</a>.</li>
+            <li data-key="section4Point3"><strong>GitHub Pages:</strong> Hosts our website. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Privacy Statement</a>.</li>
+        </ul>
+
+        <h2 data-key="section5Title">Changes to This Privacy Policy</h2>
+        <p data-key="section5Content">We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h2 data-key="section6Title">Contact Us</h2>
+        <p data-key="section6Content">If you have any questions about this Privacy Policy, please contact us by email at: malithstudio24@gmail.com</p>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'Privacy Policy', si: 'රහස්‍යතා ප්‍රතිපත්තිය', ta: 'தனியுரிமைக் கொள்கை' },
+            lastUpdated: { en: 'Last updated: September 03, 2025', si: 'අවසන් වරට යාවත්කාලීන කළේ: 2025 සැප්තැම්බර් 03', ta: 'கடைசியாக புதுப்பிக்கப்பட்டது: செப்டம்பர் 03, 2025' },
+            section1Title: { en: 'Introduction', si: 'හැඳින්වීම', ta: 'அறிமுகம்' },
+            section1Content: { en: 'Welcome to Malith Studio®. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website and use our tools. By using our site, you agree to the collection and use of information in accordance with this policy.', si: 'Malith Studio® වෙත සාදරයෙන් පිළිගනිමු. ඔබගේ පෞද්ගලිකත්වය ආරක්ෂා කිරීමට අපි කැපවී සිටිමු. ඔබ අපගේ වෙබ් අඩවියට පිවිසෙන විට සහ අපගේ මෙවලම් භාවිතා කරන විට අප විසින් තොරතුරු රැස් කරන, භාවිතා කරන සහ ආරක්ෂා කරන ආකාරය මෙම රහස්‍යතා ප්‍රතිපත්තිය මගින් පැහැදිලි කෙරේ. අපගේ අඩවිය භාවිතා කිරීමෙන්, ඔබ මෙම ප්‍රතිපත්තියට අනුකූලව තොරතුරු රැස් කිරීමට සහ භාවිතා කිරීමට එකඟ වේ.', ta: 'Malith Studio® க்கு வரவேற்கிறோம். உங்கள் தனியுரிமையைப் பாதுகாக்க நாங்கள் கடமைப்பட்டுள்ளோம். நீங்கள் எங்கள் வலைத்தளத்தைப் பார்வையிடும்போது மற்றும் எங்கள் கருவிகளைப் பயன்படுத்தும்போது உங்கள் தகவல்களை நாங்கள் எவ்வாறு சேகரிக்கிறோம், பயன்படுத்துகிறோம் மற்றும் பாதுகாக்கிறோம் என்பதை இந்த தனியுரிமைக் கொள்கை விளக்குகிறது. எங்கள் தளத்தைப் பயன்படுத்துவதன் மூலம், இந்த கொள்கையின்படி தகவல்களை சேகரிக்கவும் பயன்படுத்தவும் நீங்கள் ஒப்புக்கொள்கிறீர்கள்.' },
+            section2Title: { en: 'Information We Collect', si: 'අප රැස් කරන තොරතුරු', ta: 'நாங்கள் சேகரிக்கும் தகவல்கள்' },
+            section2Intro: { en: 'We collect information in the following ways to provide and improve our services:', si: 'අපගේ සේවාවන් සැපයීමට සහ වැඩිදියුණු කිරීමට අපි පහත ආකාරවලින් තොරතුරු රැස් කරමු:', ta: 'எங்கள் சேவைகளை வழங்கவும் மேம்படுத்தவும் பின்வரும் வழிகளில் நாங்கள் தகவல்களை சேகரிக்கிறோம்:' },
+            section2Point1: { en: '<strong>Comments Section:</strong> When you leave a comment, we collect the name and message you provide. This information is stored in our secure Firebase database to be displayed publicly on the website.', si: '<strong>අදහස් දැක්වීමේ කොටස:</strong> ඔබ අදහසක් පළ කළ විට, ඔබ සපයන නම සහ පණිවිඩය අපි රැස් කරමු. මෙම තොරතුරු වෙබ් අඩවියේ ප්‍රසිද්ධියේ ප්‍රදර්ශනය කිරීම සඳහා අපගේ ආරක්ෂිත Firebase දත්ත ගබඩාවේ ගබඩා කර ඇත.', ta: '<strong>கருத்துகள் பிரிவு:</strong> நீங்கள் ஒரு கருத்தை வெளியிடும்போது, நீங்கள் வழங்கும் பெயர் மற்றும் செய்தியை நாங்கள் சேகரிக்கிறோம். இந்தத் தகவல் இணையதளத்தில் பொதுவில் காண்பிக்க எங்கள் பாதுகாப்பான Firebase தரவுத்தளத்தில் சேமிக்கப்படுகிறது.' },
+            section2Point2: { en: "<strong>AI-Powered Tools:</strong> For our AI tools (Text Summarizer, Presentation Idea Generator, Image to Text), the text or images you provide are sent to Google's Gemini API for processing. We do not store this input data on our servers. Your interaction with these tools is subject to Google's Privacy Policy.", si: "<strong>AI බලගැන්වූ මෙවලම්:</strong> අපගේ AI මෙවලම් (Text Summarizer, Presentation Idea Generator, Image to Text) සඳහා, ඔබ සපයන පෙළ හෝ පින්තූර සැකසීම සඳහා Google හි Gemini API වෙත යවනු ලැබේ. අපි මෙම ආදාන දත්ත අපගේ සේවාදායකයන්හි ගබඩා නොකරමු. මෙම මෙවලම් සමඟ ඔබගේ අන්තර්ක්‍රියා Google හි රහස්‍යතා ප්‍රතිපත්තියට යටත් වේ.", ta: "<strong>AI-இயங்கும் கருவிகள்:</strong> எங்கள் AI கருவிகளுக்கு (உரை சுருக்கி, விளக்கக்காட்சி யோசனை ஜெனரேட்டர், படத்திலிருந்து உரை), நீங்கள் வழங்கும் உரை அல்லது படங்கள் செயலாக்கத்திற்காக Google இன் Gemini API க்கு அனுப்பப்படும். இந்த உள்ளீட்டுத் தரவை நாங்கள் எங்கள் சேவையகங்களில் சேமிப்பதில்லை. இந்த கருவிகளுடனான உங்கள் தொடர்பு Google இன் தனியுரிமைக் கொள்கைக்கு உட்பட்டது." },
+            section2Point3: { en: "<strong>To-Do List Tool:</strong> The tasks you create in the To-Do List are stored locally in your browser's `localStorage`. This data is completely private to you and is never transmitted to our servers or any third party.", si: "<strong>කළ යුතු දේ ලැයිස්තුව:</strong> ඔබ කළ යුතු දේ ලැයිස්තුවේ සාදන කාර්යයන් ඔබගේ බ්‍රව්සරයේ `localStorage` හි දේශීයව ගබඩා කර ඇත. මෙම දත්ත ඔබට සම්පූර්ණයෙන්ම පෞද්ගලික වන අතර කිසි විටෙකත් අපගේ සේවාදායකයන්ට හෝ කිසිදු තෙවන පාර්ශවයකට සම්ප්‍රේෂණය නොවේ.", ta: "<strong>செய்ய வேண்டிய பட்டியல் கருவி:</strong> நீங்கள் செய்ய வேண்டிய பட்டியலில் உருவாக்கும் பணிகள் உங்கள் உலாவியின் `localStorage` இல் உள்நாட்டில் சேமிக்கப்படும். இந்தத் தரவு உங்களுக்கு முற்றிலும் riêng tư ஆனது மற்றும் எங்கள் சேவையகங்களுக்கோ அல்லது எந்த மூன்றாம் தரப்பினருக்கோ ஒருபோதும் அனுப்பப்படாது." },
+            section2Point4: { en: '<strong>Resume Builder:</strong> All data you enter into the Resume Builder, including personal details, work history, and your photo, is processed and stored entirely within your web browser. This information is never sent to our servers or any third party, ensuring your complete privacy. The generated PDF is created directly on your device.', si: '<strong>Resume සාදන්නා:</strong> ඔබ Resume Builder එකට ඇතුළත් කරන සියලුම දත්ත, එනම් ඔබගේ පුද්ගලික තොරතුරු, රැකියා පළපුරුද්ද, සහ ඡායාරූපය ඇතුළුව, සම්පූර්ණයෙන්ම ක්‍රියාත්මක වන්නේ සහ ගබඩා වන්නේ ඔබගේ වෙබ් බ්‍රව්සරය තුළ පමණි. මෙම තොරතුරු කිසිවිටෙක අපගේ සේවාදායකයන් (servers) වෙත හෝ කිසිදු තෙවන පාර්ශවයකට යවනු නොලැබේ. එමගින් ඔබගේ පෞද්ගලිකත්වයට සම්පූර්ණ ආරක්ෂාව හිමිවේ. ඔබ නිර්මාණය කරන PDF ගොනුවද සෘජුවම ඔබගේ උපාංගය තුලම නිර්මාණය වේ.', ta: '<strong>ரெஸ்யூம் பில்டர்:</strong> ரெஸ்யூம் பில்டரில் நீங்கள் உள்ளிடும் தனிப்பட்ட விவரங்கள், பணி அனுபவம் மற்றும் உங்கள் புகைப்படம் உட்பட அனைத்துத் தரவுகளும் முழுமையாக உங்கள் இணைய உலாவியில் மட்டுமே செயலாக்கப்பட்டு சேமிக்கப்பட்டு சேமிக்கப்படும். இந்தத் தகவல் எங்கள் சேவையகங்களுக்கோ அல்லது எந்த மூன்றாம் தரப்பினருக்கோ ஒருபோதும் அனுப்பப்படாது, இது உங்கள் முழுமையான தனியுரிமையை உறுதி செய்கிறது. உருவாக்கப்படும் PDF உங்கள் சாதனத்தில் நேரடியாக உருவாக்கப்படுகிறது.' },
+            section3Title: { en: 'How We Use Your Information', si: 'අපි ඔබගේ තොරතුරු භාවිතා කරන ආකාරය', ta: 'உங்கள் தகவல்களை நாங்கள் எவ்வாறு பயன்படுத்துகிறோம்' },
+            section3Content: { en: 'We use the information we collect to operate and maintain our website, display user-generated content (comments), and provide the functionality of our tools. We do not sell or share your personal information with third parties for marketing purposes.', si: 'අප රැස් කරන තොරතුරු අපගේ වෙබ් අඩවිය ක්‍රියාත්මක කිරීමට සහ නඩත්තු කිරීමට, පරිශීලකයන් විසින් ජනනය කරන ලද අන්තර්ගතය (අදහස්) ප්‍රදර්ශනය කිරීමට සහ අපගේ මෙවලම්වල ක්‍රියාකාරීත්වය සැපයීමට යොදා ගනිමු. අලෙවිකරණ අරමුණු සඳහා අපි ඔබගේ පුද්ගලික තොරතුරු තෙවන පාර්ශවයන්ට විකුණන්නේ හෝ බෙදා නොගනිමු.', ta: 'நாங்கள் சேகரிக்கும் தகவல்களை எங்கள் வலைத்தளத்தை இயக்கவும் பராமரிக்கவும், பயனர் உருவாக்கிய உள்ளடக்கத்தை (கருத்துகள்) காண்பிக்கவும், எங்கள் கருவிகளின் செயல்பாட்டை வழங்கவும் பயன்படுத்துகிறோம். சந்தைப்படுத்தல் நோக்கங்களுக்காக உங்கள் தனிப்பட்ட தகவல்களை நாங்கள் மூன்றாம் தரப்பினருக்கு விற்கவோ அல்லது பகிரவோ மாட்டோம்.' },
+            section4Title: { en: 'Third-Party Services', si: 'තෙවන පාර්ශවීය සේවාවන්', ta: 'மூன்றாம் தரப்பு சேவைகள்' },
+            section4Content: { en: 'Our website relies on the following third-party services, which have their own privacy policies:', si: 'අපගේ වෙබ් අඩවිය පහත තෙවන පාර්ශවීය සේවාවන් මත රඳා පවතින අතර, ඒවාට ඔවුන්ගේම රහස්‍යතා ප්‍රතිපත්ති ඇත:', ta: 'எங்கள் வலைத்தளம் பின்வரும் மூன்றாம் தரப்பு சேவைகளை நம்பியுள்ளது, அவற்றுக்கு அவற்றின் சொந்த தனியுரிமைக் கொள்கைகள் உள்ளன:' },
+            section4Point1: { en: '<strong>Google AI (Gemini):</strong> Powers our AI tools. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a>.', si: '<strong>Google AI (Gemini):</strong> අපගේ AI මෙවලම් බලගන්වයි. <a href="https://policies.google.com/privacy" target="_blank">Google රහස්‍යතා ප්‍රතිපත්තිය</a>.', ta: '<strong>Google AI (Gemini):</strong> எங்கள் AI கருவிகளை இயக்குகிறது. <a href="https://policies.google.com/privacy" target="_blank">Google தனியுரிமைக் கொள்கை</a>.' },
+            section4Point2: { en: '<strong>Firebase:</strong> Used for our real-time comments database. <a href="https://firebase.google.com/policies/privacy" target="_blank">Firebase Privacy Policy</a>.', si: '<strong>Firebase:</strong> අපගේ real-time අදහස් දත්ත ගබඩාව සඳහා භාවිතා වේ. <a href="https://firebase.google.com/policies/privacy" target="_blank">Firebase රහස්‍යතා ප්‍රතිපත්තිය</a>.', ta: '<strong>Firebase:</strong> எங்கள் நிகழ்நேர கருத்துகள் தரவுத்தளத்திற்குப் பயன்படுத்தப்படுகிறது. <a href="https://firebase.google.com/policies/privacy" target="_blank">Firebase தனியுரிமைக் கொள்கை</a>.' },
+            section4Point3: { en: '<strong>GitHub Pages:</strong> Hosts our website. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Privacy Statement</a>.', si: '<strong>GitHub Pages:</strong> අපගේ වෙබ් අඩවිය host කරයි. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub රහස්‍යතා ප්‍රකාශය</a>.', ta: '<strong>GitHub Pages:</strong> எங்கள் வலைத்தளத்தை வழங்குகிறது. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub தனியுரிமை அறிக்கை</a>.' },
+            section5Title: { en: 'Changes to This Privacy Policy', si: 'මෙම රහස්‍යතා ප්‍රතිපත්තියට සිදුකරන වෙනස්කම්', ta: 'இந்த தனியுரிமைக் கொள்கையில் மாற்றங்கள்' },
+            section5Content: { en: 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.', si: 'අපි වරින් වර අපගේ රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කළ හැකිය. නව රහස්‍යතා ප්‍රතිපත්තිය මෙම පිටුවේ පළ කිරීමෙන් අපි ඔබට යම් වෙනසක් දැනුම් දෙන්නෙමු. යම් වෙනසක් සඳහා මෙම රහස්‍යතා ප්‍රතිපත්තිය වරින් වර සමාලෝචනය කරන ලෙස ඔබට උපදෙස් දෙනු ලැබේ.', ta: 'நாங்கள் அவ்வப்போது எங்கள் தனியுரிமைக் கொள்கையைப் புதுப்பிக்கலாம். இந்தப் பக்கத்தில் புதிய தனியுரிமைக் கொள்கையை வெளியிடுவதன் மூலம் எந்த மாற்றங்களையும் நாங்கள் உங்களுக்கு அறிவிப்போம். எந்த மாற்றங்களுக்கும் இந்த தனியுரிமைக் கொள்கையை அவ்வப்போது மதிப்பாய்வு செய்யுமாறு உங்களுக்கு அறிவுறுத்தப்படுகிறது.' },
+            section6Title: { en: 'Contact Us', si: 'අපව අමතන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            section6Content: { en: 'If you have any questions about this Privacy Policy, please contact us by email at: malithstudio24@gmail.com', si: 'මෙම රහස්‍යතා ප්‍රතිපත්තිය පිළිබඳව ඔබට කිසියම් ප්‍රශ්නයක් ඇත්නම්, කරුණාකර අප හා සම්බන්ධ වන්න: malithstudio24@gmail.com', ta: 'இந்த தனியுரிமைக் கொள்கையைப் பற்றி ஏதேனும் கேள்விகள் இருந்தால், தயவுசெய்து எங்களை மின்னஞ்சல் மூலம் தொடர்பு கொள்ளவும்: malithstudio24@gmail.com' }
+        };
+
+        let currentLang = 'en';
+        
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        const initialLang = getLangFromURL();
+        setLanguage(initialLang);
+
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+
+    </script>
+</body>
+</html>
+
