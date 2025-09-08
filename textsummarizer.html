@@ -192,7 +192,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* === NEW: Styles for control buttons area === */
         .controls-area {
             display: flex;
             justify-content: flex-end;
@@ -346,7 +345,6 @@
             <p data-key="subtitle">Paste your long text below and get a concise summary.</p>
         </div>
 
-        <!-- === NEW: Input controls area with Load Sample button === -->
         <div class="controls-area">
              <button id="loadSampleBtn" class="action-btn" data-key="loadSample">Load Sample</button>
         </div>
@@ -360,7 +358,6 @@
 
         <textarea id="outputText" readonly data-key-placeholder="placeholderOutput" placeholder="Summary will appear here..."></textarea>
         
-        <!-- === UPDATED: Moved copy button to the controls area === -->
         <div class="controls-area">
             <button id="copyBtn" class="action-btn" data-key="copy">Copy Summary</button>
         </div>
@@ -398,7 +395,8 @@
             placeholderOutput: { en: 'Summary will appear here...', si: 'සාරාංශය මෙහි දිස්වනු ඇත...', ta: 'சுருக்கம் இங்கே தோன்றும்...' },
             copy: { en: 'Copy Summary', si: 'සාරාංශය පිටපත් කරන්න', ta: 'சுருக்கத்தை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
-            error: { en: 'An error occurred. Please check your API key and try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ API යතුර පරීක්ෂා කර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. உங்கள் API விசையைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'},
+            error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
+            errorBlocked: { en: 'Could not generate summary due to safety restrictions. Please try a different text.', si: 'ආරක්ෂක සීමා කිරීම් නිසා සාරාංශය සෑදීමට නොහැක. කරුණාකර වෙනත් ලිපියක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக சுருக்கத்தை உருவாக்க முடியவில்லை. தயவுசெய்து வேறு உரையை முயற்சிக்கவும்.'},
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use Text Summarizer', si: 'Text Summarizer භාවිතා කරන ආකාරය', ta: 'Text Summarizer பயன்படுத்துவது எப்படி' },
@@ -407,7 +405,6 @@
                 si: `<ol><li>ඔබට සාරාංශ කිරීමට අවශ්‍ය දීර්ඝ ලිපිය ඉහළ text box එකේ අලවන්න, නැතහොත් පරීක්ෂා කිරීමට <strong>'නියැදියක් යොදන්න'</strong> බොත්තම ඔබන්න.</li><li><strong>'සාරාංශ කරන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ලිපිය විශ්ලේෂණය කර සාරාංශයක් ජනනය කරනු ඇත.</li><li>සාරාංශය පහළ text box එකේ දිස්වනු ඇත.</li><li>ප්‍රතිඵලය පිටපත් කර ගැනීමට <strong>'සාරාංශය පිටපත් කරන්න'</strong> බොත්තම භාවිතා කරන්න.</li></ol>`,
                 ta: `<ol><li>நீங்கள் சுருக்க விரும்பும் நீண்ட உரையை மேல் உரைப் பெட்டியில் ஒட்டவும், அல்லது சோதிக்க <strong>'மாதிரியை ஏற்றவும்'</strong> என்பதைக் கிளிக் செய்யவும்.</li><li><strong>'சுருக்கவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உரையை ஆராய்ந்து ஒரு சுருக்கத்தை உருவாக்கும்.</li><li>சுருக்கம் கீழே உள்ள உரைப் பெட்டியில் தோன்றும்.</li><li>முடிவை நகலெடுக்க <strong>'சுருக்கத்தை நகலெடு'</strong> பொத்தானைப் பயன்படுத்தவும்.</li></ol>`
             },
-            // === NEW TRANSLATIONS for Sample Text ===
             loadSample: { en: 'Load Sample', si: 'නියැදියක් යොදන්න', ta: 'மாதிரியை ஏற்றவும்' },
             sampleText: {
                 en: `Artificial Intelligence (AI) is rapidly transforming our world. From automating complex tasks in business to personalizing our daily digital experiences, AI's impact is widespread. Machine learning, a subset of AI, allows systems to learn from data and improve over time without being explicitly programmed. This technology powers everything from recommendation engines on streaming services to advanced medical diagnostics. As AI continues to evolve, it holds the promise of solving some of humanity's most pressing challenges, while also raising important ethical questions about privacy, bias, and the future of work.`,
@@ -430,7 +427,7 @@
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
-        const loadSampleBtn = document.getElementById('loadSampleBtn'); // Get the new button
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
         
         function setLanguage(lang) {
             currentLang = lang;
@@ -449,7 +446,7 @@
                     }
                 }
             });
-             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
                 const key = element.getAttribute('data-key-placeholder');
                 if (translations[key] && translations[key][lang]) {
                     element.placeholder = translations[key][lang];
@@ -474,29 +471,18 @@
             const pageTitle = document.title;
             const textToShare = `Check out this tool: ${pageTitle}`;
 
-            const facebookBtn = document.getElementById('share-facebook');
-            const twitterBtn = document.getElementById('share-twitter');
-            const whatsappBtn = document.getElementById('share-whatsapp');
-            const copyBtn = document.getElementById('copy-link');
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
 
-            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
-            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
-
-            copyBtn.addEventListener('click', () => {
+            document.getElementById('copy-link').addEventListener('click', () => {
                 navigator.clipboard.writeText(pageUrl).then(() => {
                     const copyMessage = document.getElementById('copy-message');
                     copyMessage.classList.add('visible');
-                    setTimeout(() => {
-                        copyMessage.classList.remove('visible');
-                    }, 2000);
+                    setTimeout(() => copyMessage.classList.remove('visible'), 2000);
                 }).catch(err => console.error('Failed to copy text: ', err));
             });
         }
-
-        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
-        const model = 'gemini-1.5-flash';
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
         summarizeBtn.addEventListener('click', async () => {
             const textToSummarize = inputText.value;
@@ -511,27 +497,18 @@
             outputText.value = '';
             statusDiv.textContent = '';
 
-            const prompt = `Summarize the following text concisely:\n\n${textToSummarize}`;
+            const prompt = `Summarize the following text concisely. The summary should be in ${currentLang}:\n\n${textToSummarize}`;
             
-              const payload = {
-                  contents: [{ parts: [{ text: prompt }] }],
-                  safetySettings: [
-                      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-                  ]
-              };
-
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ prompt: prompt })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
                 }
                 
                 const result = await response.json();
@@ -541,12 +518,12 @@
                     outputText.value = summary;
                 } else {
                     console.error("API Response Blocked:", result);
-                    throw new Error("No content received from API. It might have been blocked due to safety settings.");
+                    throw new Error("Blocked");
                 }
 
             } catch (error) {
                 console.error("Error:", error);
-                statusDiv.textContent = translations.error[currentLang];
+                statusDiv.textContent = error.message === "Blocked" ? translations.errorBlocked[currentLang] : translations.error[currentLang];
             } finally {
                 summarizeBtn.disabled = false;
                 summarizeBtnText.textContent = translations.summarize[currentLang];
@@ -556,15 +533,14 @@
         
         copyBtn.addEventListener('click', () => {
              if (outputText.value) {
-                 navigator.clipboard.writeText(outputText.value);
-                 copyBtn.textContent = translations.copied[currentLang];
-                 setTimeout(() => {
-                     copyBtn.textContent = translations.copy[currentLang];
-                 }, 2000);
-             }
+                navigator.clipboard.writeText(outputText.value);
+                copyBtn.textContent = translations.copied[currentLang];
+                setTimeout(() => {
+                    copyBtn.textContent = translations.copy[currentLang];
+                }, 2000);
+            }
         });
 
-        // === NEW: Event listener for Load Sample button ===
         loadSampleBtn.addEventListener('click', () => {
             if (translations.sampleText && translations.sampleText[currentLang]) {
                 inputText.value = translations.sampleText[currentLang];
@@ -576,25 +552,17 @@
             languageOptions.classList.toggle('show');
         });
         document.querySelectorAll('#language-options button').forEach(button => {
-            button.addEventListener('click', () => {
-                setLanguage(button.getAttribute('data-lang'));
-            });
+            button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
         });
         window.addEventListener('click', (e) => {
             if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
                 languageOptions.classList.remove('show');
             }
         });
-        helpBtn.addEventListener('click', () => {
-            helpModal.style.display = 'flex';
-        });
-        closeModalBtn.addEventListener('click', () => {
-            helpModal.style.display = 'none';
-        });
+        helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
+        closeModalBtn.addEventListener('click', () => helpModal.style.display = 'none');
         helpModal.addEventListener('click', (e) => {
-            if (e.target === helpModal) {
-                helpModal.style.display = 'none';
-            }
+            if (e.target === helpModal) helpModal.style.display = 'none';
         });
         
         const initialLang = getLangFromURL();
@@ -603,4 +571,3 @@
     </script>
 </body>
 </html>
-
