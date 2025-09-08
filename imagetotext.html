@@ -370,14 +370,14 @@
     <div class="container">
         <div class="header-controls">
              <div class="language-switcher">
-                <button id="language-btn">English</button>
-                <div id="language-options">
-                    <button data-lang="en">English</button>
-                    <button data-lang="si">සිංහල</button>
-                    <button data-lang="ta">தமிழ்</button>
-                </div>
-            </div>
-            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+                 <button id="language-btn">English</button>
+                 <div id="language-options">
+                     <button data-lang="en">English</button>
+                     <button data-lang="si">සිංහල</button>
+                     <button data-lang="ta">தமிழ்</button>
+                 </div>
+             </div>
+             <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
         </div>
         <div class="header">
             <h1 data-key="title">AI Image to Text (OCR)</h1>
@@ -391,7 +391,7 @@
             <p data-key="upload-instruction">Click or drag image here</p>
             <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP</span>
         </label>
-        <input type="file" id="image-input" accept="image/*">
+        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp">
         
         <div id="image-display-area">
             <img id="image-preview" src="" alt="Selected image preview">
@@ -446,6 +446,7 @@
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
+            errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different image.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් පින්තූරයක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு படத்தைப் முயற்சிக்கவும்.'},
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use Image to Text', si: 'Image to Text භාවිතා කරන ආකාරය', ta: 'Image to Text பயன்படுத்துவது எப்படி' },
@@ -457,6 +458,8 @@
         };
 
         let currentLang = 'en';
+        let fileAsBase64 = null;
+        let fileMimeType = null;
 
         const uploadArea = document.getElementById('upload-area');
         const imageInput = document.getElementById('image-input');
@@ -475,8 +478,6 @@
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
-        let fileAsBase64 = null;
-        let fileMimeType = null;
         
         function setLanguage(lang) {
             currentLang = lang;
@@ -495,7 +496,7 @@
                     }
                 }
             });
-             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-key-placeholder');
                 if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
             });
@@ -541,22 +542,15 @@
             const pageTitle = document.title;
             const textToShare = `Check out this tool: ${pageTitle}`;
 
-            const facebookBtn = document.getElementById('share-facebook');
-            const twitterBtn = document.getElementById('share-twitter');
-            const whatsappBtn = document.getElementById('share-whatsapp');
-            const copyBtn = document.getElementById('copy-link');
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
 
-            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
-            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
-
-            copyBtn.addEventListener('click', () => {
+            document.getElementById('copy-link').addEventListener('click', () => {
                 navigator.clipboard.writeText(pageUrl).then(() => {
                     const copyMessage = document.getElementById('copy-message');
                     copyMessage.classList.add('visible');
-                    setTimeout(() => {
-                        copyMessage.classList.remove('visible');
-                    }, 2000);
+                    setTimeout(() => copyMessage.classList.remove('visible'), 2000);
                 }).catch(err => console.error('Failed to copy text: ', err));
             });
         }
@@ -571,31 +565,18 @@
             languageOptions.classList.toggle('show');
         });
         document.querySelectorAll('#language-options button').forEach(button => {
-            button.addEventListener('click', () => {
-                setLanguage(button.getAttribute('data-lang'));
-            });
+            button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
         });
         window.addEventListener('click', (e) => {
             if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
                 languageOptions.classList.remove('show');
             }
         });
-        helpBtn.addEventListener('click', () => {
-            helpModal.style.display = 'flex';
-        });
-        closeModalBtn.addEventListener('click', () => {
-            helpModal.style.display = 'none';
-        });
+        helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
+        closeModalBtn.addEventListener('click', () => helpModal.style.display = 'none');
         helpModal.addEventListener('click', (e) => {
-            if (e.target === helpModal) {
-                helpModal.style.display = 'none';
-            }
+            if (e.target === helpModal) helpModal.style.display = 'none';
         });
-
-
-        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
-        const model = 'gemini-1.5-flash';
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
         recognizeBtn.addEventListener('click', async () => {
             if (!fileAsBase64) return;
@@ -608,20 +589,23 @@
             copyBtn.style.display = 'none';
             statusDiv.textContent = '';
 
-            const prompt = "Extract all text from this image.";
-            const payload = {
-                contents: [{ parts: [ { text: prompt }, { inline_data: { mime_type: fileMimeType, data: fileAsBase64 } } ] }],
-                 safetySettings: [
-                     { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                     { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-                 ]
-            };
-
+            const prompt = `Extract all text from this image. The text is in ${currentLang}.`;
+            
             try {
-                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                const response = await fetch('/api/image-to-text', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ 
+                        prompt: prompt,
+                        imageData: fileAsBase64,
+                        mimeType: fileMimeType
+                    }) 
+                });
+
+                if (!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
+                }
                 const result = await response.json();
                 
                 if (result.candidates?.[0]?.content) {
@@ -631,11 +615,11 @@
                     copyBtn.style.display = 'block';
                 } else {
                     console.error("API Response Blocked:", result);
-                    throw new Error("No text content received from API.");
+                    throw new Error("Blocked");
                 }
             } catch (error) {
                 console.error("Error:", error);
-                statusDiv.textContent = translations.error[currentLang];
+                statusDiv.textContent = error.message === "Blocked" ? translations.errorBlocked[currentLang] : translations.error[currentLang];
             } finally {
                 recognizeBtn.disabled = false;
                 resetBtn.disabled = false;
@@ -646,9 +630,9 @@
         
         copyBtn.addEventListener('click', () => {
              if (resultText.value) {
-                 navigator.clipboard.writeText(resultText.value);
-                 copyBtn.textContent = translations.copied[currentLang];
-                 setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+                navigator.clipboard.writeText(resultText.value);
+                copyBtn.textContent = translations.copied[currentLang];
+                setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
             }
         });
 
@@ -658,4 +642,3 @@
     </script>
 </body>
 </html>
-
