@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- SEO Meta Tags -->
+    <title>Malith Studio® | Innovative Web Tools for Productivity</title>
+    <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
+    <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Favicon Links -->
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="logo.jpg">
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- UPDATED: Google Analytics Tag for Vercel Site -->
+    <!-- Google Verification & Analytics -->
     <meta name="google-site-verification" content="q1X7JyD0GaFMEDOVb30izXQObdB6tGnP5EiFvV0YL8k" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-21WTWY0EDG"></script>
     <script>
@@ -19,25 +29,46 @@
       gtag('config', 'G-21WTWY0EDG');
     </script>
     
-    <!-- SEO Meta Tags -->
-    <title>Malith Studio® | Innovative Web Tools for Productivity</title>
-    <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
-    <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
-    <meta name="author" content="Malith Studio®">
-
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
+    <meta property="og:url" content="https://malithstudiodeploy.vercel.app/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="og:image" content="https://malithstudioii.github.io/malith-studio-deploy/logo.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
+    <meta property="twitter:url" content="https://malithstudiodeploy.vercel.app/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="twitter:image" content="https://malithstudioii.github.io/malith-studio-deploy/logo.jpg">
+
+    <!-- Structured Data for Google Search (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Malith Studio®",
+      "url": "https://malithstudiodeploy.vercel.app/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://malithstudiodeploy.vercel.app/#projects?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Malith Studio®",
+        "url": "https://malithstudiodeploy.vercel.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://malithstudioii.github.io/malith-studio-deploy/logo.jpg"
+        }
+      }
+    }
+    </script>
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -50,7 +81,6 @@
         html {
             scroll-behavior: smooth;
         }
-        /* Default Dark Mode Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0b0f19;
@@ -753,7 +783,7 @@
             project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
             project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' },
             project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' },
-            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපද සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
+            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපद සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
             project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' },
             project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
