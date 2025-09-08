@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Google Site Verification -->
-    <meta name="google-site-verification" content="q1X7JyD0GaFMEDOVb30izXQObdB6tGnP5EiFvV0YL8k" />
-
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7WQ3CSB4E"></script>
+    <!-- UPDATED: Google Analytics Tag for Vercel Site -->
+    <meta name="google-site-verification" content="q1X7JyD0GaFMEDOVb30izXQObdB6tGnP5EiFvV0YL8k" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21WTWY0EDG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
     
-      gtag('config', 'G-H7WQ3CSB4E');
+      gtag('config', 'G-21WTWY0EDG');
     </script>
     
     <!-- SEO Meta Tags -->
@@ -38,7 +37,7 @@
     <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -579,67 +578,67 @@
              onSnapshot(docRef, (docSnap) => {
                  commentsList.innerHTML = '';
                  if (docSnap.exists() && docSnap.data().comments) {
-                    const allComments = docSnap.data().comments;
-                    allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
+                     const allComments = docSnap.data().comments;
+                     allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
 
-                    allComments.forEach(comment => {
-                        const commentCard = document.createElement('div');
-                        commentCard.className = 'comment-card';
-                        
-                        let adminReplyHTML = '';
-                        if (comment.reply && comment.reply.text) {
-                            adminReplyHTML = `
-                                <div class="comment-reply">
-                                    <div class="reply-header">
-                                        <img src="logo.jpg" alt="Admin" class="reply-avatar">
-                                        <strong>Malith Studio (Admin)</strong>
-                                    </div>
-                                    <p>${comment.reply.text}</p>
-                                </div>
-                            `;
-                        }
+                     allComments.forEach(comment => {
+                         const commentCard = document.createElement('div');
+                         commentCard.className = 'comment-card';
+                         
+                         let adminReplyHTML = '';
+                         if (comment.reply && comment.reply.text) {
+                             adminReplyHTML = `
+                                 <div class="comment-reply">
+                                     <div class="reply-header">
+                                         <img src="logo.jpg" alt="Admin" class="reply-avatar">
+                                         <strong>Malith Studio (Admin)</strong>
+                                     </div>
+                                     <p>${comment.reply.text}</p>
+                                 </div>
+                             `;
+                         }
 
-                        let userRepliesHTML = '<div class="replies-list">';
-                        if (comment.user_replies && comment.user_replies.length > 0) {
-                           comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
-                           comment.user_replies.forEach(reply => {
-                                userRepliesHTML += `
-                                   <div class="user-reply-card">
-                                       <p>"${reply.message}"</p>
-                                       <div class="comment-footer">
-                                           <span class="comment-author">- ${reply.name}</span>
-                                       </div>
-                                   </div>
-                                `;
-                           });
-                        }
-                        userRepliesHTML += '</div>';
+                         let userRepliesHTML = '<div class="replies-list">';
+                         if (comment.user_replies && comment.user_replies.length > 0) {
+                            comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
+                            comment.user_replies.forEach(reply => {
+                                 userRepliesHTML += `
+                                     <div class="user-reply-card">
+                                         <p>"${reply.message}"</p>
+                                         <div class="comment-footer">
+                                             <span class="comment-author">- ${reply.name}</span>
+                                         </div>
+                                     </div>
+                                 `;
+                            });
+                         }
+                         userRepliesHTML += '</div>';
 
-                        commentCard.innerHTML = `
-                            <p>"${comment.message}"</p>
-                            <div class="comment-footer">
-                                <span class="comment-author">- ${comment.name}</span>
-                            </div>
-                            <div class="comment-actions">
-                                <div class="reactions">
-                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
-                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
-                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
-                                </div>
-                                <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
-                            </div>
-                            <div class="reply-form-container" style="display: none;">
-                               <form class="reply-form" data-comment-id="${comment.id}">
-                                   <input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required>
-                                   <textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea>
-                                   <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
-                               </form>
-                            </div>
-                            ${userRepliesHTML}
-                            ${adminReplyHTML}
-                        `;
-                        commentsList.appendChild(commentCard);
-                    });
+                         commentCard.innerHTML = `
+                             <p>"${comment.message}"</p>
+                             <div class="comment-footer">
+                                 <span class="comment-author">- ${comment.name}</span>
+                             </div>
+                             <div class="comment-actions">
+                                 <div class="reactions">
+                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
+                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
+                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
+                                 </div>
+                                 <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
+                             </div>
+                             <div class="reply-form-container" style="display: none;">
+                                <form class="reply-form" data-comment-id="${comment.id}">
+                                    <input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required>
+                                    <textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea>
+                                    <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
+                                </form>
+                             </div>
+                             ${userRepliesHTML}
+                             ${adminReplyHTML}
+                         `;
+                         commentsList.appendChild(commentCard);
+                     });
                  }
                  setLanguage(currentLang, false); 
              }, (error) => {
@@ -683,14 +682,14 @@
                  const message = replyForm.querySelector('.reply-message').value;
 
                  if (name.trim() && message.trim() && commentId) {
-                    const newReply = { name: name, message: message, timestamp: new Date() };
-                    const commentIndex = allComments.findIndex(c => c.id === commentId);
-                    if (commentIndex > -1) {
-                        allComments[commentIndex].user_replies.push(newReply);
-                        await updateDoc(docRef, { comments: allComments });
-                        replyForm.reset();
-                        replyForm.parentElement.style.display = 'none';
-                    }
+                     const newReply = { name: name, message: message, timestamp: new Date() };
+                     const commentIndex = allComments.findIndex(c => c.id === commentId);
+                     if (commentIndex > -1) {
+                         allComments[commentIndex].user_replies.push(newReply);
+                         await updateDoc(docRef, { comments: allComments });
+                         replyForm.reset();
+                         replyForm.parentElement.style.display = 'none';
+                     }
                  }
             }
         });
@@ -943,16 +942,15 @@
              const savedTheme = localStorage.getItem('malith-studio-theme') || 'dark';
              applyTheme(savedTheme);
 
-             // --- THEME SWITCHER SCROLL EFFECT ---
-            if (themeSwitcher) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 100) {
-                        themeSwitcher.classList.add('scrolled');
-                    } else {
-                        themeSwitcher.classList.remove('scrolled');
-                    }
-                });
-            }
+             if (themeSwitcher) {
+                 window.addEventListener('scroll', () => {
+                     if (window.scrollY > 100) {
+                         themeSwitcher.classList.add('scrolled');
+                     } else {
+                         themeSwitcher.classList.remove('scrolled');
+                     }
+                 });
+             }
          });
 
          setLanguage(currentLang);
@@ -1078,3 +1076,4 @@
     </script>
 </body>
 </html>
+
