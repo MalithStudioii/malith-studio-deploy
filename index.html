@@ -613,10 +613,9 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // This check ensures the app works both in the platform and on Vercel
         const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         
-        const firebaseConfig = firebaseConfigFromEnv || {
+        const vercelFirebaseConfig = {
             apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
             authDomain: "malithstudio-ii.firebaseapp.com",
             projectId: "malithstudio-ii",
@@ -626,6 +625,7 @@
             measurementId: "G-H7WQ3CSB4E"
         };
         
+        const firebaseConfig = firebaseConfigFromEnv || vercelFirebaseConfig;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
 
         let app, auth, db;
@@ -682,14 +682,13 @@
             
             // This part is for the Canvas environment only
             const authUser = async () => {
-                try {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                     try {
                         await signInWithCustomToken(auth, __initial_auth_token);
-                    }
-                } catch (error) {
-                    // We can ignore custom token mismatch errors here as they are specific to the dev environment
-                    if (error.code !== 'auth/custom-token-mismatch') {
-                        console.error("Authentication error:", error);
+                    } catch (error) {
+                        if (error.code !== 'auth/custom-token-mismatch') {
+                           console.error("Authentication error:", error);
+                        }
                     }
                 }
             };
@@ -895,7 +894,7 @@
             service3Title: { en: 'AI Integration', si: 'AI ඒකාබද්ධ කිරීම', ta: 'AI ஒருங்கிணைப்பு' },
             service3Desc: { en: 'We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.', si: 'කාර්යයන් ස්වයංක්‍රීය කරන සහ බුද්ධිමත් විසඳුම් සපයන දක්ෂ මෙවලම් නිර්මාණය කරමින්, AI හි බලයෙන් අපි ඔබගේ වෙබ් යෙදුම් වැඩිදියුණු කරමු.', ta: 'பணிகளை தானியக்கமாக்கும் மற்றும் புத்திசாலித்தனமான தீர்வுகளை வழங்கும் சிறந்த கருவிகளை உருவாக்கி, AI இன் சக்தியுடன் உங்கள் வலை பயன்பாடுகளை நாங்கள் மேம்படுத்துகிறோம்.' },
             aboutDesc1: { en: 'Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.', si: 'මලිත් ස්ටුඩියෝ® ආරම්භ කරන ලද්දේ සරල මෙහෙවරක් ඇතිවය: මිනිසුන්ට සැබවින්ම උපකාර වන ඩිජිටල් මෙවලම් නිර්මාණය කිරීම. සංකීර්ණ මෘදුකාංග වලින් පිරුණු ලෝකයක, කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන සරල, интуитивно зрозумілий, සහ බලවත් විසඳුම් ගොඩනැගීම කෙරෙහි අපි අවධානය යොමු කරමු.', ta: 'மலித் ஸ்டுடியோ® ஒரு எளிய நோக்கத்துடன் நிறுவப்பட்டது: மக்களுக்கு உண்மையாக உதவும் டிஜிட்டல் கருவிகளை உருவாக்குவது. சிக்கலான மென்பொருட்கள் நிறைந்த உலகில், பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் எளிய, உள்ளுணர்வு மற்றும் சக்திவாய்ந்த தீர்வுகளை உருவாக்குவதில் நாங்கள் கவனம் செலுத்துகிறோம்.' },
-            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය කරමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டල් பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
+            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය කරමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டல் பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
             project1Title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
             project1Desc: { en: 'A modern tool designed to type using voice in Sinhala, English, and Tamil.', si: 'සිංහල, ඉංග්‍රීසි, සහ දෙමළ භාෂාවලින් කටහඬ භාවිතයෙන් ටයිප් කිරීමට නිර්මාණය කරන ලද නවීන මෙවලමකි.', ta: 'சிங்களம், ஆங்கிலம் மற்றும் தமிழில் குரல் மூலம் தட்டச்சு செய்ய வடிவமைக்கப்பட்ட ஒரு நவீன கருவி.' },
             project2Title: { en: 'Image to Text (OCR)', si: 'පින්තූරයෙන් අකුරු (OCR)', ta: 'படத்திலிருந்து உரை (OCR)' },
