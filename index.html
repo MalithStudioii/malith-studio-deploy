@@ -260,11 +260,11 @@
         #language-options button { display: block; background: none; border: none; color: white; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; }
         #language-options button:hover { background-color: #4b5563; }
 
-        #comments { position: relative; }
+        #comments { position: relative; } 
         .comments-content { transition: filter 0.3s; }
         .comments-content.locked { filter: blur(5px); pointer-events: none; }
         #comments-login-overlay {
-            display: none; /* Initially hidden */
+            display: none; 
             position: absolute;
             top: 0;
             left: 0;
@@ -285,7 +285,7 @@
             color: #d1d5db;
             margin-bottom: 1.5rem;
         }
-
+        
         #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
         .form-group { margin-bottom: 1.5rem; }
         .form-group input, .form-group textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s;}
@@ -947,21 +947,26 @@
              const languageBtn = document.getElementById('language-btn');
              const languageOptions = document.getElementById('language-options');
              
-             languageBtn.addEventListener('click', () => {
-                 languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
-             });
-
-             document.querySelectorAll('#language-options button').forEach(button => {
-                 button.addEventListener('click', () => {
-                     setLanguage(button.getAttribute('data-lang'));
+             if(languageBtn) {
+                 languageBtn.addEventListener('click', () => {
+                     languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
                  });
-             });
+             }
+
+             if(languageOptions) {
+                document.querySelectorAll('#language-options button').forEach(button => {
+                     button.addEventListener('click', () => {
+                         setLanguage(button.getAttribute('data-lang'));
+                     });
+                });
+             }
 
              document.addEventListener('click', (e) => {
-                 if (languageBtn && !languageBtn.contains(e.target) && !languageOptions.contains(e.target)) {
+                 if (languageBtn && !languageBtn.contains(e.target) && languageOptions && !languageOptions.contains(e.target)) {
                      languageOptions.style.display = 'none';
                  }
-                 if (document.getElementById('profile-pic-btn') && !document.getElementById('profile-pic-btn').parentElement.contains(e.target)) {
+                 const profilePicBtn = document.getElementById('profile-pic-btn');
+                 if (profilePicBtn && !profilePicBtn.parentElement.contains(e.target)) {
                     const dropdown = document.getElementById('profile-dropdown');
                     if (dropdown) dropdown.classList.remove('show');
                  }
@@ -995,7 +1000,9 @@
 
              const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
             
-             bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+             if(bgContainer) {
+                bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+             }
 
 
              themeBtns.forEach((btn, index) => {
@@ -1004,38 +1011,40 @@
                      btn.classList.add('active');
                      const themeImage = themes[index];
                      if (themeImage === 'default') {
-                         bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                         if(bgContainer) bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
                      } else {
-                         bgContainer.style.backgroundImage = `url('${themeImage}')`;
+                         if(bgContainer) bgContainer.style.backgroundImage = `url('${themeImage}')`;
                      }
                  });
              });
 
              const bgAnimation = document.getElementById('background-animation');
-             const numberOfOrbs = 15;
+             if(bgAnimation){
+                 const numberOfOrbs = 15;
 
-             for (let i = 0; i < numberOfOrbs; i++) {
-                 const orb = document.createElement('div');
-                 orb.classList.add('orb');
-                 const size = Math.random() * 200 + 50;
-                 orb.style.width = `${size}px`;
-                 orb.style.height = `${size}px`;
-                 orb.style.top = `${Math.random() * 100}vh`;
-                 orb.style.left = `${Math.random() * 100}vw`;
-                 orb.style.animationDuration = `${Math.random() * 20 + 20}s`;
-                 orb.style.animationDelay = `-${Math.random() * 10}s`;
-                 const orbAnim = document.createElement('style');
-                 orbAnim.innerHTML = `
-                     @keyframes float-orb-${i} {
-                         0% { transform: translate(0, 0) scale(1); }
-                         33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
-                         66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
-                         100% { transform: translate(0, 0) scale(1); }
-                     }
-                 `;
-                 document.head.appendChild(orbAnim);
-                 orb.style.animationName = `float-orb-${i}`;
-                 bgAnimation.appendChild(orb);
+                 for (let i = 0; i < numberOfOrbs; i++) {
+                     const orb = document.createElement('div');
+                     orb.classList.add('orb');
+                     const size = Math.random() * 200 + 50;
+                     orb.style.width = `${size}px`;
+                     orb.style.height = `${size}px`;
+                     orb.style.top = `${Math.random() * 100}vh`;
+                     orb.style.left = `${Math.random() * 100}vw`;
+                     orb.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                     orb.style.animationDelay = `-${Math.random() * 10}s`;
+                     const orbAnim = document.createElement('style');
+                     orbAnim.innerHTML = `
+                         @keyframes float-orb-${i} {
+                             0% { transform: translate(0, 0) scale(1); }
+                             33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
+                             66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
+                             100% { transform: translate(0, 0) scale(1); }
+                         }
+                     `;
+                     document.head.appendChild(orbAnim);
+                     orb.style.animationName = `float-orb-${i}`;
+                     bgAnimation.appendChild(orb);
+                 }
              }
             
              window.addEventListener('load', function() {
