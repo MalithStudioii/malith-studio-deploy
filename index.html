@@ -120,10 +120,46 @@
         .logo { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; position: relative; z-index: 1; background: #0b0f19; }
         .logo-text { font-size: 1.25rem; font-weight: 800; color: white; transition: color 0.5s;}
         nav ul { display: none; list-style: none; margin: 0; padding: 0; gap: 1.5rem; }
-        @media (min-width: 1024px) { nav ul { display: flex; } }
+        @media (min-width: 1024px) { nav ul { display: flex; align-items: center;} }
         nav a { color: #d1d5db; text-decoration: none; font-weight: 600; transition: color 0.3s; }
         nav a:hover { color: #818cf8; }
         
+        .nav-right-section { display: flex; align-items: center; gap: 1rem; }
+        .login-btn {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .login-btn:hover { background-color: #6366f1; }
+        
+        .user-profile { position: relative; }
+        .profile-pic { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid #6366f1; }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 120%;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 150px;
+            z-index: 20;
+        }
+        .profile-dropdown.show { display: block; }
+        .profile-dropdown a, .profile-dropdown button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+            text-decoration: none; font-size: 0.9rem;
+        }
+        .profile-dropdown a:hover, .profile-dropdown button:hover { background-color: #4b5563; }
+
         #home { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
         .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; transition: color 0.5s;}
         .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
@@ -223,6 +259,32 @@
         #language-options { display: none; position: absolute; right: 0; top: 100%; margin-top: 0.5rem; background-color: #1f2937; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.5rem; z-index: 10; }
         #language-options button { display: block; background: none; border: none; color: white; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; }
         #language-options button:hover { background-color: #4b5563; }
+
+        #comments { position: relative; }
+        .comments-content { transition: filter 0.3s; }
+        .comments-content.locked { filter: blur(5px); pointer-events: none; }
+        #comments-login-overlay {
+            display: none; /* Initially hidden */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(2px);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 1rem;
+            z-index: 5;
+        }
+        #comments-login-overlay p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+        }
 
         #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
         .form-group { margin-bottom: 1.5rem; }
@@ -357,16 +419,22 @@
                     <li><a href="#projects" data-key="navProjects">Projects</a></li>
                     <li><a href="#services" data-key="navServices">Services</a></li>
                     <li><a href="#blog" data-key="navBlog">Blog</a></li>
+                    <li id="dashboard-link" style="display: none;"><a href="dashboard.html" data-key="navDashboard">Dashboard</a></li>
                     <li><a href="#about" data-key="navAbout">About Us</a></li>
                     <li><a href="#comments" data-key="navComments">Comments</a></li>
                     <li><a href="#contact" data-key="navContact">Get In Touch</a></li>
                 </ul>
-                <div class="language-switcher">
-                    <button id="language-btn">English</button>
-                    <div id="language-options">
-                        <button data-lang="en">English</button>
-                        <button data-lang="si">සිංහල</button>
-                        <button data-lang="ta">தமிழ்</button>
+                <div class="nav-right-section">
+                    <div class="language-switcher">
+                        <button id="language-btn">English</button>
+                        <div id="language-options">
+                            <button data-lang="en">English</button>
+                            <button data-lang="si">සිංහල</button>
+                            <button data-lang="ta">தமிழ்</button>
+                        </div>
+                    </div>
+                    <div id="user-auth-container">
+                        <!-- Filled by JavaScript -->
                     </div>
                 </div>
             </nav>
@@ -374,6 +442,7 @@
     </header>
 
     <main>
+        <!-- Sections like #home, #projects, etc. remain unchanged -->
         <section id="home">
             <div class="container">
                 <div class="hero-content">
@@ -481,19 +550,25 @@
         </section>
 
         <section id="comments">
-            <div class="container">
-                 <h2 class="section-title" data-key="commentsTitle">Comments</h2>
-                 <form id="comments-form">
-                         <div class="form-group">
-                             <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
-                         </div>
-                         <div class="form-group">
-                             <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
-                         </div>
-                         <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
-                 </form>
-                 <div id="comments-list">
-                 </div>
+            <div id="comments-login-overlay" style="display: none;">
+                <p data-key="commentsLoginPrompt">Please login to view and add comments.</p>
+                <button class="login-btn" id="comments-login-btn" data-key="login">Login</button>
+            </div>
+            <div class="comments-content">
+                 <div class="container">
+                     <h2 class="section-title" data-key="commentsTitle">Comments</h2>
+                     <form id="comments-form">
+                             <div class="form-group">
+                                 <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
+                             </div>
+                             <div class="form-group">
+                                 <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
+                             </div>
+                             <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
+                     </form>
+                     <div id="comments-list">
+                     </div>
+                </div>
             </div>
         </section>
 
@@ -534,195 +609,216 @@
 
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, arrayUnion, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        const authUser = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Authentication error:", error);
-            }
-        };
-        
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                setDoc(docRef, {}, { merge: true });
-                fetchAndDisplayComments(docRef);
-            }
-        });
-        
-        authUser();
+        let app, auth, db;
+        if (firebaseConfig && firebaseConfig.apiKey) {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            
+            const provider = new GoogleAuthProvider();
+            
+            const signIn = () => signInWithPopup(auth, provider).catch(err => console.error("Sign-in error", err));
+            const signOutUser = () => signOut(auth).catch(err => console.error("Sign-out error", err));
 
-        const commentsForm = document.getElementById('comments-form');
-        const commentsList = document.getElementById('comments-list');
-        
-        commentsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('comment-name').value;
-            const message = document.getElementById('comment-message').value;
+            const userAuthContainer = document.getElementById('user-auth-container');
+            const dashboardLink = document.getElementById('dashboard-link');
+            const commentsLoginOverlay = document.getElementById('comments-login-overlay');
+            const commentsContent = document.querySelector('.comments-content');
 
-            if (name.trim() && message.trim()) {
-                try {
-                    const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
-                    
-                    const newComment = {
-                        id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-                        name: name,
-                        message: message,
-                        timestamp: new Date(),
-                        reactions: { like: 0, love: 0, idea: 0 },
-                        reply: {
-                            text: replyMessage,
-                            timestamp: new Date()
-                        },
-                        user_replies: [] 
-                    };
+            onAuthStateChanged(auth, (user) => {
+                if (user && !user.isAnonymous) { 
+                    userAuthContainer.innerHTML = `
+                        <div class="user-profile">
+                            <img src="${user.photoURL}" alt="User Profile" class="profile-pic" id="profile-pic-btn">
+                            <div class="profile-dropdown" id="profile-dropdown">
+                                <a href="dashboard.html" data-key="navDashboard">Dashboard</a>
+                                <button id="logout-btn" data-key="logout">Logout</button>
+                            </div>
+                        </div>
+                    `;
+                    dashboardLink.style.display = 'list-item';
+                    commentsLoginOverlay.style.display = 'none';
+                    commentsContent.classList.remove('locked');
+
+                    document.getElementById('profile-pic-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        document.getElementById('profile-dropdown').classList.toggle('show');
+                    });
+                    document.getElementById('logout-btn').addEventListener('click', signOutUser);
 
                     const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                    await updateDoc(docRef, {
-                        comments: arrayUnion(newComment)
-                    });
+                    fetchAndDisplayComments(docRef);
 
-                    commentsForm.reset();
-                } catch (error) {
-                    console.error("Error adding document: ", error);
+                } else { 
+                    userAuthContainer.innerHTML = `<button class="login-btn" id="login-btn" data-key="login">Login</button>`;
+                    dashboardLink.style.display = 'none';
+                    commentsLoginOverlay.style.display = 'flex';
+                    commentsContent.classList.add('locked');
+                    
+                    document.getElementById('login-btn').addEventListener('click', signIn);
+                    document.getElementById('comments-login-btn').addEventListener('click', signIn);
                 }
-            }
-        });
+                setLanguage(currentLang, false);
+            });
+            
+            signInAnonymously(auth).catch(err => console.error("Anonymous sign-in error:", err));
 
-        function fetchAndDisplayComments(docRef) {
-             onSnapshot(docRef, (docSnap) => {
-                 commentsList.innerHTML = '';
-                 if (docSnap.exists() && docSnap.data().comments) {
-                     const allComments = docSnap.data().comments;
-                     allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
+            // Comments Logic
+            const commentsForm = document.getElementById('comments-form');
+            const commentsList = document.getElementById('comments-list');
+            
+            commentsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nameInput = document.getElementById('comment-name');
+                const messageInput = document.getElementById('comment-message');
+                const name = nameInput.value;
+                const message = messageInput.value;
 
-                     allComments.forEach(comment => {
-                         const commentCard = document.createElement('div');
-                         commentCard.className = 'comment-card';
-                         
-                         let adminReplyHTML = '';
-                         if (comment.reply && comment.reply.text) {
-                             adminReplyHTML = `
-                                 <div class="comment-reply">
-                                     <div class="reply-header">
-                                         <img src="logo.jpg" alt="Admin" class="reply-avatar">
-                                         <strong>Malith Studio (Admin)</strong>
-                                     </div>
-                                     <p>${comment.reply.text}</p>
-                                 </div>
-                             `;
-                         }
-
-                         let userRepliesHTML = '<div class="replies-list">';
-                         if (comment.user_replies && comment.user_replies.length > 0) {
-                            comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
-                            comment.user_replies.forEach(reply => {
-                                 userRepliesHTML += `
-                                     <div class="user-reply-card">
-                                         <p>"${reply.message}"</p>
-                                         <div class="comment-footer">
-                                             <span class="comment-author">- ${reply.name}</span>
-                                         </div>
-                                     </div>
-                                 `;
-                            });
-                         }
-                         userRepliesHTML += '</div>';
-
-                         commentCard.innerHTML = `
-                             <p>"${comment.message}"</p>
-                             <div class="comment-footer">
-                                 <span class="comment-author">- ${comment.name}</span>
-                             </div>
-                             <div class="comment-actions">
-                                 <div class="reactions">
-                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
-                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
-                                     <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
-                                 </div>
-                                 <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
-                             </div>
-                             <div class="reply-form-container" style="display: none;">
-                                <form class="reply-form" data-comment-id="${comment.id}">
-                                    <input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required>
-                                    <textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea>
-                                    <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
-                                </form>
-                             </div>
-                             ${userRepliesHTML}
-                             ${adminReplyHTML}
-                         `;
-                         commentsList.appendChild(commentCard);
-                     });
-                 }
-                 setLanguage(currentLang, false); 
-             }, (error) => {
-                 console.error("Snapshot listener error:", error);
-             });
-        }
-
-        commentsList.addEventListener('click', async (e) => {
-            const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-            const docSnap = await getDoc(docRef);
-            if (!docSnap.exists()) return;
-            const allComments = docSnap.data().comments || [];
-
-            const reactionBtn = e.target.closest('.reaction-btn');
-            if(reactionBtn) {
-                const commentId = reactionBtn.dataset.commentId;
-                const reaction = reactionBtn.dataset.reaction;
-                
-                const commentIndex = allComments.findIndex(c => c.id === commentId);
-                if (commentIndex > -1) {
-                    allComments[commentIndex].reactions[reaction]++;
-                    await updateDoc(docRef, { comments: allComments });
+                if (name.trim() && message.trim()) {
+                    try {
+                        const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
+                        const newComment = {
+                            id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9), name, message,
+                            timestamp: new Date(),
+                            reactions: { like: 0, love: 0, idea: 0 },
+                            reply: { text: replyMessage, timestamp: new Date() },
+                            user_replies: [] 
+                        };
+                        const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                        await setDoc(docRef, { comments: arrayUnion(newComment) }, { merge: true });
+                        commentsForm.reset();
+                    } catch (error) {
+                        console.error("Error adding document: ", error);
+                    }
                 }
-                return;
-            }
+            });
 
-            const toggleBtn = e.target.closest('.toggle-reply-btn');
-            if (toggleBtn) {
-                const formContainer = toggleBtn.parentElement.nextElementSibling;
-                if (formContainer) {
-                    formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
-                }
-                return;
-            }
-
-            const replyForm = e.target.closest('.reply-form');
-            if(replyForm) {
-                 e.preventDefault();
-                 const commentId = replyForm.dataset.commentId;
-                 const name = replyForm.querySelector('.reply-name').value;
-                 const message = replyForm.querySelector('.reply-message').value;
-
-                 if (name.trim() && message.trim() && commentId) {
-                     const newReply = { name: name, message: message, timestamp: new Date() };
-                     const commentIndex = allComments.findIndex(c => c.id === commentId);
-                     if (commentIndex > -1) {
-                         allComments[commentIndex].user_replies.push(newReply);
-                         await updateDoc(docRef, { comments: allComments });
-                         replyForm.reset();
-                         replyForm.parentElement.style.display = 'none';
+            function fetchAndDisplayComments(docRef) {
+                 onSnapshot(docRef, (docSnap) => {
+                     commentsList.innerHTML = '';
+                     if (docSnap.exists() && docSnap.data().comments) {
+                         const allComments = docSnap.data().comments;
+                         allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
+                         allComments.forEach(comment => commentsList.appendChild(createCommentCard(comment)));
                      }
-                 }
+                     setLanguage(currentLang, false); 
+                 }, (error) => console.error("Snapshot listener error:", error));
             }
-        });
+            
+            function createCommentCard(comment) {
+                const card = document.createElement('div');
+                card.className = 'comment-card';
+                let adminReplyHTML = '';
+                 if (comment.reply && comment.reply.text) {
+                     adminReplyHTML = `
+                         <div class="comment-reply">
+                             <div class="reply-header">
+                                 <img src="logo.jpg" alt="Admin" class="reply-avatar">
+                                 <strong>Malith Studio (Admin)</strong>
+                             </div>
+                             <p>${comment.reply.text}</p>
+                         </div>
+                     `;
+                 }
+
+                 let userRepliesHTML = '<div class="replies-list">';
+                 if (comment.user_replies && comment.user_replies.length > 0) {
+                    comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
+                    comment.user_replies.forEach(reply => {
+                         userRepliesHTML += `
+                             <div class="user-reply-card">
+                                 <p>"${reply.message}"</p>
+                                 <div class="comment-footer">
+                                     <span class="comment-author">- ${reply.name}</span>
+                                 </div>
+                             </div>
+                         `;
+                    });
+                 }
+                 userRepliesHTML += '</div>';
+
+                 card.innerHTML = `
+                     <p>"${comment.message}"</p>
+                     <div class="comment-footer">
+                         <span class="comment-author">- ${comment.name}</span>
+                     </div>
+                     <div class="comment-actions">
+                         <div class="reactions">
+                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
+                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
+                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
+                         </div>
+                         <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
+                     </div>
+                     <div class="reply-form-container" style="display: none;">
+                        <form class="reply-form" data-comment-id="${comment.id}">
+                            <div class="form-group"><input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required></div>
+                            <div class="form-group"><textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea></div>
+                            <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
+                        </form>
+                     </div>
+                     ${userRepliesHTML}
+                     ${adminReplyHTML}
+                 `;
+                 return card;
+            }
+
+            commentsList.addEventListener('click', async (e) => {
+                const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                const docSnap = await getDoc(docRef);
+                if (!docSnap.exists()) return;
+                const allComments = docSnap.data().comments || [];
+
+                const reactionBtn = e.target.closest('.reaction-btn');
+                if(reactionBtn) {
+                    const commentId = reactionBtn.dataset.commentId;
+                    const reaction = reactionBtn.dataset.reaction;
+                    const commentIndex = allComments.findIndex(c => c.id === commentId);
+                    if (commentIndex > -1) {
+                        allComments[commentIndex].reactions[reaction]++;
+                        await updateDoc(docRef, { comments: allComments });
+                    }
+                }
+
+                const toggleBtn = e.target.closest('.toggle-reply-btn');
+                if (toggleBtn) {
+                    const formContainer = toggleBtn.parentElement.nextElementSibling;
+                    if (formContainer) formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+                }
+
+                const replyForm = e.target.closest('.reply-form');
+                if(replyForm) {
+                     e.preventDefault();
+                     const commentId = replyForm.dataset.commentId;
+                     const name = replyForm.querySelector('.reply-name').value;
+                     const message = replyForm.querySelector('.reply-message').value;
+                     if (name.trim() && message.trim() && commentId) {
+                         const newReply = { name: name, message: message, timestamp: new Date() };
+                         const commentIndex = allComments.findIndex(c => c.id === commentId);
+                         if (commentIndex > -1) {
+                             allComments[commentIndex].user_replies.push(newReply);
+                             await updateDoc(docRef, { comments: allComments });
+                             replyForm.reset();
+                             replyForm.parentElement.style.display = 'none';
+                         }
+                     }
+                }
+            });
+            
+
+        } else {
+             console.warn("Firebase config not found. Comments and Auth will be disabled.");
+             document.getElementById('user-auth-container').style.display = 'none';
+             const commentsSection = document.getElementById('comments');
+             if(commentsSection) commentsSection.style.display = 'none';
+        }
     </script>
 
     <script>
@@ -731,9 +827,13 @@
             navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
             navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
             navBlog: { en: 'Blog', si: 'බ්ලොග්', ta: 'வலைப்பதிவு' },
+            navDashboard: { en: 'Dashboard', si: 'පාලන පුවරුව', ta: 'டாஷ்போர்டு' },
             navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            login: { en: 'Login', si: 'ඇතුල් වන්න', ta: 'உள்நுழைய' },
+            logout: { en: 'Logout', si: 'ඉවත් වන්න', ta: 'வெளியேறு' },
+            commentsLoginPrompt: { en: 'Please login to view and add comments.', si: 'Comments බැලීමට සහ එකතු කිරීමට, කරුණාකර ඇතුල් වන්න.', ta: 'கருத்துக்களைக் காணவும் சேர்க்கவும் உள்நுழையவும்.' },
             heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
             heroSubtitle: { en: 'We build innovative tools that simplify your digital life. Saving your time is our priority.', si: 'ඔබේ ඩිජිටල් ජීවිතය සරල කරන නව්‍ය මෙවලම් අපි නිර්මාණය කරමු. ඔබේ කාලය ඉතිරි කිරීම අපගේ ප්‍රමුඛතාවයයි.', ta: 'உங்கள் டிஜிட்டல் வாழ்க்கையை எளிதாக்கும் புதுமையான கருவிகளை நாங்கள் உருவாக்குகிறோம். உங்கள் நேரத்தை சேமிப்பது எங்கள் முன்னுரிமை.' },
             heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
@@ -783,7 +883,7 @@
             project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
             project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' },
             project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' },
-            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපद සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
+            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපද සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
             project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' },
             project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
@@ -799,16 +899,16 @@
             replySubmitBtn: { en: 'Submit Reply', si: 'පිළිතුර යොමු කරන්න', ta: 'பதிலைச் சமர்ப்பி' },
         };
 
-        const languageBtn = document.getElementById('language-btn');
-        const languageOptions = document.getElementById('language-options');
         let currentLang = 'en';
 
         function setLanguage(lang, updateLinks = true) {
             currentLang = lang;
-            if(lang === 'en') languageBtn.textContent = 'English';
-            if(lang === 'si') languageBtn.textContent = 'සිංහල';
-            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
-            languageOptions.style.display = 'none';
+            if (document.getElementById('language-btn')) {
+                if(lang === 'en') document.getElementById('language-btn').textContent = 'English';
+                if(lang === 'si') document.getElementById('language-btn').textContent = 'සිංහල';
+                if(lang === 'ta') document.getElementById('language-btn').textContent = 'தமிழ்';
+                document.getElementById('language-options').style.display = 'none';
+            }
             document.documentElement.lang = lang;
 
             document.querySelectorAll('[data-key]').forEach(element => {
@@ -843,36 +943,43 @@
             }
         }
         
-         languageBtn.addEventListener('click', () => {
-             languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
-         });
-
-         document.querySelectorAll('#language-options button').forEach(button => {
-             button.addEventListener('click', () => {
-                 setLanguage(button.getAttribute('data-lang'));
+        document.addEventListener('DOMContentLoaded', () => {
+             const languageBtn = document.getElementById('language-btn');
+             const languageOptions = document.getElementById('language-options');
+             
+             languageBtn.addEventListener('click', () => {
+                 languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
              });
-         });
 
-         document.addEventListener('click', (e) => {
-             if (!languageBtn.contains(e.target)) {
-                 languageOptions.style.display = 'none';
-             }
-         });
-        
-         const sections = document.querySelectorAll('section');
-         const observer = new IntersectionObserver((entries) => {
-             entries.forEach(entry => {
-                 if (entry.isIntersecting) {
-                     entry.target.classList.add('visible');
+             document.querySelectorAll('#language-options button').forEach(button => {
+                 button.addEventListener('click', () => {
+                     setLanguage(button.getAttribute('data-lang'));
+                 });
+             });
+
+             document.addEventListener('click', (e) => {
+                 if (languageBtn && !languageBtn.contains(e.target) && !languageOptions.contains(e.target)) {
+                     languageOptions.style.display = 'none';
+                 }
+                 if (document.getElementById('profile-pic-btn') && !document.getElementById('profile-pic-btn').parentElement.contains(e.target)) {
+                    const dropdown = document.getElementById('profile-dropdown');
+                    if (dropdown) dropdown.classList.remove('show');
                  }
              });
-         }, { threshold: 0.1 });
+            
+             const sections = document.querySelectorAll('section');
+             const observer = new IntersectionObserver((entries) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         entry.target.classList.add('visible');
+                     }
+                 });
+             }, { threshold: 0.1 });
 
-         sections.forEach(section => {
-             observer.observe(section);
-         });
+             sections.forEach(section => {
+                 observer.observe(section);
+             });
 
-         document.addEventListener('DOMContentLoaded', () => {
              const bgContainer = document.getElementById('background-container');
              const themeSwitcher = document.getElementById('theme-switcher');
              const themeBtns = document.querySelectorAll('.theme-btn');
@@ -981,9 +1088,12 @@
                      }
                  });
              }
-         });
+             
+             const urlParams = new URLSearchParams(window.location.search);
+             const lang = urlParams.get('lang') || 'en';
+             setLanguage(lang);
 
-         setLanguage(currentLang);
+         });
         
          if ('serviceWorker' in navigator) {
              window.addEventListener('load', () => {
