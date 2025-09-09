@@ -613,8 +613,20 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // This check ensures the app works both in the platform and on Vercel
+        const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        
+        const firebaseConfig = firebaseConfigFromEnv || {
+            apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
+            authDomain: "malithstudio-ii.firebaseapp.com",
+            projectId: "malithstudio-ii",
+            storageBucket: "malithstudio-ii.firebasestorage.app",
+            messagingSenderId: "708859093490",
+            appId: "1:708859093490:web:5a6836f1f0208dbc738b6b",
+            measurementId: "G-H7WQ3CSB4E"
+        };
+        
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
 
         let app, auth, db;
         if (firebaseConfig && firebaseConfig.apiKey) {
