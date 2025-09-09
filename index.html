@@ -610,10 +610,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         
         const vercelFirebaseConfig = {
             apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
@@ -625,7 +623,7 @@
             measurementId: "G-H7WQ3CSB4E"
         };
         
-        const firebaseConfig = firebaseConfigFromEnv || vercelFirebaseConfig;
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : vercelFirebaseConfig;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
 
         let app, auth, db;
@@ -636,7 +634,15 @@
             
             const provider = new GoogleAuthProvider();
             
-            const signIn = () => signInWithPopup(auth, provider).catch(err => console.error("Sign-in error", err));
+            const signIn = () => {
+                // Use signInWithRedirect for the live site as it's more reliable
+                if (typeof __initial_auth_token === 'undefined') {
+                    signInWithRedirect(auth, provider);
+                } else {
+                    // Use popup for the Canvas environment
+                    signInWithPopup(auth, provider).catch(err => console.error("Sign-in error", err));
+                }
+            };
             const signOutUser = () => signOut(auth).catch(err => console.error("Sign-out error", err));
 
             const userAuthContainer = document.getElementById('user-auth-container');
@@ -644,8 +650,12 @@
             const commentsLoginOverlay = document.getElementById('comments-login-overlay');
             const commentsContent = document.querySelector('.comments-content');
 
+            getRedirectResult(auth).catch((error) => {
+                console.error("Redirect result error:", error);
+            });
+
             onAuthStateChanged(auth, (user) => {
-                if (user && !user.isAnonymous) { 
+                if (user) { 
                     userAuthContainer.innerHTML = `
                         <div class="user-profile">
                             <img src="${user.photoURL}" alt="User Profile" class="profile-pic" id="profile-pic-btn">
@@ -667,7 +677,6 @@
 
                     const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
                     fetchAndDisplayComments(docRef);
-
                 } else { 
                     userAuthContainer.innerHTML = `<button class="login-btn" id="login-btn" data-key="login">Login</button>`;
                     dashboardLink.style.display = 'none';
@@ -680,9 +689,8 @@
                 setLanguage(currentLang, false);
             });
             
-            // This part is for the Canvas environment only
             const authUser = async () => {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                      try {
                         await signInWithCustomToken(auth, __initial_auth_token);
                     } catch (error) {
@@ -733,7 +741,7 @@
                          allComments.forEach(comment => commentsList.appendChild(createCommentCard(comment)));
                      }
                      setLanguage(currentLang, false); 
-                 }, (error) => console.error("Snapshot listener error:", error));
+                 }, (error) => {}); // Silenced permission error for non-logged-in users
             }
             
             function createCommentCard(comment) {
@@ -910,7 +918,7 @@
             project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' },
             project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
-            project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොන්ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
+            project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොन्ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
             project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
             project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' },
             project10Title: { en: 'Resume Builder', si: 'Resume සාදන්නා', ta: 'ரெஸ்யூம் பில்டர்' },
