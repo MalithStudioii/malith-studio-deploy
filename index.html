@@ -125,41 +125,7 @@
         nav a:hover { color: #818cf8; }
         
         .nav-right-section { display: flex; align-items: center; gap: 1rem; }
-        .login-btn {
-            background-color: #4f46e5;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .login-btn:hover { background-color: #6366f1; }
-        
-        .user-profile { position: relative; }
-        .profile-pic { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid #6366f1; }
-        .profile-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 120%;
-            background-color: #1f2937;
-            border: 1px solid #4b5563;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            width: 150px;
-            z-index: 20;
-        }
-        .profile-dropdown.show { display: block; }
-        .profile-dropdown a, .profile-dropdown button {
-            display: block; background: none; border: none; color: white;
-            padding: 0.5rem 1rem; width: 100%; text-align: left;
-            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
-            text-decoration: none; font-size: 0.9rem;
-        }
-        .profile-dropdown a:hover, .profile-dropdown button:hover { background-color: #4b5563; }
-
+       
         #home { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
         .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; transition: color 0.5s;}
         .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
@@ -613,8 +579,6 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-        
         const vercelFirebaseConfig = {
             apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
             authDomain: "malithstudio-ii.firebaseapp.com",
@@ -625,7 +589,7 @@
             measurementId: "G-H7WQ3CSB4E"
         };
         
-        const firebaseConfig = firebaseConfigFromEnv || vercelFirebaseConfig;
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : vercelFirebaseConfig;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
 
         let app, auth, db;
