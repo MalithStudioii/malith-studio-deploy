@@ -610,10 +610,12 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = {
+        const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        
+        const vercelFirebaseConfig = {
             apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
             authDomain: "malithstudio-ii.firebaseapp.com",
             projectId: "malithstudio-ii",
@@ -623,7 +625,8 @@
             measurementId: "G-H7WQ3CSB4E"
         };
         
-        const appId = 'malithstudio-ii';
+        const firebaseConfig = firebaseConfigFromEnv || vercelFirebaseConfig;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
 
         let app, auth, db;
         if (firebaseConfig && firebaseConfig.apiKey) {
@@ -633,7 +636,13 @@
             
             const provider = new GoogleAuthProvider();
             
-            const signIn = () => signInWithRedirect(auth, provider);
+            const signIn = () => {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    signInWithPopup(auth, provider).catch(err => console.error("Popup Sign-in error", err));
+                } else {
+                    signInWithRedirect(auth, provider);
+                }
+            };
             const signOutUser = () => signOut(auth).catch(err => console.error("Sign-out error", err));
 
             const userAuthContainer = document.getElementById('user-auth-container');
@@ -645,6 +654,19 @@
                 .catch((error) => {
                     console.error("Redirect result error:", error.code, error.message);
                 });
+            
+            const authUser = async () => {
+                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                     try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (error) {
+                        if (error.code !== 'auth/custom-token-mismatch') {
+                           console.error("Authentication error:", error);
+                        }
+                    }
+                }
+            };
+            authUser();
 
             onAuthStateChanged(auth, (user) => {
                 if (user) { 
@@ -1115,15 +1137,6 @@
 
          });
         
-         if ('serviceWorker' in navigator) {
-             window.addEventListener('load', () => {
-                 navigator.serviceWorker.register('/sw.js').then(registration => {
-                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                 }, err => {
-                     console.log('ServiceWorker registration failed: ', err);
-                 });
-             });
-         }
     </script>
     
     <script>
