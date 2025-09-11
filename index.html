@@ -214,8 +214,8 @@
         .about-image { position: relative; }
         .about-image .logo-wrapper { width: 240px; height: 240px; }
         
-        #contact { text-align: center; }
-        #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
+        #support, #contact { text-align: center; }
+        #support p, #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
 
         .contact-buttons-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
         .contact-btn { display: flex !important; align-items: center; gap: 0.5rem; }
@@ -227,30 +227,6 @@
         #language-options button:hover { background-color: #4b5563; }
 
         #comments { position: relative; } 
-        .comments-content { transition: filter 0.3s; }
-        .comments-content.locked { filter: blur(5px); pointer-events: none; }
-        #comments-login-overlay {
-            display: none; 
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(2px);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 1rem;
-            z-index: 5;
-        }
-        #comments-login-overlay p {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #d1d5db;
-            margin-bottom: 1.5rem;
-        }
         
         #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
         .form-group { margin-bottom: 1.5rem; }
@@ -385,7 +361,7 @@
                     <li><a href="#projects" data-key="navProjects">Projects</a></li>
                     <li><a href="#services" data-key="navServices">Services</a></li>
                     <li><a href="#blog" data-key="navBlog">Blog</a></li>
-                    <li id="dashboard-link" style="display: none;"><a href="dashboard.html" data-key="navDashboard">Dashboard</a></li>
+                    <li><a href="#support" data-key="navSupport">Support Us</a></li>
                     <li><a href="#about" data-key="navAbout">About Us</a></li>
                     <li><a href="#comments" data-key="navComments">Comments</a></li>
                     <li><a href="#contact" data-key="navContact">Get In Touch</a></li>
@@ -398,9 +374,6 @@
                             <button data-lang="si">සිංහල</button>
                             <button data-lang="ta">தமிழ்</button>
                         </div>
-                    </div>
-                    <div id="user-auth-container">
-                        <!-- Filled by JavaScript -->
                     </div>
                 </div>
             </nav>
@@ -515,15 +488,21 @@
             </div>
         </section>
 
-        <section id="comments">
-            <div id="comments-login-overlay" style="display: none;">
-                <p data-key="commentsLoginPrompt">Please login to view and add comments.</p>
-                <button class="login-btn" id="comments-login-btn" data-key="login">Login</button>
+        <section id="support">
+            <div class="container">
+                <h2 class="section-title" data-key="supportTitle">Support Our Work</h2>
+                <p data-key="supportDesc">If you find these tools useful, please consider supporting the project. Your contribution helps cover server costs and fuels the development of new features. Thank you!</p>
+                <div class="contact-buttons-container">
+                    <a href="https://www.buymeacoffee.com/MalithStudio" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=MalithStudio&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+                </div>
             </div>
-            <div class="comments-content">
+        </section>
+
+        <section id="comments">
+            <div id="comments-form">
                  <div class="container">
                      <h2 class="section-title" data-key="commentsTitle">Comments</h2>
-                     <form id="comments-form">
+                     <form id="comments-form-fields">
                              <div class="form-group">
                                  <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
                              </div>
@@ -575,247 +554,8 @@
 
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const vercelFirebaseConfig = {
-            apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
-            authDomain: "malithstudio-ii.firebaseapp.com",
-            projectId: "malithstudio-ii",
-            storageBucket: "malithstudio-ii.firebasestorage.app",
-            messagingSenderId: "708859093490",
-            appId: "1:708859093490:web:5a6836f1f0208dbc738b6b",
-            measurementId: "G-H7WQ3CSB4E"
-        };
-        
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : vercelFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
-
-        let app, auth, db;
-        if (firebaseConfig && firebaseConfig.apiKey) {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            
-            const provider = new GoogleAuthProvider();
-            
-            const signIn = () => {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    signInWithPopup(auth, provider).catch(err => console.error("Popup Sign-in error", err));
-                } else {
-                    signInWithRedirect(auth, provider);
-                }
-            };
-            const signOutUser = () => signOut(auth).catch(err => console.error("Sign-out error", err));
-
-            const userAuthContainer = document.getElementById('user-auth-container');
-            const dashboardLink = document.getElementById('dashboard-link');
-            const commentsLoginOverlay = document.getElementById('comments-login-overlay');
-            const commentsContent = document.querySelector('.comments-content');
-            
-            getRedirectResult(auth)
-                .catch((error) => {
-                    console.error("Redirect result error:", error.code, error.message);
-                });
-            
-            const authUser = async () => {
-                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                     try {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } catch (error) {
-                        if (error.code !== 'auth/custom-token-mismatch') {
-                           console.error("Authentication error:", error);
-                        }
-                    }
-                }
-            };
-            authUser();
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) { 
-                    userAuthContainer.innerHTML = `
-                        <div class="user-profile">
-                            <img src="${user.photoURL}" alt="User Profile" class="profile-pic" id="profile-pic-btn">
-                            <div class="profile-dropdown" id="profile-dropdown">
-                                <a href="dashboard.html" data-key="navDashboard">Dashboard</a>
-                                <button id="logout-btn" data-key="logout">Logout</button>
-                            </div>
-                        </div>
-                    `;
-                    dashboardLink.style.display = 'list-item';
-                    commentsLoginOverlay.style.display = 'none';
-                    commentsContent.classList.remove('locked');
-
-                    document.getElementById('profile-pic-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        document.getElementById('profile-dropdown').classList.toggle('show');
-                    });
-                    document.getElementById('logout-btn').addEventListener('click', signOutUser);
-
-                    const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                    fetchAndDisplayComments(docRef);
-
-                } else { 
-                    userAuthContainer.innerHTML = `<button class="login-btn" id="login-btn" data-key="login">Login</button>`;
-                    dashboardLink.style.display = 'none';
-                    commentsLoginOverlay.style.display = 'flex';
-                    commentsContent.classList.add('locked');
-                    
-                    document.getElementById('login-btn').addEventListener('click', signIn);
-                    document.getElementById('comments-login-btn').addEventListener('click', signIn);
-                }
-                setLanguage(currentLang, false);
-            });
-            
-            // Comments Logic
-            const commentsForm = document.getElementById('comments-form');
-            const commentsList = document.getElementById('comments-list');
-            
-            commentsForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nameInput = document.getElementById('comment-name');
-                const messageInput = document.getElementById('comment-message');
-                const name = nameInput.value;
-                const message = messageInput.value;
-
-                if (name.trim() && message.trim()) {
-                    try {
-                        const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
-                        const newComment = {
-                            id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9), name, message,
-                            timestamp: new Date(),
-                            reactions: { like: 0, love: 0, idea: 0 },
-                            reply: { text: replyMessage, timestamp: new Date() },
-                            user_replies: [] 
-                        };
-                        const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                        await setDoc(docRef, { comments: arrayUnion(newComment) }, { merge: true });
-                        commentsForm.reset();
-                    } catch (error) {
-                        console.error("Error adding document: ", error);
-                    }
-                }
-            });
-
-            function fetchAndDisplayComments(docRef) {
-                 onSnapshot(docRef, (docSnap) => {
-                     commentsList.innerHTML = '';
-                     if (docSnap.exists() && docSnap.data().comments) {
-                         const allComments = docSnap.data().comments;
-                         allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
-                         allComments.forEach(comment => commentsList.appendChild(createCommentCard(comment)));
-                     }
-                     setLanguage(currentLang, false); 
-                 }, (error) => {});
-            }
-            
-            function createCommentCard(comment) {
-                const card = document.createElement('div');
-                card.className = 'comment-card';
-                let adminReplyHTML = '';
-                 if (comment.reply && comment.reply.text) {
-                     adminReplyHTML = `
-                         <div class="comment-reply">
-                             <div class="reply-header">
-                                 <img src="logo.jpg" alt="Admin" class="reply-avatar">
-                                 <strong>Malith Studio (Admin)</strong>
-                             </div>
-                             <p>${comment.reply.text}</p>
-                         </div>
-                     `;
-                 }
-
-                 let userRepliesHTML = '<div class="replies-list">';
-                 if (comment.user_replies && comment.user_replies.length > 0) {
-                    comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
-                    comment.user_replies.forEach(reply => {
-                         userRepliesHTML += `
-                             <div class="user-reply-card">
-                                 <p>"${reply.message}"</p>
-                                 <div class="comment-footer">
-                                     <span class="comment-author">- ${reply.name}</span>
-                                 </div>
-                             </div>
-                         `;
-                    });
-                 }
-                 userRepliesHTML += '</div>';
-
-                 card.innerHTML = `
-                     <p>"${comment.message}"</p>
-                     <div class="comment-footer">
-                         <span class="comment-author">- ${comment.name}</span>
-                     </div>
-                     <div class="comment-actions">
-                         <div class="reactions">
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
-                         </div>
-                         <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
-                     </div>
-                     <div class="reply-form-container" style="display: none;">
-                        <form class="reply-form" data-comment-id="${comment.id}">
-                            <div class="form-group"><input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required></div>
-                            <div class="form-group"><textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea></div>
-                            <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
-                        </form>
-                     </div>
-                     ${userRepliesHTML}
-                     ${adminReplyHTML}
-                 `;
-                 return card;
-            }
-
-            commentsList.addEventListener('click', async (e) => {
-                const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) return;
-                const allComments = docSnap.data().comments || [];
-
-                const reactionBtn = e.target.closest('.reaction-btn');
-                if(reactionBtn) {
-                    const commentId = reactionBtn.dataset.commentId;
-                    const reaction = reactionBtn.dataset.reaction;
-                    const commentIndex = allComments.findIndex(c => c.id === commentId);
-                    if (commentIndex > -1) {
-                        allComments[commentIndex].reactions[reaction]++;
-                        await updateDoc(docRef, { comments: allComments });
-                    }
-                }
-
-                const toggleBtn = e.target.closest('.toggle-reply-btn');
-                if (toggleBtn) {
-                    const formContainer = toggleBtn.parentElement.nextElementSibling;
-                    if (formContainer) formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
-                }
-
-                const replyForm = e.target.closest('.reply-form');
-                if(replyForm) {
-                     e.preventDefault();
-                     const commentId = replyForm.dataset.commentId;
-                     const name = replyForm.querySelector('.reply-name').value;
-                     const message = replyForm.querySelector('.reply-message').value;
-                     if (name.trim() && message.trim() && commentId) {
-                         const newReply = { name: name, message: message, timestamp: new Date() };
-                         const commentIndex = allComments.findIndex(c => c.id === commentId);
-                         if (commentIndex > -1) {
-                             allComments[commentIndex].user_replies.push(newReply);
-                             await updateDoc(docRef, { comments: allComments });
-                             replyForm.reset();
-                             replyForm.parentElement.style.display = 'none';
-                         }
-                     }
-                }
-            });
-            
-        } else {
-             console.warn("Firebase config not found. Comments and Auth will be disabled.");
-             document.getElementById('user-auth-container').style.display = 'none';
-             const commentsSection = document.getElementById('comments');
-             if(commentsSection) commentsSection.style.display = 'none';
-        }
+        // Firebase and other initializations would go here.
+        // For now, we are focusing on the static parts of the site.
     </script>
 
     <script>
@@ -824,13 +564,12 @@
             navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
             navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
             navBlog: { en: 'Blog', si: 'බ්ලොග්', ta: 'வலைப்பதிவு' },
-            navDashboard: { en: 'Dashboard', si: 'පාලන පුවරුව', ta: 'டாஷ்போர்டு' },
+            navSupport: { en: 'Support Us', si: 'අපට සහය දෙන්න', ta: 'எங்களுக்கு ஆதரவளிக்கவும்' },
             navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
-            login: { en: 'Login', si: 'ඇතුල් වන්න', ta: 'உள்நுழைய' },
-            logout: { en: 'Logout', si: 'ඉවත් වන්න', ta: 'வெளியேறு' },
-            commentsLoginPrompt: { en: 'Please login to view and add comments.', si: 'Comments බැලීමට සහ එකතු කිරීමට, කරුණාකර ඇතුල් වන්න.', ta: 'கருத்துக்களைக் காணவும் சேர்க்கவும் உள்நுழையவும்.' },
+            supportTitle: { en: 'Support Our Work', si: 'අපගේ නිර්මාණ සඳහා ඔබේ සහය', ta: 'எங்கள் பணிக்கு ஆதரவளிக்கவும்' },
+            supportDesc: { en: "If you find these tools useful, please consider supporting the project. Your contribution helps cover server costs and fuels the development of new features. Thank you!", si: 'මෙම මෙවලම් ඔබට ප්‍රයෝජනවත් නම්, කරුණාකර මෙම ව්‍යාපෘතියට සහයෝගය දැක්වීමට සලකා බලන්න. ඔබගේ දායකත්වය, සේවාදායක පිරිවැය පියවා ගැනීමට සහ නව විශේෂාංග සංවර්ධනය කිරීමට ඉන්ධන සපයයි. ඔබට ස්තුතියි!', ta: 'இந்தக் கருவிகள் உங்களுக்குப் பயனுள்ளதாக இருந்தால், திட்டத்தை ஆதரிக்கவும். உங்கள் பங்களிப்பு சேவையக செலவுகளை ஈடுகட்ட உதவுகிறது மற்றும் புதிய அம்சங்களின் வளர்ச்சிக்கு எரிபொருளாகிறது. நன்றி!' },
             heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
             heroSubtitle: { en: 'We build innovative tools that simplify your digital life. Saving your time is our priority.', si: 'ඔබේ ඩිජිටල් ජීවිතය සරල කරන නව්‍ය මෙවලම් අපි නිර්මාණය කරමු. ඔබේ කාලය ඉතිරි කිරීම අපගේ ප්‍රමුඛතාවයයි.', ta: 'உங்கள் டிஜிட்டல் வாழ்க்கையை எளிதாக்கும் புதுமையான கருவிகளை நாங்கள் உருவாக்குகிறோம். உங்கள் நேரத்தை சேமிப்பது எங்கள் முன்னுரிமை.' },
             heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
