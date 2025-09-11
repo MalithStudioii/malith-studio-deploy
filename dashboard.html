@@ -4,54 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard - Malith Studio®</title>
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            background-color: #0b0f19;
             color: #f9fafb;
             margin: 0;
-            padding: 1rem;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
+        header {
+            width: 100%;
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 50;
+            position: fixed;
+            top: 0;
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-container { display: flex; align-items: center; gap: 0.75rem; color: white; text-decoration: none; }
+        .logo { width: 40px; height: 40px; object-fit: cover; border-radius: 9999px; }
+        .logo-text { font-size: 1.25rem; font-weight: 800; }
+
         .container {
             max-width: 1024px;
-            margin: 4rem auto;
+            width: 100%;
+            margin: 0 auto;
+            padding: 8rem 2rem 2rem 2rem;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .profile-section {
+            background-color: rgba(31, 41, 55, 0.5);
             padding: 2rem;
-            background-color: rgba(31, 41, 55, 0.8);
-            backdrop-filter: blur(10px);
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        h1 {
-            text-align: center;
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #6366f1;
+        }
+        #user-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #c7d2fe;
+            margin: 0;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
             color: #93c5fd;
+            margin-bottom: 1.5rem;
         }
-        p {
-            text-align: center;
-            color: #d1d5db;
-            font-size: 1.1rem;
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            text-align: left;
         }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 2rem;
+        .activity-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .activity-card h3 {
+            margin-top: 0;
             color: #a5b4fc;
-            text-decoration: none;
-            font-weight: 600;
         }
-        .back-link:hover {
-            text-decoration: underline;
+        .activity-card p {
+            color: #d1d5db;
+        }
+        .cta-button { 
+            display: inline-block; 
+            background-image: linear-gradient(to right, #6366f1, #8b5cf6); 
+            color: white; 
+            padding: 0.75rem 2rem; 
+            border-radius: 0.5rem; 
+            text-decoration: none; 
+            font-weight: 700; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            cursor: pointer; 
+            border: none;
+            margin-top: 1rem;
+        }
+        .cta-button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); 
+        }
+        .logout-btn {
+            background-image: linear-gradient(to right, #ec4899, #f472b6);
         }
     </style>
 </head>
 <body>
+
+    <header>
+        <div class="nav-container">
+            <a href="https://malithstudiodeploy.vercel.app/" class="logo-container">
+                <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
+                <span class="logo-text">Malith Studio®</span>
+            </a>
+            <a href="https://malithstudiodeploy.vercel.app/" class="cta-button">Back to Home</a>
+        </div>
+    </header>
+
     <div class="container">
-        <h1>My Dashboard</h1>
-        <p>Your saved history will appear here soon.</p>
-        <a href="index.html" class="back-link">Back to Home</a>
+        <div id="dashboard-content" style="display: none;">
+            <div class="profile-section">
+                <img id="user-photo" src="logo.jpg" alt="User Profile Picture" class="profile-pic">
+                <h1 id="user-name">Welcome, User!</h1>
+            </div>
+
+            <h2 class="section-title">My Activity</h2>
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <h3>Saved To-Do Lists</h3>
+                    <p>Your saved to-do lists will appear here soon.</p>
+                </div>
+                <div class="activity-card">
+                    <h3>Summarized Texts</h3>
+                    <p>Your summarized texts and articles will be saved here.</p>
+                </div>
+                <div class="activity-card">
+                    <h3>Generated Social Posts</h3>
+                    <p>Your AI-generated social media posts will be saved here.</p>
+                </div>
+            </div>
+            
+            <button id="logout-btn" class="cta-button logout-btn">Logout</button>
+        </div>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const vercelFirebaseConfig = {
+            apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
+            authDomain: "malithstudio-ii.firebaseapp.com",
+            projectId: "malithstudio-ii",
+            storageBucket: "malithstudio-ii.firebasestorage.app",
+            messagingSenderId: "708859093490",
+            appId: "1:708859093490:web:5a6836f1f0208dbc738b6b",
+            measurementId: "G-H7WQ3CSB4E"
+        };
+        
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : vercelFirebaseConfig;
+
+        if (firebaseConfig && firebaseConfig.apiKey) {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+
+            onAuthStateChanged(auth, (user) => {
+                if (user && !user.isAnonymous) {
+                    // User is signed in, show the dashboard content.
+                    document.getElementById('dashboard-content').style.display = 'block';
+                    document.getElementById('user-name').textContent = `Welcome, ${user.displayName}!`;
+                    if (user.photoURL) {
+                        document.getElementById('user-photo').src = user.photoURL;
+                    }
+                } else {
+                    // No user is signed in or user is anonymous, redirect to home page.
+                    window.location.href = 'https://malithstudiodeploy.vercel.app/';
+                }
+            });
+
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    // Sign-out successful.
+                    window.location.href = 'https://malithstudiodeploy.vercel.app/';
+                }).catch((error) => {
+                    console.error("Sign-out error:", error);
+                });
+            });
+        }
+    </script>
+
 </body>
 </html>
 
