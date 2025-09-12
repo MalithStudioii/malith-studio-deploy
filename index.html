@@ -125,41 +125,7 @@
         nav a:hover { color: #818cf8; }
         
         .nav-right-section { display: flex; align-items: center; gap: 1rem; }
-        .login-btn {
-            background-color: #4f46e5;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .login-btn:hover { background-color: #6366f1; }
-        
-        .user-profile { position: relative; }
-        .profile-pic { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid #6366f1; }
-        .profile-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 120%;
-            background-color: #1f2937;
-            border: 1px solid #4b5563;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            width: 150px;
-            z-index: 20;
-        }
-        .profile-dropdown.show { display: block; }
-        .profile-dropdown a, .profile-dropdown button {
-            display: block; background: none; border: none; color: white;
-            padding: 0.5rem 1rem; width: 100%; text-align: left;
-            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
-            text-decoration: none; font-size: 0.9rem;
-        }
-        .profile-dropdown a:hover, .profile-dropdown button:hover { background-color: #4b5563; }
-
+       
         #home { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
         .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; transition: color 0.5s;}
         .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
@@ -247,6 +213,26 @@
         @media (min-width: 768px) { .about-content { flex-direction: row; } }
         .about-image { position: relative; }
         .about-image .logo-wrapper { width: 240px; height: 240px; }
+        .special-thanks {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+            transition: border-color 0.5s;
+        }
+        .special-thanks h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #a5b4fc;
+            margin: 0 0 1rem 0;
+            transition: color 0.5s;
+        }
+        .special-thanks p {
+            color: #9ca3af;
+            margin-top: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            transition: color 0.5s;
+        }
         
         #support, #contact { text-align: center; }
         #support p, #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
@@ -260,63 +246,7 @@
         #language-options button { display: block; background: none; border: none; color: white; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; }
         #language-options button:hover { background-color: #4b5563; }
 
-        #comments { position: relative; } 
-        .comments-content { transition: filter 0.3s; }
-        .comments-content.locked { filter: blur(5px); pointer-events: none; }
-        #comments-login-overlay {
-            display: none; 
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(2px);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 1rem;
-            z-index: 5;
-        }
-        #comments-login-overlay p {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #d1d5db;
-            margin-bottom: 1.5rem;
-        }
-        
-        #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group input, .form-group textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s;}
-        .form-group textarea { resize: vertical; min-height: 100px; }
-        #submit-comment { width: 100%; }
-        #comments-list { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 768px) { #comments-list { grid-template-columns: repeat(2, 1fr); } }
-        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; transition: background-color 0.5s, border-color 0.5s;}
-        .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; transition: color 0.5s;}
-        .comment-footer { display: flex; justify-content: space-between; align-items: center; }
-        .comment-author { font-weight: 600; color: #9ca3af; transition: color 0.5s;}
-        .reactions { display: flex; gap: 0.5rem; }
-        .reaction-btn { background-color: #374151; border: none; padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; }
-        .reaction-btn:hover { transform: scale(1.1); }
-        .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
-        
-        .comment-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
-        .toggle-reply-btn { background: none; border: none; color: #a5b4fc; cursor: pointer; font-weight: 600; padding: 0.25rem 0.5rem; }
-        .toggle-reply-btn:hover { text-decoration: underline; }
-        .reply-form-container { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #374151; transition: border-color 0.5s; }
-        .reply-form-container input, .reply-form-container textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 0.9rem; box-sizing: border-box; margin-bottom: 0.75rem; transition: all 0.5s; }
-        .reply-form-container textarea { resize: vertical; }
-        .submit-reply-btn { width: 100%; padding: 0.5rem 1rem; font-size: 0.9rem; }
-        .replies-list { margin-top: 1.5rem; padding-left: 1rem; border-left: 2px solid #374151; transition: border-color 0.5s;}
-        .user-reply-card { background-color: rgba(17, 24, 39, 0.7); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; transition: background-color 0.5s;}
-        .user-reply-card p { margin: 0 0 0.75rem 0; font-size: 0.9rem; }
-        
-        .comment-reply { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #4b5563; padding: 1rem; margin: 1.5rem -1.5rem -1.5rem -1.5rem; transition: background-color 0.5s, border-color 0.5s;}
-        .reply-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; color: #c7d2fe; }
-        .reply-avatar { width: 24px; height: 24px; border-radius: 50%; }
-        .comment-reply p { margin: 0; font-size: 0.9rem; color: #d1d5db; }
+        #comments { position: relative; display: none; } /* Temporarily hide comments section */
         
         #back-to-top { position: fixed; bottom: 2rem; right: 2rem; background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100; }
         #back-to-top.visible { opacity: 1; visibility: visible; }
@@ -388,12 +318,9 @@
         .light-mode .tool-card, .light-mode .service-card, .light-mode .blog-post-preview { background-color: rgba(255, 255, 255, 0.7); border-color: #e5e7eb; }
         .light-mode .tool-card-content h4, .light-mode .service-card h4, .light-mode .blog-post-preview h4 { color: #1f2937; }
         .light-mode .tool-card-content p, .light-mode .service-card p, .light-mode .blog-post-preview p { color: #4b5563; }
-        .light-mode #comments-form, .light-mode .comment-card { background-color: #e5e7eb; border-color: #d1d5db; }
-        .light-mode .form-group input, .light-mode .form-group textarea, .light-mode .reply-form-container input, .light-mode .reply-form-container textarea { background-color: #f9fafb; border-color: #d1d5db; color: #111827; }
-        .light-mode .comment-card p, .light-mode .comment-reply p, .light-mode .user-reply-card p { color: #1f2937; }
-        .light-mode .comment-author { color: #4b5563; }
-        .light-mode .replies-list, .light-mode .reply-form-container, .light-mode .comment-reply { border-color: #d1d5db; }
-        .light-mode .user-reply-card, .light-mode .comment-reply { background-color: #f9fafb; }
+        .light-mode .special-thanks { border-top-color: #d1d5db; }
+        .light-mode .special-thanks h4 { color: #4338ca; }
+        .light-mode .special-thanks p { color: #4b5563; }
         .light-mode #theme-switcher { background-color: rgba(255, 255, 255, 0.5); border-color: #d1d5db; }
         .light-mode #mode-toggle { color: #1f2937; }
     </style>
@@ -419,7 +346,6 @@
                     <li><a href="#projects" data-key="navProjects">Projects</a></li>
                     <li><a href="#services" data-key="navServices">Services</a></li>
                     <li><a href="#blog" data-key="navBlog">Blog</a></li>
-                    <li id="dashboard-link" style="display: none;"><a href="dashboard.html" data-key="navDashboard">Dashboard</a></li>
                     <li><a href="#support" data-key="navSupport">Support Us</a></li>
                     <li><a href="#about" data-key="navAbout">About Us</a></li>
                     <li><a href="#comments" data-key="navComments">Comments</a></li>
@@ -434,7 +360,6 @@
                             <button data-lang="ta">தமிழ்</button>
                         </div>
                     </div>
-                    <div id="user-auth-container"></div>
                 </div>
             </nav>
         </div>
@@ -543,6 +468,10 @@
                      <div class="about-text">
                          <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
                          <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
+                         <div class="special-thanks">
+                             <h4 data-key="aboutThanksTitle">Special Thanks</h4>
+                             <p data-key="aboutThanksNames">A special thank you to Lakmal Dharmasena Bsc (Civil) Hons, Dip in OSH, Arjuna Udesh Kahandawa, and Vipul Wasantha for their invaluable support and encouragement.</p>
+                         </div>
                      </div>
                 </div>
             </div>
@@ -562,10 +491,6 @@
             <div class="comments-content">
                  <div class="container">
                      <h2 class="section-title" data-key="commentsTitle">Comments</h2>
-                     <div id="comments-login-overlay" style="display: flex;">
-                         <p data-key="commentsLoginPrompt">Please login to view and add comments.</p>
-                         <button class="login-btn" id="comments-login-btn" data-key="login">Login</button>
-                     </div>
                      <form id="comments-form">
                              <div class="form-group">
                                  <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
@@ -618,244 +543,7 @@
 
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInAnonymously, getRedirectResult, signInWithRedirect, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, onSnapshot, doc, updateDoc, getDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const vercelFirebaseConfig = {
-            apiKey: "AIzaSyDiBInpRtEeYSGCtDhDBir4Y7GlHpUo74c",
-            authDomain: "malithstudio-ii.firebaseapp.com",
-            projectId: "malithstudio-ii",
-            storageBucket: "malithstudio-ii.firebasestorage.app",
-            messagingSenderId: "708859093490",
-            appId: "1:708859093490:web:5a6836f1f0208dbc738b6b",
-            measurementId: "G-H7WQ3CSB4E"
-        };
-        
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : vercelFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'malithstudio-ii';
-
-        let app, auth, db;
-        if (firebaseConfig && firebaseConfig.apiKey) {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            
-            const provider = new GoogleAuthProvider();
-            
-            const signIn = () => {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    signInWithPopup(auth, provider).catch(err => console.error("Popup Sign-in error", err));
-                } else {
-                    signInWithRedirect(auth, provider);
-                }
-            };
-            const signOutUser = () => signOut(auth).catch(err => console.error("Sign-out error", err));
-
-            const userAuthContainer = document.getElementById('user-auth-container');
-            const dashboardLink = document.getElementById('dashboard-link');
-            const commentsLoginOverlay = document.getElementById('comments-login-overlay');
-            const commentsContent = document.querySelector('.comments-content');
-            
-            getRedirectResult(auth)
-                .catch((error) => {
-                    console.error("Redirect result error:", error.code, error.message);
-                });
-            
-            const authUser = async () => {
-                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                     try {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } catch (error) {
-                        if (error.code !== 'auth/custom-token-mismatch') {
-                           console.error("Authentication error:", error);
-                        }
-                    }
-                }
-            };
-            authUser();
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) { 
-                    userAuthContainer.innerHTML = `
-                        <div class="user-profile">
-                            <img src="${user.photoURL}" alt="User Profile" class="profile-pic" id="profile-pic-btn">
-                            <div class="profile-dropdown" id="profile-dropdown">
-                                <a href="dashboard.html" data-key="navDashboard">Dashboard</a>
-                                <button id="logout-btn" data-key="logout">Logout</button>
-                            </div>
-                        </div>
-                    `;
-                    dashboardLink.style.display = 'list-item';
-                    if(commentsLoginOverlay) commentsLoginOverlay.style.display = 'none';
-                    if(commentsContent) commentsContent.classList.remove('locked');
-
-                    document.getElementById('profile-pic-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        document.getElementById('profile-dropdown').classList.toggle('show');
-                    });
-                    document.getElementById('logout-btn').addEventListener('click', signOutUser);
-
-                    const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                    fetchAndDisplayComments(docRef);
-
-                } else { 
-                    userAuthContainer.innerHTML = `<button class="login-btn" id="login-btn" data-key="login">Login</button>`;
-                    dashboardLink.style.display = 'none';
-                    if(commentsLoginOverlay) commentsLoginOverlay.style.display = 'flex';
-                    if(commentsContent) commentsContent.classList.add('locked');
-                    
-                    document.getElementById('login-btn').addEventListener('click', signIn);
-                    const commentsLoginBtn = document.getElementById('comments-login-btn');
-                    if(commentsLoginBtn) commentsLoginBtn.addEventListener('click', signIn);
-                }
-                setLanguage(currentLang, false);
-            });
-            
-            const commentsForm = document.getElementById('comments-form');
-            const commentsList = document.getElementById('comments-list');
-            
-            commentsForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nameInput = document.getElementById('comment-name');
-                const messageInput = document.getElementById('comment-message');
-                const name = nameInput.value;
-                const message = messageInput.value;
-
-                if (name.trim() && message.trim()) {
-                    try {
-                        const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
-                        const newComment = {
-                            id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9), name, message,
-                            timestamp: new Date(),
-                            reactions: { like: 0, love: 0, idea: 0 },
-                            reply: { text: replyMessage, timestamp: new Date() },
-                            user_replies: [] 
-                        };
-                        const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                        await setDoc(docRef, { comments: arrayUnion(newComment) }, { merge: true });
-                        commentsForm.reset();
-                    } catch (error) {
-                        console.error("Error adding document: ", error);
-                    }
-                }
-            });
-
-            function fetchAndDisplayComments(docRef) {
-                 onSnapshot(docRef, (docSnap) => {
-                     if(!commentsList) return;
-                     commentsList.innerHTML = '';
-                     if (docSnap.exists() && docSnap.data().comments) {
-                         const allComments = docSnap.data().comments;
-                         allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
-                         allComments.forEach(comment => commentsList.appendChild(createCommentCard(comment)));
-                     }
-                     setLanguage(currentLang, false); 
-                 }, (error) => console.error("Snapshot listener error:", error));
-            }
-            
-            function createCommentCard(comment) {
-                const card = document.createElement('div');
-                card.className = 'comment-card';
-                let adminReplyHTML = '';
-                 if (comment.reply && comment.reply.text) {
-                     adminReplyHTML = `
-                         <div class="comment-reply">
-                             <div class="reply-header">
-                                 <img src="logo.jpg" alt="Admin" class="reply-avatar">
-                                 <strong>Malith Studio (Admin)</strong>
-                             </div>
-                             <p>${comment.reply.text}</p>
-                         </div>
-                     `;
-                 }
-
-                 let userRepliesHTML = '<div class="replies-list">';
-                 if (comment.user_replies && comment.user_replies.length > 0) {
-                    comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
-                    comment.user_replies.forEach(reply => {
-                         userRepliesHTML += `
-                             <div class="user-reply-card">
-                                 <p>"${reply.message}"</p>
-                                 <div class="comment-footer">
-                                     <span class="comment-author">- ${reply.name}</span>
-                                 </div>
-                             </div>
-                         `;
-                    });
-                 }
-                 userRepliesHTML += '</div>';
-
-                 card.innerHTML = `
-                     <p>"${comment.message}"</p>
-                     <div class="comment-footer">
-                         <span class="comment-author">- ${comment.name}</span>
-                     </div>
-                     <div class="comment-actions">
-                         <div class="reactions">
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
-                             <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
-                         </div>
-                         <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
-                     </div>
-                     <div class="reply-form-container" style="display: none;">
-                        <form class="reply-form" data-comment-id="${comment.id}">
-                            <div class="form-group"><input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required></div>
-                            <div class="form-group"><textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea></div>
-                            <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
-                        </form>
-                     </div>
-                     ${userRepliesHTML}
-                     ${adminReplyHTML}
-                 `;
-                 return card;
-            }
-
-            if(commentsList){
-                commentsList.addEventListener('click', async (e) => {
-                    const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
-                    const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) return;
-                    const allComments = docSnap.data().comments || [];
-
-                    const reactionBtn = e.target.closest('.reaction-btn');
-                    if(reactionBtn) {
-                        const commentId = reactionBtn.dataset.commentId;
-                        const reaction = reactionBtn.dataset.reaction;
-                        const commentIndex = allComments.findIndex(c => c.id === commentId);
-                        if (commentIndex > -1) {
-                            allComments[commentIndex].reactions[reaction]++;
-                            await updateDoc(docRef, { comments: allComments });
-                        }
-                    }
-
-                    const toggleBtn = e.target.closest('.toggle-reply-btn');
-                    if (toggleBtn) {
-                        const formContainer = toggleBtn.parentElement.nextElementSibling;
-                        if (formContainer) formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
-                    }
-
-                    const replyForm = e.target.closest('.reply-form');
-                    if(replyForm) {
-                         e.preventDefault();
-                         const commentId = replyForm.dataset.commentId;
-                         const name = replyForm.querySelector('.reply-name').value;
-                         const message = replyForm.querySelector('.reply-message').value;
-                         if (name.trim() && message.trim() && commentId) {
-                             const newReply = { name: name, message: message, timestamp: new Date() };
-                             const commentIndex = allComments.findIndex(c => c.id === commentId);
-                             if (commentIndex > -1) {
-                                 allComments[commentIndex].user_replies.push(newReply);
-                                 await updateDoc(docRef, { comments: allComments });
-                                 replyForm.reset();
-                                 replyForm.parentElement.style.display = 'none';
-                             }
-                         }
-                    }
-                });
-            }
-        }
+        // Firebase initialization goes here
     </script>
 
     <script>
@@ -864,14 +552,10 @@
             navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
             navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
             navBlog: { en: 'Blog', si: 'බ්ලොග්', ta: 'வலைப்பதிவு' },
-            navDashboard: { en: 'Dashboard', si: 'පාලන පුවරුව', ta: 'டாஷ்போர்டு' },
             navSupport: { en: 'Support Us', si: 'අපට සහය දෙන්න', ta: 'எங்களுக்கு ஆதரவளிக்கவும்' },
             navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
-            login: { en: 'Login', si: 'ඇතුල් වන්න', ta: 'உள்நுழைய' },
-            logout: { en: 'Logout', si: 'ඉවත් වන්න', ta: 'வெளியேறு' },
-            commentsLoginPrompt: { en: 'Please login to view and add comments.', si: 'Comments බැලීමට සහ එකතු කිරීමට, කරුණාකර ඇතුල් වන්න.', ta: 'கருத்துக்களைக் காணவும் சேர்க்கவும் உள்நுழையவும்.' },
             supportTitle: { en: 'Support Our Work', si: 'අපගේ නිර්මාණ සඳහා ඔබේ සහය', ta: 'எங்கள் பணிக்கு ஆதரவளிக்கவும்' },
             supportDesc: { en: "If you find these tools useful, please consider supporting the project. Your contribution helps cover server costs and fuels the development of new features. Thank you!", si: 'මෙම මෙවලම් ඔබට ප්‍රයෝජනවත් නම්, කරුණාකර මෙම ව්‍යාපෘතියට සහයෝගය දැක්වීමට සලකා බලන්න. ඔබගේ දායකත්වය, සේවාදායක පිරිවැය පියවා ගැනීමට සහ නව විශේෂාංග සංවර්ධනය කිරීමට ඉන්ධන සපයයි. ඔබට ස්තුතියි!', ta: 'இந்தக் கருவிகள் உங்களுக்குப் பயனுள்ளதாக இருந்தால், திட்டத்தை ஆதரிக்கவும். உங்கள் பங்களிப்பு சேவையக செலவுகளை ஈடுகட்ட உதவுகிறது மற்றும் புதிய அம்சங்களின் வளர்ச்சிக்கு எரிபொருளாகிறது. நன்றி!' },
             heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
@@ -894,6 +578,14 @@
             blogSecondNewestDesc: { en: 'We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.', si: 'Malith Studio® මෙවලම් පවුලට අලුතින්ම එකතු වූ සාමාජිකයා, "Resume Builder" හඳුන්වා දීමට ලැබීම අපට මහත් සතුටක්! විනාඩි කිහිපයකින් අලංකාර CV එකක් හදාගන්න.', ta: 'Malith Studio® கருவிகளின் குடும்பத்தில் சமீபத்திய கூடுதலாக ரெஸ்யூம் பில்டரை அறிவிப்பதில் நாங்கள் மகிழ்ச்சியடைகிறோம்! சில நிமிடங்களில் ஒரு நேர்த்தியான CV ஐ உருவாக்கவும்.' },
 
             aboutTitle: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
+            aboutDesc1: { en: 'Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.', si: 'මලිත් ස්ටුඩියෝ® ආරම්භ කරන ලද්දේ සරල මෙහෙවරක් ඇතිවය: මිනිසුන්ට සැබවින්ම උපකාර වන ඩිජිටල් මෙවලම් නිර්මාණය කිරීම. සංකීර්ණ මෘදුකාංග වලින් පිරුණු ලෝකයක, කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන සරල, интуитивно зрозумілий, සහ බලවත් විසඳුම් ගොඩනැගීම කෙරෙහි අපි අවධානය යොමු කරමු.', ta: 'மலித் ஸ்டுடியோ® ஒரு எளிய நோக்கத்துடன் நிறுவப்பட்டது: மக்களுக்கு உண்மையாக உதவும் டிஜிட்டல் கருவிகளை உருவாக்குவது. சிக்கலான மென்பொருட்கள் நிறைந்த உலகில், பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் எளிய, உள்ளுணர்வு மற்றும் சக்திவாய்ந்த தீர்வுகளை உருவாக்குவதில் நாங்கள் கவனம் செலுத்துகிறோம்.' },
+            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය ਕਰමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டல் பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
+            aboutThanksTitle: { en: 'Special Thanks', si: 'විශේෂ ස්තූතිය', ta: 'சிறப்பு நன்றி' },
+            aboutThanksNames: { 
+                en: 'A special thank you to Lakmal Dharmasena Bsc (Civil) Hons, Dip in OSH, Arjuna Udesh Kahandawa, and Vipul Wasantha for their invaluable support and encouragement.',
+                si: 'ලක්මාල් ධර්මසේන Bsc (Civil) Hons, Dip in OSH, අර්ජුන උදේශ් කහඳව, සහ විපුල් වසන්ත යන මහත්වරුන්ගේ වටිනා සහයෝගය සහ දිරිගැන්වීම් වලට අපගේ විශේෂ ස්තූතිය.',
+                ta: 'லக்மால் தர்மசேன Bsc (Civil) Hons, Dip in OSH, அர்ஜுன உதெஷ் கஹந்தவ, மற்றும் விபுல் வசந்த ஆகியோரின் অমूल्य ஆதரவிற்கும் ஊக்கத்திற்கும் எமது சிறப்பு நன்றிகள்.'
+            },
             commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' },
             commentMessagePlaceholder: { en: 'Your Comment', si: 'ඔබේ අදහස', ta: 'உங்கள் கருத்து' },
@@ -910,8 +602,7 @@
             service2Desc: { en: 'From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.', si: 'පුද්ගලික portfolio වල සිට කුඩා ව්‍යාපාරික වෙබ් අඩවි දක්වා, ඕනෑම උපාංගයකට ගැලපෙන, දෘශ්‍යමය වශයෙන් ආකර්ෂණීය සහ ප්‍රතිචාරාත්මක වෙබ් අඩවි අපි නිර්මාණය කරමු.', ta: 'தனிப்பட்ட портஃபோலியோக்கள் முதல் சிறு வணிக தளங்கள் வரை, எந்தவொரு சாதனத்திலும் hoàn hảoமாக செயல்படும் பார்வைக்கு ஈர்க்கக்கூடிய மற்றும் பதிலளிக்கக்கூடிய வலைத்தளங்களை நாங்கள் உருவாக்குகிறோம்.' },
             service3Title: { en: 'AI Integration', si: 'AI ඒකාබද්ධ කිරීම', ta: 'AI ஒருங்கிணைப்பு' },
             service3Desc: { en: 'We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.', si: 'කාර්යයන් ස්වයංක්‍රීය කරන සහ බුද්ධිමත් විසඳුම් සපයන දක්ෂ මෙවලම් නිර්මාණය කරමින්, AI හි බලයෙන් අපි ඔබගේ වෙබ් යෙදුම් වැඩිදියුණු කරමු.', ta: 'பணிகளை தானியக்கமாக்கும் மற்றும் புத்திசாலித்தனமான தீர்வுகளை வழங்கும் சிறந்த கருவிகளை உருவாக்கி, AI இன் சக்தியுடன் உங்கள் வலை பயன்பாடுகளை நாங்கள் மேம்படுத்துகிறோம்.' },
-            aboutDesc1: { en: 'Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.', si: 'මලිත් ස්ටුඩියෝ® ආරම්භ කරන ලද්දේ සරල මෙහෙවරක් ඇතිවය: මිනිසුන්ට සැබවින්ම උපකාර වන ඩිජිටල් මෙවලම් නිර්මාණය කිරීම. සංකීර්ණ මෘදුකාංග වලින් පිරුණු ලෝකයක, කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන සරල, интуитивно зрозумілий, සහ බලවත් විසඳුම් ගොඩනැගීම කෙරෙහි අපි අවධානය යොමු කරමු.', ta: 'மலித் ஸ்டுடியோ® ஒரு எளிய நோக்கத்துடன் நிறுவப்பட்டது: மக்களுக்கு உண்மையாக உதவும் டிஜிட்டல் கருவிகளை உருவாக்குவது. சிக்கலான மென்பொருட்கள் நிறைந்த உலகில், பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் எளிய, உள்ளுணர்வு மற்றும் சக்திவாய்ந்த தீர்வுகளை உருவாக்குவதில் நாங்கள் கவனம் செலுத்துகிறோம்.' },
-            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය ਕਰමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டல் பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
+            
             project1Title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
             project1Desc: { en: 'A modern tool designed to type using voice in Sinhala, English, and Tamil.', si: 'සිංහල, ඉංග්‍රීසි, සහ දෙමළ භාෂාවලින් කටහඬ භාවිතයෙන් ටයිප් කිරීමට නිර්මාණය කරන ලද නවීන මෙවලමකි.', ta: 'சிங்களம், ஆங்கிலம் மற்றும் தமிழில் குரல் மூலம் தட்டச்சு செய்ய வடிவமைக்கப்பட்ட ஒரு நவீன கருவி.' },
             project2Title: { en: 'Image to Text (OCR)', si: 'පින්තූරයෙන් අකුරු (OCR)', ta: 'படத்திலிருந்து உரை (OCR)' },
