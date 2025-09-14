@@ -3,35 +3,42 @@ import { marked } from "marked";
 
 export default async function handler(req, res) {
     if (!process.env.GEMINI_API_KEY) {
-        console.error('FATAL: GEMINI_API_KEY is not set.');
-        return res.status(500).json({ error: 'Server configuration error: API key missing.' });
+        return res.status(500).json({ error: 'Server configuration error: API key is missing.' });
     }
     
-    if (req.method !== 'GET') {
+    // Changed to accept POST requests to receive the language
+    if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     try {
-        console.log("Attempting to initialize GoogleGenerativeAI...");
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        // Get language from the request body sent from ainews.html
+        const { language } = req.body;
+        if (!language) {
+            return res.status(400).json({ error: 'Language is required in the request body.' });
+        }
         
-        // ### FINAL FIX: Switching to the fast and reliable 'gemini-1.5-flash' model ###
-        // This model is confirmed to work with the user's other tools.
+        // Map the language code (e.g., 'si') to its full name for the prompt
+        const langMap = {
+            en: 'English',
+            si: 'Sinhala',
+            ta: 'Tamil'
+        };
+        const languageName = langMap[language] || 'English';
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        console.log("Model initialized successfully. Using gemini-1.5-flash.");
 
-        const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
+        // Dynamically insert the requested language into the prompt
+        const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. The entire response must be in the **${languageName}** language. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
 
-        console.log("Generating content with the prompt...");
         const result = await model.generateContent(prompt);
         const response = result.response;
 
-        if (!response || !response.candidates || response.candidates.length === 0 || !response.candidates[0].content) {
-            console.error('API response was blocked or empty. Finish Reason:', response?.candidates?.[0]?.finishReason);
+        if (!response || !response.candidates || !response.candidates.length === 0 || !response.candidates[0].content) {
             return res.status(500).json({ error: 'Failed to get a valid response from the AI.' });
         }
 
-        console.log("Successfully received response from API.");
         const text = response.text();
         const htmlContent = marked(text);
 
