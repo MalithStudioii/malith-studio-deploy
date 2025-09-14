@@ -196,7 +196,15 @@
             statusDiv.textContent = '';
 
             try {
-                const response = await fetch(apiUrl);
+                // Change to POST and send the selected language
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ language: currentLang }) // Send the current language
+                });
+
                 if (!response.ok) {
                     throw new Error(`API request failed with status ${response.status}`);
                 }
