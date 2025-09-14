@@ -281,13 +281,129 @@
         <li><a href="#support" data-key="navSupport">Support Us</a></li>
     </ul>
     <main>
-        <section id="home"><!-- ... Home content ... --></section>
-        <section id="featured-tool"><!-- ... Featured tool content ... --></section>
-        <section id="projects"><!-- ... Projects grid ... --></section>
-        <section id="services"><!-- ... Services grid ... --></section>
-        <section id="blog"><!-- ... Blog previews ... --></section>
-        <section id="about"><!-- ... About Us and Special Thanks content ... --></section>
-        <section id="support"><!-- ... Support Us content ... --></section>
+        <section id="home">
+             <div class="container">
+                <div class="hero-content">
+                    <h1 data-key="heroWelcome">Welcome to</h1>
+                    <div class="animated-text">Malith Studio®</div>
+                    <p data-key="heroSubtitle">We build innovative tools that simplify your digital life. Saving your time is our priority.</p>
+                    <a href="#projects" class="cta-button" data-key="heroButton">Go to Projects</a>
+                </div>
+            </div>
+        </section>
+        <section id="featured-tool">
+            <div class="container">
+                <h2 class="section-title" data-key="featuredTitle">Featured Tool</h2>
+                <div class="featured-tool-card">
+                    <div class="featured-image-container">
+                        <img src="tool-ai-writer.jpg" alt="AI Writing Assistant Tool">
+                    </div>
+                    <div class="featured-content-container">
+                        <h3 data-key="featuredToolName">AI Writing Assistant</h3>
+                        <p data-key="featuredToolDesc">Instantly improve your writing. Make it more professional, simplify complex sentences, or fix grammatical errors with a single click. Powered by advanced AI to help you communicate clearly and effectively.</p>
+                        <a href="ai-writing-assistant.html" class="cta-button" data-key="featuredToolButton">Try it Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
+                <div class="feature-tags-container">
+                    <span class="feature-tag"><i class="fas fa-bolt"></i> Fast & Lightweight</span>
+                    <span class="feature-tag"><i class="fas fa-shield-halved"></i> Privacy-friendly</span>
+                    <span class="feature-tag"><i class="fas fa-mobile-screen-button"></i> Mobile Ready</span>
+                    <span class="feature-tag"><i class="fas fa-gift"></i> Always Free</span>
+                </div>
+                <div class="search-filter-section">
+                    <div class="search-bar-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search tools... (voice, qr, font, social, ...)">
+                    </div>
+                    <div id="filterContainer" class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="ai">AI</button>
+                        <button class="filter-btn" data-filter="text">Text</button>
+                        <button class="filter-btn" data-filter="utility">Utility</button>
+                    </div>
+                </div>
+                <div id="toolsGrid" class="projects-grid">
+                    <a href="ai-writing-assistant.html" class="tool-card" data-category="ai text"><img src="tool-ai-writer.jpg" alt="AI Writing Assistant"><div class="tool-card-content"><h4 data-key="project11Title">AI Writing Assistant</h4><p data-key="project11Desc">Refine your writing by making it professional, simpler, or grammatically correct with AI.</p></div></a>
+                    <a href="imagetotext.html" class="tool-card" data-category="ai text utility"><img src="tool-imagetotext.jpg" alt="Image to Text (OCR)"><div class="tool-card-content"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
+                    <a href="textsummarizer.html" class="tool-card" data-category="ai text"><img src="tool-textsummarizer.jpg" alt="Text Summarizer"><div class="tool-card-content"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
+                    <a href="todolist.html" class="tool-card" data-category="utility"><img src="tool-todolist.jpg" alt="To-Do List"><div class="tool-card-content"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
+                    <a href="qrcodegenerator.html" class="tool-card" data-category="utility"><img src="tool-qrcodegenerator.jpg" alt="QR Code Generator"><div class="tool-card-content"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
+                    <a href="passwordgenerator.html" class="tool-card" data-category="utility"><img src="tool-passwordgenerator.jpg" alt="Password Generator"><div class="tool-card-content"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
+                    <a href="presentationideagenerator.html" class="tool-card" data-category="ai"><img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas"><div class="tool-card-content"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
+                    <a href="fontconverter.html" class="tool-card" data-category="text utility"><img src="tool-fontconverter.jpg" alt="Sinhala Font Converter"><div class="tool-card-content"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
+                    <a href="socialpostgenerator.html" class="tool-card" data-category="ai text"><img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator"><div class="tool-card-content"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
+                    <a href="resume-builder.html" class="tool-card" data-category="utility text"><img src="tool-resumebuilder.jpg" alt="Resume Builder Tool"><div class="tool-card-content"><h4 data-key="project10Title">Resume Builder</h4><p data-key="project10Desc">Create a professional resume quickly with our easy-to-use builder.</p></div></a>
+                    <a href="voicetype.html" class="tool-card" data-category="ai text utility"><img src="tool-voicetype.jpg" alt="Voice Typing Tool"><div class="tool-card-content"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
+                </div>
+            </div>
+        </section>
+        <section id="services">
+             <div class="container">
+                <h2 class="section-title" data-key="servicesTitle">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg></div><h4 data-key="service1Title">Custom Tool Development</h4><p data-key="service1Desc">We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg></div><h4 data-key="service2Title">Modern Web Solutions</h4><p data-key="service2Desc">From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.5 13.5L18 15l-1.5 1.5" /></svg></div><h4 data-key="service3Title">AI Integration</h4><p data-key="service3Desc">We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.</p></div>
+                </div>
+            </div>
+        </section>
+        <section id="blog">
+             <div class="container">
+                  <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
+                  <div class="projects-grid">
+                        <a href="blog.html#post-writing-assistant" class="blog-post-preview">
+                              <h4 data-key="blogPost1Title">New Tool Alert: AI Writing Assistant!</h4>
+                              <p data-key="blogPost1Desc">Supercharge your writing with our new AI Writing Assistant. Instantly make your text more professional, simplify complex ideas, or fix grammar...</p>
+                        </a>
+                        <a href="blog.html#post-ai-game-changer" class="blog-post-preview">
+                              <h4 data-key="blogPost2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
+                              <p data-key="blogPost2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
+                        </a>
+                        <a href="blog.html#post-resume-builder" class="blog-post-preview">
+                              <h4 data-key="blogPost3Title">Announcing Our Newest Tool: The Resume Builder!</h4>
+                              <p data-key="blogPost3Desc">We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.</p>
+                        </a>
+                 </div>
+                 <div class="text-center mt-12">
+                      <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
+                 </div>
+            </div>
+        </section>
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title" data-key="aboutTitle">About Us</h2>
+                <div class="about-content">
+                     <div class="about-image"><div class="logo-wrapper"><img src="logo.jpg" alt="Malith Studio® Logo" class="logo"></div></div>
+                     <div class="about-text">
+                          <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
+                          <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
+                     </div>
+                </div>
+                <div class="special-thanks">
+                    <h3 data-key="specialThanksTitle">Special Thanks</h3>
+                    <p data-key="specialThanksDesc">මාගේ මෙම නිර්මාණ ගමනේ ආරම්භයේ සිටම නිවැරදි මග පෙන්වමින්, නොමසුරුව සහය ලබාදුන් පහත නම් සඳහන් මහත්වරුන් හට මාගේ හෘදයාංගම ස්තූතිය පුද කරමි.</p>
+                    <ul class="thanks-list">
+                        <li data-key="thankYou1">ලක්මාල් ධර්මසේන Bsc (Civil) Hons, Dip in OSH</li>
+                        <li data-key="thankYou2">අර්ජුන උදේශ් කහඳව</li>
+                        <li data-key="thankYou3">විපුල් වසන්ත</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="support">
+            <div class="container">
+                <h2 class="section-title" data-key="supportTitle">Support Our Work</h2>
+                <p data-key="supportDesc">If you find these tools useful, please consider supporting the project. Your contribution helps cover server costs and fuels the development of new features. Thank you!</p>
+                <div class="contact-buttons-container">
+                    <a href="https://www.buymeacoffee.com/MalithStudio" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=MalithStudio&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee"></a>
+                </div>
+            </div>
+        </section>
         
         <section id="comments">
             <div id="comments-container">
@@ -301,7 +417,18 @@
             </div>
         </section>
 
-        <section id="contact"><!-- ... Contact content ... --></section>
+        <section id="contact">
+             <div class="container">
+                <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
+                <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, let's create something amazing together, and connect with us on our other social networks here.</p>
+                <div class="contact-buttons-container">
+                    <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn"><i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span></a>
+                    <a href="https://www.facebook.com/groups/1889931538411601/?ref=share&mibextid=NSMWBT" target="_blank" class="cta-button contact-btn"><i class="fab fa-facebook"></i> <span data-key="contactFacebook">Facebook</span></a>
+                    <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn"><i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span></a>
+                    <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn"><i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span></a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer><!-- ... Footer content ... --></footer>
@@ -321,52 +448,65 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot, serverTimestamp, arrayUnion, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, serverTimestamp, arrayUnion, collection, setLogLevel } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Enable Firestore logging for debugging
+        setLogLevel('debug');
+        
+        console.log("Firebase script module started.");
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         
+        console.log("App ID:", appId);
+        if (!firebaseConfig.apiKey) {
+            console.error("Firebase config is missing or invalid.");
+        }
+
         const app = initializeApp(firebaseConfig, "mainApp");
         const db = getFirestore(app);
         const auth = getAuth(app);
 
         const authUser = async () => {
+            console.log("Attempting authentication...");
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
+                    console.log("Signed in with custom token.");
                 } else {
                     await signInAnonymously(auth);
+                    console.log("Signed in anonymously.");
                 }
             } catch (error) { console.error("Authentication error:", error); }
         };
 
         function timeAgo(date) {
             const seconds = Math.floor((new Date() - date) / 1000);
-            let interval = seconds / 31536000;
-            if (interval > 1) return Math.floor(interval) + " years ago";
-            interval = seconds / 2592000;
-            if (interval > 1) return Math.floor(interval) + " months ago";
-            interval = seconds / 86400;
-            if (interval > 1) return Math.floor(interval) + " days ago";
-            interval = seconds / 3600;
-            if (interval > 1) return Math.floor(interval) + " hours ago";
-            interval = seconds / 60;
-            if (interval > 1) return Math.floor(interval) + " minutes ago";
+            let interval = seconds / 31536000; if (interval > 1) return Math.floor(interval) + " years ago";
+            interval = seconds / 2592000; if (interval > 1) return Math.floor(interval) + " months ago";
+            interval = seconds / 86400; if (interval > 1) return Math.floor(interval) + " days ago";
+            interval = seconds / 3600; if (interval > 1) return Math.floor(interval) + " hours ago";
+            interval = seconds / 60; if (interval > 1) return Math.floor(interval) + " minutes ago";
             return "just now";
         }
 
         function setupCommentSection() {
+            console.log("Setting up comment section...");
             const commentsListDiv = document.getElementById('comments-list');
             const commentForm = document.getElementById('comment-form');
-            if (!commentsListDiv || !commentForm) return;
+            if (!commentsListDiv || !commentForm) {
+                console.error("Comment elements not found in the DOM.");
+                return;
+            }
 
-            // FIX: Corrected the document path to have an even number of segments.
-            // "main-comments" is the collection, "live-data" is the document.
             const docRef = doc(db, `artifacts/${appId}/public/data/main-comments`, "live-data");
+            console.log("Listening to document:", `artifacts/${appId}/public/data/main-comments/live-data`);
 
             onSnapshot(docRef, (docSnap) => {
+                console.log("Received snapshot update.");
                 commentsListDiv.innerHTML = '';
                 if (docSnap.exists() && docSnap.data().comments && docSnap.data().comments.length > 0) {
+                    console.log("Document exists with", docSnap.data().comments.length, "comments.");
                     const comments = docSnap.data().comments.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
                     comments.forEach(comment => {
                         const commentEl = document.createElement('div');
@@ -382,16 +522,19 @@
                         commentsListDiv.appendChild(commentEl);
                     });
                 } else {
+                    console.log("No comments found or document doesn't exist.");
                     const noCommentEl = document.createElement('p');
                     noCommentEl.className = 'no-comments-message';
                     noCommentEl.dataset.key = 'noComments';
-                    noCommentEl.textContent = 'Be the first to comment!';
+                    const lang = document.documentElement.lang || 'en';
+                    noCommentEl.textContent = translations.noComments[lang] || 'Be the first to comment!';
                     commentsListDiv.appendChild(noCommentEl);
                 }
             }, (error) => { console.error("Snapshot listener error:", error); });
 
             commentForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                console.log("Comment form submitted.");
                 const nameInput = document.getElementById('comment-name');
                 const messageInput = document.getElementById('comment-message');
                 const submitButton = document.getElementById('submit-comment');
@@ -402,12 +545,16 @@
                     
                     const newComment = { name: nameInput.value, message: messageInput.value, timestamp: serverTimestamp(), isAutoReply: false };
                     try {
+                        console.log("Attempting to add new comment:", newComment);
                         await setDoc(docRef, { comments: arrayUnion(newComment) }, { merge: true });
+                        console.log("Comment added successfully.");
                         commentForm.reset();
 
                         setTimeout(async () => {
                             const autoReply = { name: "Malith Studio Bot", message: "Thank you for your comment! We appreciate your feedback.", timestamp: serverTimestamp(), isAutoReply: true };
+                            console.log("Attempting to add auto-reply.");
                             await setDoc(docRef, { comments: arrayUnion(autoReply) }, { merge: true });
+                            console.log("Auto-reply added successfully.");
                         }, 2000);
 
                     } catch (error) { console.error("Error adding comment: ", error); } 
@@ -421,7 +568,12 @@
         }
 
         onAuthStateChanged(auth, (user) => {
-            if (user) { setupCommentSection(); }
+            if (user) {
+                console.log("Firebase user authenticated:", user.uid);
+                setupCommentSection();
+            } else {
+                 console.log("User is not authenticated yet.");
+            }
         });
 
         authUser();
