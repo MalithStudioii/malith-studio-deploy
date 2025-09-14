@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI News - Malith Studio®</title>
+    <meta name="description" content="Get the latest news and updates from the world of Artificial Intelligence, curated by Malith Studio®. Stay informed about new tools, breakthroughs, and trends.">
+    <meta name="keywords" content="ai news, artificial intelligence news, latest ai tools, gemini api, malith studio, sri lanka">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1e3a8a, #312e81); color: #f9fafb; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 1rem; box-sizing: border-box; }
+        .back-btn { position: fixed; top: 1.5rem; left: 1.5rem; display: flex; align-items: center; gap: 0.5rem; background-color: rgba(31, 41, 55, 0.8); backdrop-filter: blur(10px); color: #d1d5db; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; font-weight: 600; z-index: 10; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; }
+        .back-btn:hover { background-color: rgba(55, 65, 81, 0.9); color: white; }
+        .back-btn svg { width: 1rem; height: 1rem; }
+        .container { width: 100%; max-width: 48rem; background-color: rgba(31, 41, 55, 0.8); backdrop-filter: blur(10px); border-radius: 1rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); padding: 2.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        .main-btn { width: 100%; padding: 1rem; font-size: 1.125rem; font-weight: 600; color: white; background: linear-gradient(to right, #8b5cf6, #ec4899); border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .loader { width: 20px; height: 20px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #result-container { background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 1.5rem; min-height: 200px; color: #d1d5db; max-height: 60vh; overflow-y: auto; }
+        #result-container h2 { font-size: 1.5rem; color: #93c5fd; border-bottom: 1px solid #4b5563; padding-bottom: 0.5rem; margin-top: 0; }
+        #result-container h3 { font-size: 1.2rem; color: #a5b4fc; margin-top: 1.5rem; }
+        #result-container ul { padding-left: 1.5rem; }
+        #result-container li { margin-bottom: 1rem; line-height: 1.6; }
+        #result-container a { color: #f59e0b; text-decoration: none; }
+        #result-container a:hover { text-decoration: underline; }
+        #status { text-align: center; color: #f87171; height: 1.5rem; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Latest AI News</h1>
+            <p>Get the top AI news from the last 48 hours.</p>
+        </div>
+        
+        <button id="generate-btn" class="main-btn">
+            <span>Get Latest News</span>
+            <div id="loader" class="loader" style="display: none;"></div>
+        </button>
+
+        <div id="result-container" style="display: none;"></div>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const generateBtnText = generateBtn.querySelector('span');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('result-container');
+        const statusDiv = document.getElementById('status');
+        
+        // This is the main fix. Using the full URL.
+        const apiUrl = 'https://malithstudiodeploy.vercel.app/api/fetch-news';
+
+        generateBtn.addEventListener('click', async () => {
+            generateBtn.disabled = true;
+            generateBtnText.textContent = 'Fetching News...';
+            loader.style.display = 'inline-block';
+            resultContainer.style.display = 'none';
+            statusDiv.textContent = '';
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.htmlContent) {
+                    resultContainer.innerHTML = result.htmlContent;
+                    resultContainer.style.display = 'block';
+                } else {
+                    throw new Error("No content received from API.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                statusDiv.textContent = 'An error occurred. Please try again later.';
+            } finally {
+                generateBtn.disabled = false;
+                generateBtnText.textContent = 'Get Latest News';
+                loader.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>
+
