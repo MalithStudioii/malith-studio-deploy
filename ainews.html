@@ -151,6 +151,11 @@
                 homeUrl.searchParams.set('lang', lang);
                 backBtn.href = homeUrl.toString();
             }
+            
+            // ### FIX: Automatically re-fetch news if it's already displayed ###
+            if (resultContainer.style.display === 'block' && !generateBtn.disabled) {
+                generateBtn.click();
+            }
         }
 
         function getLangFromURL() {
@@ -181,9 +186,19 @@
             e.stopPropagation();
             languageOptions.classList.toggle('show');
         });
+        
+        // ### FIX: Added logic to prevent re-fetching if the same language is clicked ###
         document.querySelectorAll('#language-options button').forEach(button => {
-            button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
+            button.addEventListener('click', () => {
+                const newLang = button.getAttribute('data-lang');
+                if (newLang !== currentLang) {
+                    setLanguage(newLang);
+                } else {
+                    languageOptions.classList.remove('show');
+                }
+            });
         });
+
         window.addEventListener('click', () => languageOptions.classList.remove('show'));
         
         const apiUrl = '/api/fetch-news';
@@ -196,7 +211,6 @@
             statusDiv.textContent = '';
 
             try {
-                // 1. තෝරාගත් භාෂාව backend එකට යැවීම
                 // Send the request as a POST and include the current language in the body.
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -212,7 +226,6 @@
                 const result = await response.json();
                 
                 if (result.htmlContent) {
-                    // 2. ලැබෙන ප්‍රතිඵලය පෙන්වීම
                     // Display the generated news.
                     resultContainer.innerHTML = result.htmlContent;
                     resultContainer.style.display = 'block';
