@@ -1,23 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://malithstudiodeploy.vercel.app/</loc>
-    <lastmod>2025-09-08</lastmod>
-    <priority>1.00</priority>
-  </url>
-  <url>
-    <loc>https://malithstudiodeploy.vercel.app/socialpostgenerator.html</loc>
-    <lastmod>2025-09-08</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://malithstudiodeploy.vercel.app/presentationideagenerator.html</loc>
-    <lastmod>2025-09-08</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://malithstudiodeploy.vercel.app/textsummarizer.html</loc>
-    <lastmod>2025-09-08</lastmod>
-    <priority>0.80</priority>
-  </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/</loc>
+  <lastmod>2025-09-14T14:44:00+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/ainews.html</loc>
+  <lastmod>2025-09-14T14:44:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/ai-writing-assistant.html</loc>
+  <lastmod>2025-09-14T14:44:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/voicetype.html</loc>
+  <lastmod>2025-09-14T14:44:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/imagetotext.html</loc>
+  <lastmod>2025-09-14T14:44:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/textsummarizer.html</loc>
+  <lastmod>2025-09-14T14:44:01+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/todolist.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/qrcodegenerator.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/passwordgenerator.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/presentationideagenerator.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/fontconverter.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/socialpostgenerator.html</loc>
+  <lastmod>2025-09-14T14:44:02+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/resume-builder.html</loc>
+  <lastmod>2025-09-14T14:44:03+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/blog.html</loc>
+  <lastmod>2025-09-14T14:44:03+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/privacy.html</loc>
+  <lastmod>2025-09-14T14:44:03+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://malithstudiodeploy.vercel.app/index.html</loc>
+  <lastmod>2025-09-14T14:44:03+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
 </urlset>
