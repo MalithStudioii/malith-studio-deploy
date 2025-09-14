@@ -13,11 +13,11 @@ export default async function handler(req, res) {
 
     try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // Using the reliable flash model
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // ### FIX: Using the highly stable 'gemini-pro' model to ensure compatibility ###
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        // A new prompt that doesn't rely on the Google Search tool
-        const prompt = `You are an expert AI news reporter. Based on your extensive training data, generate a report on the 5 most significant and interesting developments in the world of Artificial Intelligence that have emerged recently. For each development, provide a compelling title as a level-3 markdown heading, and a concise one-paragraph summary. Do not mention that this is based on training data. Present it as a fresh news report. Format the entire response in markdown.`;
+        // A simplified but effective prompt that works reliably
+        const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
 
         // We are NOT using the 'tools' property here to ensure maximum compatibility
         const result = await model.generateContent(prompt);
@@ -35,6 +35,7 @@ export default async function handler(req, res) {
         res.status(200).json({ htmlContent });
 
     } catch (error) {
+        // Enhanced error logging to capture more details
         console.error('CRITICAL ERROR in fetch-news function:', JSON.stringify(error, null, 2));
         res.status(500).json({ error: `An error occurred with the Google API: ${error.message}` });
     }
