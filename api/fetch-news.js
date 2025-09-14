@@ -3,8 +3,8 @@ import { marked } from "marked";
 
 export default async function handler(req, res) {
     if (!process.env.GEMINI_API_KEY) {
-        console.error('FATAL: GEMINI_API_KEY is not set in environment variables.');
-        return res.status(500).json({ error: 'Server configuration error: API key is missing.' });
+        console.error('FATAL: GEMINI_API_KEY is not set.');
+        return res.status(500).json({ error: 'Server configuration error: API key missing.' });
     }
     
     if (req.method !== 'GET') {
@@ -12,16 +12,18 @@ export default async function handler(req, res) {
     }
 
     try {
+        console.log("Attempting to initialize GoogleGenerativeAI...");
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // ### FIX: Using the highly stable 'gemini-pro' model to ensure compatibility ###
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        
+        // ### FINAL FIX: Switching to the fast and reliable 'gemini-1.5-flash' model ###
+        // This model is confirmed to work with the user's other tools.
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        console.log("Model initialized successfully. Using gemini-1.5-flash.");
 
-        // A simplified but effective prompt that works reliably
         const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
 
-        // We are NOT using the 'tools' property here to ensure maximum compatibility
+        console.log("Generating content with the prompt...");
         const result = await model.generateContent(prompt);
-        
         const response = result.response;
 
         if (!response || !response.candidates || response.candidates.length === 0 || !response.candidates[0].content) {
@@ -29,13 +31,13 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Failed to get a valid response from the AI.' });
         }
 
+        console.log("Successfully received response from API.");
         const text = response.text();
         const htmlContent = marked(text);
 
         res.status(200).json({ htmlContent });
 
     } catch (error) {
-        // Enhanced error logging to capture more details
         console.error('CRITICAL ERROR in fetch-news function:', JSON.stringify(error, null, 2));
         res.status(500).json({ error: `An error occurred with the Google API: ${error.message}` });
     }
