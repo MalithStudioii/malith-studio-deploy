@@ -196,7 +196,8 @@
             statusDiv.textContent = '';
 
             try {
-                // Change to POST and send the selected language
+                // 1. තෝරාගත් භාෂාව backend එකට යැවීම
+                // Send the request as a POST and include the current language in the body.
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
@@ -211,6 +212,8 @@
                 const result = await response.json();
                 
                 if (result.htmlContent) {
+                    // 2. ලැබෙන ප්‍රතිඵලය පෙන්වීම
+                    // Display the generated news.
                     resultContainer.innerHTML = result.htmlContent;
                     resultContainer.style.display = 'block';
                 } else {
