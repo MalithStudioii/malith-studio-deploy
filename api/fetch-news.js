@@ -24,9 +24,10 @@ export default async function handler(req, res) {
         const languageName = langMap[language] || 'English';
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // Using the highly stable 'gemini-pro' model as a final measure
+        // ### FIX: Using the highly stable 'gemini-pro' model to ensure compatibility ###
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
+        // A simplified but effective prompt that works reliably
         const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. The entire response must be in the **${languageName}** language. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
 
         const result = await model.generateContent(prompt);
