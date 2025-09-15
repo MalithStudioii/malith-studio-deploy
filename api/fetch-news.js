@@ -24,17 +24,16 @@ export default async function handler(req, res) {
         const languageName = langMap[language] || 'English';
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // ### FIX: Using the highly stable 'gemini-pro' model to ensure compatibility ###
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        // ### FIX: Using 'gemini-1.5-flash' model for consistency with other working tools ###
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        // A simplified but effective prompt that works reliably
         const prompt = `Act as an expert AI news reporter. Generate a news report on the top 3 latest advancements in Artificial Intelligence. The entire response must be in the **${languageName}** language. For each advancement, provide a title as a level-3 markdown heading and a concise summary. Format the entire response in markdown.`;
 
         const result = await model.generateContent(prompt);
         
         const response = result.response;
 
-        if (!response || !response.candidates || response.candidates.length === 0 || !response.candidates[0].content) {
+        if (!response || !response.candidates || !response.candidates.length === 0 || !response.candidates[0].content) {
             return res.status(500).json({ error: 'Failed to get a valid response from the AI.' });
         }
 
