@@ -51,7 +51,7 @@
         #result-container { background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 1.5rem; min-height: 200px; color: #d1d5db; max-height: 60vh; overflow-y: auto; }
         #result-container h3 { font-size: 1.2rem; color: #a5b4fc; margin-top: 1.5rem; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; }
         #result-container p { margin-top: 0.5rem; line-height: 1.6; }
-        #status { text-align: center; color: #f87171; height: 1.5rem; margin-top: 1rem; }
+        #status { text-align: center; color: #f87171; height: 1.5rem; margin-top: 1rem; font-size: 0.9rem; }
         .share-section { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #4b5563; }
         .share-section h3 { font-size: 1.125rem; font-weight: 600; color: #d1d5db; margin-bottom: 1.5rem; text-align: center; }
         .share-buttons-container { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
@@ -116,7 +116,7 @@
             subtitle: { en: 'Get the latest top news from the world of AI.', si: 'කෘත්‍රිම බුද්ධි ලෝකයේ නවතම ඉහළම පුවත් ලබාගන්න.', ta: 'செயற்கை நுண்ணறிவு உலகின் சமீபத்திய முக்கிய செய்திகளைப் பெறுங்கள்.' },
             generate: { en: 'Get Latest News', si: 'නවතම පුවත් ලබාගන්න', ta: 'சமீபத்திய செய்திகளைப் பெறு' },
             generating: { en: 'Fetching News...', si: 'පුවත් ලබාගනිමින්...', ta: 'செய்திகளைப் பெறுகிறது...' },
-            error: { en: 'An error occurred. Please try again later.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර මද වේලාවකින් නැවත උත්සාහ කරන්න.', ta: 'ഒരു பிழை ஏற்பட்டது. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.' },
+            error: { en: 'An error occurred. Please try again later.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර මද වේලාවකින් නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.' },
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' }
         };
@@ -146,7 +146,9 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
+                    const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response.' }));
+                    console.error("Backend Error:", errorData.error);
+                    throw new Error(errorData.error || `API request failed with status ${response.status}`);
                 }
                 const result = await response.json();
                 
@@ -157,8 +159,8 @@
                     throw new Error("No content received from API.");
                 }
             } catch (error) {
-                console.error("Error:", error);
-                statusDiv.textContent = translations.error[currentLang];
+                console.error("Fetch Error:", error);
+                statusDiv.textContent = `${translations.error[currentLang]}`;
             } finally {
                 generateBtn.disabled = false;
                 generateBtnText.textContent = translations.generate[currentLang];
@@ -234,5 +236,4 @@
     </script>
 </body>
 </html>
-
 
