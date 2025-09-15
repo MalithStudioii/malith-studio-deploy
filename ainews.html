@@ -196,6 +196,7 @@
         });
         window.addEventListener('click', () => languageOptions.classList.remove('show'));
         
+        // ### FIX: Using a relative path which is standard and more reliable for Vercel ###
         const apiUrl = '/api/fetch-news';
 
         generateBtn.addEventListener('click', async () => {
@@ -208,9 +209,7 @@
             try {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ language: currentLang }) 
                 });
 
