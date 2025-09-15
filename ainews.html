@@ -151,9 +151,7 @@
                 homeUrl.searchParams.set('lang', lang);
                 backBtn.href = homeUrl.toString();
             }
-            
-            // ### FIX: Automatically re-fetch news if it's already displayed ###
-            if (resultContainer.style.display === 'block' && !generateBtn.disabled) {
+             if (resultContainer.style.display === 'block' && !generateBtn.disabled) {
                 generateBtn.click();
             }
         }
@@ -186,11 +184,9 @@
             e.stopPropagation();
             languageOptions.classList.toggle('show');
         });
-        
-        // ### FIX: Added logic to prevent re-fetching if the same language is clicked ###
         document.querySelectorAll('#language-options button').forEach(button => {
             button.addEventListener('click', () => {
-                const newLang = button.getAttribute('data-lang');
+                 const newLang = button.getAttribute('data-lang');
                 if (newLang !== currentLang) {
                     setLanguage(newLang);
                 } else {
@@ -198,7 +194,6 @@
                 }
             });
         });
-
         window.addEventListener('click', () => languageOptions.classList.remove('show'));
         
         const apiUrl = '/api/fetch-news';
@@ -211,13 +206,12 @@
             statusDiv.textContent = '';
 
             try {
-                // Send the request as a POST and include the current language in the body.
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ language: currentLang }) // Send the current language
+                    body: JSON.stringify({ language: currentLang }) 
                 });
 
                 if (!response.ok) {
@@ -226,7 +220,6 @@
                 const result = await response.json();
                 
                 if (result.htmlContent) {
-                    // Display the generated news.
                     resultContainer.innerHTML = result.htmlContent;
                     resultContainer.style.display = 'block';
                 } else {
