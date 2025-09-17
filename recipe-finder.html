@@ -106,7 +106,7 @@
 <body>
 
     <a href="index.html" class="back-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
         <span data-key="backToHome">Back to Home</span>
     </a>
 
@@ -212,6 +212,12 @@
             let currentLang = 'en';
             let ingredients = new Set();
             
+            const getLanguageName = (langCode) => {
+                if (langCode === 'si') return 'Sinhala';
+                if (langCode === 'ta') return 'Tamil';
+                return 'English';
+            };
+
             function setLanguage(lang) {
                 currentLang = lang;
                 document.documentElement.lang = lang;
@@ -308,12 +314,23 @@
                 statusDiv.textContent = '';
 
                 try {
-                    const prompt = `Generate a creative recipe in ${currentLang} using ONLY the following ingredients: ${ingredientsString}. The recipe must be formatted in Markdown. It must include a catchy title (H2), a short and appealing description, an "Ingredients" section (H3) that lists only the provided ingredients, and a step-by-step "Instructions" section (H3). The tone should be friendly and encouraging.`;
+                    const languageName = getLanguageName(currentLang);
+                    const prompt = `You are a helpful cooking assistant. Your entire response MUST be in the ${languageName} language. Do not write any English words, except for universal cooking terms if absolutely necessary.
+        
+                    Generate a creative recipe using ONLY the following ingredients: ${ingredientsString}. You can assume the user has basic staples like salt, pepper, oil, and water.
+                    
+                    The recipe must be formatted in Markdown. It must include:
+                    1. A catchy title in ${languageName} (as a level 2 heading).
+                    2. A short, appealing description.
+                    3. An "Ingredients" section (as a level 3 heading) that lists ONLY the provided ingredients.
+                    4. A step-by-step "Instructions" section (as a level 3 heading).
+                    
+                    The tone should be friendly and encouraging.`;
 
                     const response = await fetch('/api/generate-recipe', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: prompt }) // Sending the full prompt now
+                        body: JSON.stringify({ prompt: prompt })
                     });
 
                     if (!response.ok) {
