@@ -67,8 +67,10 @@
         .header { text-align: center; margin-bottom: 2rem; margin-top: 2rem; }
         .header h1 { font-size: 2.5rem; font-weight: 700; color: #c2410c; }
         .header p { color: #57534e; margin-top: 0.5rem; }
-        .ingredients-area { margin-bottom: 1.5rem; }
-        .ingredients-area label { display: block; font-weight: 600; margin-bottom: 0.75rem; color: #9a3412; }
+        
+        .options-area, .ingredients-area { margin-bottom: 1.5rem; }
+        .options-area label, .ingredients-area label { display: block; font-weight: 600; margin-bottom: 0.75rem; color: #9a3412; }
+        
         #ingredients-container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; width: 100%; background-color: #fff; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.5rem; box-sizing: border-box; cursor: text; transition: border-color 0.2s, box-shadow 0.2s; }
         #ingredients-container:focus-within { border-color: #fb923c; box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.4); }
         .ingredient-tag { display: inline-flex; align-items: center; background-color: #fed7aa; color: #9a3412; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500; }
@@ -77,6 +79,13 @@
         .suggestions { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .suggestion-btn { background-color: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
         .suggestion-btn:hover { background-color: #fed7aa; color: #9a3412; }
+        
+        /* Custom Radio Button Styles */
+        .meal-type-options { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .meal-type-options input[type="radio"] { appearance: none; -webkit-appearance: none; display: none; }
+        .meal-type-options label { padding: 0.5rem 1rem; background-color: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; border-radius: 9999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; }
+        .meal-type-options input[type="radio"]:checked + label { background-color: #f97316; color: white; border-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        
         .action-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
         .main-btn { flex-grow: 1; padding: 1rem; font-size: 1.125rem; font-weight: 600; color: white; background: linear-gradient(to right, #f97316, #ea580c); border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; }
         .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(234, 88, 12, 0.5); }
@@ -143,6 +152,26 @@
             </div>
         </div>
 
+        <div class="options-area">
+            <label data-key="mealTypeLabel">Select Meal Type</label>
+            <div class="meal-type-options">
+                <input type="radio" id="meal-any" name="meal-type" value="any" checked>
+                <label for="meal-any" data-key="mealAny">Any</label>
+
+                <input type="radio" id="meal-breakfast" name="meal-type" value="Breakfast">
+                <label for="meal-breakfast" data-key="mealBreakfast">Breakfast</label>
+
+                <input type="radio" id="meal-lunch" name="meal-type" value="Lunch">
+                <label for="meal-lunch" data-key="mealLunch">Lunch</label>
+
+                <input type="radio" id="meal-dinner" name="meal-type" value="Dinner">
+                <label for="meal-dinner" data-key="mealDinner">Dinner</label>
+
+                <input type="radio" id="meal-snack" name="meal-type" value="Snack">
+                <label for="meal-snack" data-key="mealSnack">Snack</label>
+            </div>
+        </div>
+
         <div class="action-buttons">
             <button id="generate-btn" class="main-btn">
                 <span data-key="findButton">Find Recipes</span>
@@ -179,6 +208,12 @@
             suggestionOnion: { en: 'Onion', si: 'ලොකු ළුෑණු', ta: 'வெங்காயம்' },
             suggestionTomato: { en: 'Tomato', si: 'තක්කාලි', ta: 'தக்காளி' },
             suggestionCoconutMilk: { en: 'Coconut Milk', si: 'පොල් කිරි', ta: 'தேங்காய் பால்' },
+            mealTypeLabel: { en: 'Select Meal Type', si: 'කෑම වේල තෝරන්න', ta: 'உணவு வகையைத் தேர்ந்தெடுக்கவும்' },
+            mealAny: { en: 'Any', si: 'ඕනෑම වේලකට', ta: 'ஏதேனும்' },
+            mealBreakfast: { en: 'Breakfast', si: 'උදේ කෑම', ta: 'காலை உணவு' },
+            mealLunch: { en: 'Lunch', si: 'දවල් කෑම', ta: 'மதிய உணவு' },
+            mealDinner: { en: 'Dinner', si: 'රාත්‍රී කෑම', ta: 'இரவு உணவு' },
+            mealSnack: { en: 'Snack', si: 'සුළු කෑමක්', ta: 'சிற்றுண்டி' },
             findButton: { en: 'Find Recipes', si: 'වට්ටෝරු සොයන්න', ta: 'செய்முறைகளைக் கண்டறியவும்' },
             clearButton: { en: 'Clear All', si: 'සියල්ල ඉවත් කරන්න', ta: 'அனைத்தையும் அழி' },
             findingStatus: { en: 'Finding...', si: 'සොයමින්...', ta: 'தேடுகிறது...' },
@@ -187,9 +222,9 @@
             noRecipeStatus: { en: 'No recipe received from AI.', si: 'AI වෙතින් වට්ටෝරුවක් නොලැබුණි.', ta: 'AI இடமிருந்து செய்முறை எதுவும் பெறப்படவில்லை.' },
             helpTitle: { en: 'How to Use the Recipe Finder', si: 'රස-සොයාගන්නා භාවිතා කරන ආකාරය', ta: 'செய்முறை கண்டுபிடிப்பாளரை எவ்வாறு பயன்படுத்துவது' },
             helpContent: { 
-                en: `<ol><li>Enter an ingredient you have (e.g., "Chicken") in the input box and press <strong>Enter</strong>.</li><li>The ingredient will be added as a tag. Add all the ingredients you have.</li><li>You can also click on the suggestion buttons to add common ingredients.</li><li>Once you're done, click the <strong>Find Recipes</strong> button.</li><li>The AI will generate a recipe based on your ingredients and display it below.</li><li>Click <strong>Clear All</strong> to start over with new ingredients.</li></ol>`,
-                si: `<ol><li>ඔබ සතුව ඇති අමුද්‍රව්‍යයක් (උදා: "කුකුල් මස්") කොටුව තුළට ඇතුළත් කර <strong>Enter</strong> යතුර ඔබන්න.</li><li>එවිට එය ටැග් එකක් ලෙස එකතු වේ. ඔබ සතු සියලුම අමුද්‍රව්‍ය එලෙස ඇතුළත් කරන්න.</li><li>පොදුවේ භාවිතා වන අමුද්‍රව්‍ය එකතු කිරීමට යෝජිත බොත්තම් click කළ හැකිය.</li><li>සියල්ල ඇතුළත් කළ පසු, <strong>'වට්ටෝරු සොයන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබගේ අමුද්‍රව්‍ය පදනම් කරගෙන වට්ටෝරුවක් සාදා පහතින් පෙන්වනු ඇත.</li><li>අලුතින් ආරම්භ කිරීමට <strong>'සියල්ල ඉවත් කරන්න'</strong> බොත්තම ඔබන්න.</li></ol>`,
-                ta: `<ol><li>உங்களிடம் உள்ள ஒரு மூலப்பொருளை (எ.கா., "சிக்கன்") உள்ளீட்டுப் பெட்டியில் உள்ளிட்டு <strong>Enter</strong> ஐ அழுத்தவும்.</li><li>மூலப்பொருள் ஒரு குறிச்சொல்லாக சேர்க்கப்படும். உங்களிடம் உள்ள அனைத்து பொருட்களையும் சேர்க்கவும்.</li><li>பொதுவான பொருட்களைச் சேர்க்க பரிந்துரை பொத்தான்களைக் கிளிக் செய்யலாம்.</li><li>முடிந்ததும், <strong>'செய்முறைகளைக் கண்டறியவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்கள் பொருட்களின் அடிப்படையில் ஒரு செய்முறையை உருவாக்கி கீழே காண்பிக்கும்.</li><li>புதிய பொருட்களுடன் தொடங்க <strong>'அனைத்தையும் அழி'</strong> என்பதைக் கிளிக் செய்யவும்.</li></ol>`
+                en: `<ol><li>Enter an ingredient you have (e.g., "Chicken") in the input box and press <strong>Enter</strong>.</li><li>The ingredient will be added as a tag. Add all the ingredients you have.</li><li>You can also click on the suggestion buttons to add common ingredients.</li><li>Select a meal type if you have a preference.</li><li>Once you're done, click the <strong>Find Recipes</strong> button.</li><li>The AI will generate a recipe based on your ingredients and display it below.</li><li>Click <strong>Clear All</strong> to start over with new ingredients.</li></ol>`,
+                si: `<ol><li>ඔබ සතුව ඇති අමුද්‍රව්‍යයක් (උදා: "කුකුල් මස්") කොටුව තුළට ඇතුළත් කර <strong>Enter</strong> යතුර ඔබන්න.</li><li>එවිට එය ටැග් එකක් ලෙස එකතු වේ. ඔබ සතු සියලුම අමුද්‍රව්‍ය එලෙස ඇතුළත් කරන්න.</li><li>පොදුවේ භාවිතා වන අමුද්‍රව්‍ය එකතු කිරීමට යෝජිත බොත්තම් click කළ හැකිය.</li><li>ඔබට අවශ්‍ය නම්, අදාළ කෑම වේල තෝරන්න.</li><li>සියල්ල ඇතුළත් කළ පසු, <strong>'වට්ටෝරු සොයන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබගේ අමුද්‍රව්‍ය පදනම් කරගෙන වට්ටෝරුවක් සාදා පහතින් පෙන්වනු ඇත.</li><li>අලුතින් ආරම්භ කිරීමට <strong>'සියල්ල ඉවත් කරන්න'</strong> බොත්තම ඔබන්න.</li></ol>`,
+                ta: `<ol><li>உங்களிடம் உள்ள ஒரு மூலப்பொருளை (எ.கா., "சிக்கன்") உள்ளீட்டுப் பெட்டியில் உள்ளிட்டு <strong>Enter</strong> ஐ அழுத்தவும்.</li><li>மூலப்பொருள் ஒரு குறிச்சொல்லாக சேர்க்கப்படும். உங்களிடம் உள்ள அனைத்து பொருட்களையும் சேர்க்கவும்.</li><li>பொதுவான பொருட்களைச் சேர்க்க பரிந்துரை பொத்தான்களைக் கிளிக் செய்யலாம்.</li><li>விருப்பம் இருந்தால், ஒரு உணவு வகையைத் தேர்ந்தெடுக்கவும்.</li><li>முடிந்ததும், <strong>'செய்முறைகளைக் கண்டறியவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்கள் பொருட்களின் அடிப்படையில் ஒரு செய்முறையை உருவாக்கி கீழே காண்பிக்கும்.</li><li>புதிய பொருட்களுடன் தொடங்க <strong>'அனைத்தையும் அழி'</strong> என்பதைக் கிளிக் செய்யவும்.</li></ol>`
             }
         };
 
@@ -306,6 +341,7 @@
                     return;
                 }
                 const ingredientsString = Array.from(ingredients).join(', ');
+                const selectedMealType = document.querySelector('input[name="meal-type"]:checked').value;
 
                 generateBtn.disabled = true;
                 generateBtnText.textContent = translations.findingStatus[currentLang];
@@ -315,11 +351,16 @@
 
                 try {
                     const languageName = getLanguageName(currentLang);
-                    const prompt = `You are a helpful cooking assistant. Your entire response MUST be in the ${languageName} language. Do not write any English words, except for universal cooking terms if absolutely necessary.
-        
-                    Generate a creative recipe using ONLY the following ingredients: ${ingredientsString}. You can assume the user has basic staples like salt, pepper, oil, and water.
                     
-                    The recipe must be formatted in Markdown. It must include:
+                    let prompt = `You are a helpful cooking assistant. Your entire response MUST be in the ${languageName} language. Do not write any English words, except for universal cooking terms if absolutely necessary.\n\n`;
+                    
+                    prompt += `Generate a creative recipe using ONLY the following ingredients: ${ingredientsString}. You can assume the user has basic staples like salt, pepper, oil, and water.\n\n`;
+
+                    if (selectedMealType !== 'any') {
+                        prompt += `Critically, the recipe MUST be suitable for ${selectedMealType}.\n\n`;
+                    }
+                    
+                    prompt += `The recipe must be formatted in Markdown. It must include:
                     1. A catchy title in ${languageName} (as a level 2 heading).
                     2. A short, appealing description.
                     3. An "Ingredients" section (as a level 3 heading) that lists ONLY the provided ingredients.
