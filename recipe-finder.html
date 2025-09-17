@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recipe Finder | AI රස-සොයාගන්නා</title>
+    <meta name="description" content="Get instant recipe ideas from the ingredients you have at home using the power of AI. Supports English, Sinhala, and Tamil.">
+    <meta name="keywords" content="recipe finder, ai recipe, sri lankan food, sinhala recipes, tamil recipes, cooking ai, වට්ටෝරු, சமையல் குறிப்புகள்">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; 
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); 
+            color: #333; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 1rem; 
+            box-sizing: border-box; 
+        }
+        .back-btn { 
+            position: fixed; 
+            top: 1.5rem; 
+            left: 1.5rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            background-color: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(10px); 
+            color: #57534e; 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            z-index: 10; 
+            border: 1px solid rgba(0, 0, 0, 0.1); 
+            transition: all 0.3s; 
+        }
+        .back-btn:hover { 
+            background-color: rgba(255, 255, 255, 0.9); 
+            color: #111; 
+        }
+        .back-btn svg { width: 1rem; height: 1rem; }
+        .container { 
+            width: 100%; 
+            max-width: 48rem; 
+            background-color: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(10px); 
+            border-radius: 1rem; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); 
+            padding: 2.5rem; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        .header-controls { position: absolute; top: 1.5rem; right: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .language-switcher { position: relative; }
+        #language-btn { background-color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(0, 0, 0, 0.1); color: #57534e; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600; }
+        #language-options { display: none; position: absolute; right: 0; top: 100%; margin-top: 0.5rem; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; width: 120px; z-index: 20; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        #language-options.show { display: block; }
+        #language-options button { display: block; background: none; border: none; color: #374151; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; box-sizing: border-box; }
+        #language-options button:hover { background-color: #f3f4f6; }
+        .help-btn { background-color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(0, 0, 0, 0.1); color: #57534e; border-radius: 50%; width: 38px; height: 38px; font-size: 1.25rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 2rem; }
+        .header h1 { font-size: 2.5rem; font-weight: 700; color: #c2410c; }
+        .header p { color: #57534e; margin-top: 0.5rem; }
+        .ingredients-area { margin-bottom: 1.5rem; }
+        .ingredients-area label { display: block; font-weight: 600; margin-bottom: 0.75rem; color: #9a3412; }
+        #ingredients-container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; width: 100%; background-color: #fff; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.5rem; box-sizing: border-box; cursor: text; transition: border-color 0.2s, box-shadow 0.2s; }
+        #ingredients-container:focus-within { border-color: #fb923c; box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.4); }
+        .ingredient-tag { display: inline-flex; align-items: center; background-color: #fed7aa; color: #9a3412; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500; }
+        .remove-tag { margin-left: 0.5rem; cursor: pointer; font-weight: bold; }
+        #ingredients-input { flex-grow: 1; border: none; outline: none; padding: 0.25rem; background: transparent; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; font-size: 1rem; min-width: 150px; }
+        .suggestions { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .suggestion-btn { background-color: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+        .suggestion-btn:hover { background-color: #fed7aa; color: #9a3412; }
+        .action-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .main-btn { flex-grow: 1; padding: 1rem; font-size: 1.125rem; font-weight: 600; color: white; background: linear-gradient(to right, #f97316, #ea580c); border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(234, 88, 12, 0.5); }
+        .main-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .secondary-btn { padding: 1rem; font-size: 1.125rem; font-weight: 600; color: #c2410c; background-color: #fff7ed; border: 1px solid #fed7aa; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .secondary-btn:hover { background-color: #fed7aa; }
+        .loader { width: 20px; height: 20px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #result-container { margin-top: 2rem; background-color: rgba(255, 255, 255, 0.7); border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; min-height: 200px; color: #374151; max-height: 60vh; overflow-y: auto; text-align: left; }
+        #result-container h2 { font-size: 1.75rem; color: #c2410c; border-bottom: 1px solid #fdba74; padding-bottom: 0.5rem; margin-top: 0; }
+        #result-container h3 { font-size: 1.2rem; color: #ea580c; margin-top: 1.5rem; }
+        #result-container ul, #result-container ol { padding-left: 1.5rem; }
+        #result-container li { margin-bottom: 0.75rem; line-height: 1.6; }
+        #result-container strong { color: #9a3412; }
+        #status { text-align: center; color: #b91c1c; height: 1.5rem; margin-top: 1rem; }
+        
+        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background-color: #fff; padding: 2rem; border: 1px solid #e5e7eb; border-radius: 1rem; width: 90%; max-width: 600px; position: relative; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; color: #9ca3af; font-size: 1.75rem; font-weight: bold; background: none; border: none; cursor: pointer; }
+        .modal-close:hover { color: #111827; }
+        .modal-content h2 { margin-top: 0; color: #c2410c; }
+        .modal-content ol { padding-left: 1.5rem; line-height: 1.8; color: #57534e;}
+        .modal-content li { margin-bottom: 0.75rem; }
+
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+         <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" title="Help">?</button>
+        </div>
+
+        <div class="header">
+            <h1 data-key="title"><i class="fas fa-utensils"></i> AI Recipe Finder</h1>
+            <p data-key="subtitle">Tell us what ingredients you have, and we'll help you cook something delicious!</p>
+        </div>
+        
+        <div class="ingredients-area">
+            <label for="ingredients-input" data-key="inputLabel">Enter ingredients one by one and press 'Enter'</label>
+            <div id="ingredients-container">
+                <input type="text" id="ingredients-input" data-key-placeholder="inputPlaceholder" placeholder="e.g., Lentils">
+            </div>
+            <div class="suggestions">
+                 <button class="suggestion-btn" data-key="suggestionLentils">Lentils</button>
+                 <button class="suggestion-btn" data-key="suggestionEggs">Eggs</button>
+                 <button class="suggestion-btn" data-key="suggestionRice">Samba Rice</button>
+                 <button class="suggestion-btn" data-key="suggestionOnion">Onion</button>
+                 <button class="suggestion-btn" data-key="suggestionTomato">Tomato</button>
+                 <button class="suggestion-btn" data-key="suggestionCoconutMilk">Coconut Milk</button>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button id="generate-btn" class="main-btn">
+                <span data-key="findButton">Find Recipes</span>
+                <div id="loader" class="loader" style="display: none;"></div>
+            </button>
+             <button id="clear-btn" class="secondary-btn" style="display: none;">
+                <i class="fas fa-trash"></i>
+                <span data-key="clearButton">Clear All</span>
+            </button>
+        </div>
+
+        <div id="result-container" style="display: none;"></div>
+        <div id="status"></div>
+    </div>
+
+     <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use the Recipe Finder</h2>
+            <div data-key="helpContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: '<i class="fas fa-utensils"></i> AI Recipe Finder', si: '<i class="fas fa-utensils"></i> AI රස-සොයාගන්නා', ta: '<i class="fas fa-utensils"></i> AI செய்முறை கண்டுபிடிப்பாளர்' },
+            subtitle: { en: "Tell us what ingredients you have, and we'll help you cook something delicious!", si: 'ඔබේ කුස්සියේ ඇති අමුද්‍රව්‍ය අපට කියන්න, අපි ඔබට රසවත් කෑමක් හදන්න උදව් කරන්නම්!', ta: 'உங்களிடம் உள்ள பொருட்களைச் சொல்லுங்கள், சுவையான ஒன்றை சமைக்க நாங்கள் உங்களுக்கு உதவுவோம்!' },
+            inputLabel: { en: "Enter ingredients one by one and press 'Enter'", si: "ඔබ සතුව ඇති අමුද්‍රව්‍ය එකින් එක ඇතුළත් කර 'Enter' කරන්න", ta: "பொருட்களை ஒவ்வொன்றாக உள்ளிட்டு 'Enter' அழுத்தவும்" },
+            inputPlaceholder: { en: 'e.g., Lentils', si: 'උදා: පරිප්පු', ta: 'உதா: பருப்பு' },
+            suggestionLentils: { en: 'Lentils', si: 'පරිප්පු', ta: 'பருப்பு' },
+            suggestionEggs: { en: 'Eggs', si: 'බිත්තර', ta: 'முட்டைகள்' },
+            suggestionRice: { en: 'Samba Rice', si: 'සම්බා හාල්', ta: 'சம்பா அரிசி' },
+            suggestionOnion: { en: 'Onion', si: 'ලොකු ළුෑණු', ta: 'வெங்காயம்' },
+            suggestionTomato: { en: 'Tomato', si: 'තක්කාලි', ta: 'தக்காளி' },
+            suggestionCoconutMilk: { en: 'Coconut Milk', si: 'පොල් කිරි', ta: 'தேங்காய் பால்' },
+            findButton: { en: 'Find Recipes', si: 'වට්ටෝරු සොයන්න', ta: 'செய்முறைகளைக் கண்டறியவும்' },
+            clearButton: { en: 'Clear All', si: 'සියල්ල ඉවත් කරන්න', ta: 'அனைத்தையும் அழி' },
+            findingStatus: { en: 'Finding...', si: 'සොයමින්...', ta: 'தேடுகிறது...' },
+            errorStatus: { en: 'An error occurred: ', si: 'දෝෂයක් ඇතිවිය: ', ta: 'ஒரு பிழை ஏற்பட்டது: ' },
+            noIngredientStatus: { en: 'Please enter the ingredients you have.', si: 'කරුණාකර ඔබ සතුව ඇති අමුද්‍රව්‍ය ඇතුළත් කරන්න.', ta: 'தயவுசெய்து உங்களிடம் உள்ள பொருட்களை உள்ளிடவும்.' },
+            noRecipeStatus: { en: 'No recipe received from AI.', si: 'AI වෙතින් වට්ටෝරුවක් නොලැබුණි.', ta: 'AI இடமிருந்து செய்முறை எதுவும் பெறப்படவில்லை.' },
+            helpTitle: { en: 'How to Use the Recipe Finder', si: 'රස-සොයාගන්නා භාවිතා කරන ආකාරය', ta: 'செய்முறை கண்டுபிடிப்பாளரை எவ்வாறு பயன்படுத்துவது' },
+            helpContent: { 
+                en: `<ol><li>Enter an ingredient you have (e.g., "Chicken") in the input box and press <strong>Enter</strong>.</li><li>The ingredient will be added as a tag. Add all the ingredients you have.</li><li>You can also click on the suggestion buttons to add common ingredients.</li><li>Once you're done, click the <strong>Find Recipes</strong> button.</li><li>The AI will generate a recipe based on your ingredients and display it below.</li><li>Click <strong>Clear All</strong> to start over with new ingredients.</li></ol>`,
+                si: `<ol><li>ඔබ සතුව ඇති අමුද්‍රව්‍යයක් (උදා: "කුකුල් මස්") කොටුව තුළට ඇතුළත් කර <strong>Enter</strong> යතුර ඔබන්න.</li><li>එවිට එය ටැග් එකක් ලෙස එකතු වේ. ඔබ සතු සියලුම අමුද්‍රව්‍ය එලෙස ඇතුළත් කරන්න.</li><li>පොදුවේ භාවිතා වන අමුද්‍රව්‍ය එකතු කිරීමට යෝජිත බොත්තම් click කළ හැකිය.</li><li>සියල්ල ඇතුළත් කළ පසු, <strong>'වට්ටෝරු සොයන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබගේ අමුද්‍රව්‍ය පදනම් කරගෙන වට්ටෝරුවක් සාදා පහතින් පෙන්වනු ඇත.</li><li>අලුතින් ආරම්භ කිරීමට <strong>'සියල්ල ඉවත් කරන්න'</strong> බොත්තම ඔබන්න.</li></ol>`,
+                ta: `<ol><li>உங்களிடம் உள்ள ஒரு மூலப்பொருளை (எ.கா., "சிக்கன்") உள்ளீட்டுப் பெட்டியில் உள்ளிட்டு <strong>Enter</strong> ஐ அழுத்தவும்.</li><li>மூலப்பொருள் ஒரு குறிச்சொல்லாக சேர்க்கப்படும். உங்களிடம் உள்ள அனைத்து பொருட்களையும் சேர்க்கவும்.</li><li>பொதுவான பொருட்களைச் சேர்க்க பரிந்துரை பொத்தான்களைக் கிளிக் செய்யலாம்.</li><li>முடிந்ததும், <strong>'செய்முறைகளைக் கண்டறியவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்கள் பொருட்களின் அடிப்படையில் ஒரு செய்முறையை உருவாக்கி கீழே காண்பிக்கும்.</li><li>புதிய பொருட்களுடன் தொடங்க <strong>'அனைத்தையும் அழி'</strong> என்பதைக் கிளிக் செய்யவும்.</li></ol>`
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ingredientsContainer = document.getElementById('ingredients-container');
+            const ingredientsInput = document.getElementById('ingredients-input');
+            const generateBtn = document.getElementById('generate-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const resultContainer = document.getElementById('result-container');
+            const statusDiv = document.getElementById('status');
+            const loader = document.getElementById('loader');
+            const generateBtnText = generateBtn.querySelector('span');
+            const suggestionsContainer = document.querySelector('.suggestions');
+            const languageBtn = document.getElementById('language-btn');
+            const languageOptions = document.getElementById('language-options');
+            const helpBtn = document.getElementById('help-btn');
+            const helpModal = document.getElementById('help-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            
+            let currentLang = 'en';
+            let ingredients = new Set();
+            
+            function setLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                if(lang === 'en') languageBtn.textContent = 'English';
+                if(lang === 'si') languageBtn.textContent = 'සිංහල';
+                if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+                languageOptions.classList.remove('show');
+
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[key]?.[lang]) el.innerHTML = translations[key][lang];
+                });
+                document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-key-placeholder');
+                    if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+                });
+
+                const backBtn = document.querySelector('.back-btn');
+                if (backBtn) {
+                    const homeUrl = new URL(backBtn.href, window.location.origin);
+                    homeUrl.searchParams.set('lang', lang);
+                    backBtn.href = homeUrl.toString();
+                }
+            }
+
+            function getLangFromURL() {
+                const params = new URLSearchParams(window.location.search);
+                const lang = params.get('lang');
+                return ['en', 'si', 'ta'].includes(lang) ? lang : 'en'; // Default to English
+            }
+
+            const updateClearButtonVisibility = () => {
+                clearBtn.style.display = ingredients.size > 0 ? 'inline-flex' : 'none';
+            };
+
+            const addTag = (text) => {
+                const ingredient = text.trim();
+                if (!ingredient || ingredients.has(ingredient)) {
+                    ingredientsInput.value = '';
+                    return;
+                }
+                ingredients.add(ingredient);
+                const tag = document.createElement('span');
+                tag.className = 'ingredient-tag';
+                tag.textContent = ingredient;
+                const removeBtn = document.createElement('span');
+                removeBtn.className = 'remove-tag';
+                removeBtn.textContent = '×';
+                removeBtn.onclick = () => {
+                    ingredients.delete(ingredient);
+                    tag.remove();
+                    updateClearButtonVisibility();
+                };
+                tag.appendChild(removeBtn);
+                ingredientsContainer.insertBefore(tag, ingredientsInput);
+                ingredientsInput.value = '';
+                updateClearButtonVisibility();
+            };
+            
+            const clearAll = () => {
+                ingredients.clear();
+                document.querySelectorAll('.ingredient-tag').forEach(tag => tag.remove());
+                resultContainer.style.display = 'none';
+                resultContainer.innerHTML = '';
+                statusDiv.textContent = '';
+                ingredientsInput.value = '';
+                updateClearButtonVisibility();
+                ingredientsInput.focus();
+            };
+            
+            ingredientsContainer.addEventListener('click', () => ingredientsInput.focus());
+            ingredientsInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTag(ingredientsInput.value); } });
+            suggestionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('suggestion-btn')) { addTag(e.target.textContent); ingredientsInput.focus(); } });
+            clearBtn.addEventListener('click', clearAll);
+            languageBtn.addEventListener('click', (e) => { e.stopPropagation(); languageOptions.classList.toggle('show'); });
+            document.querySelectorAll('#language-options button').forEach(button => { button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang'))); });
+            window.addEventListener('click', (e) => { if (languageBtn && !languageBtn.parentElement.contains(e.target)) languageOptions.classList.remove('show'); });
+            helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
+            closeModalBtn.addEventListener('click', () => helpModal.style.display = 'none');
+            helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.style.display = 'none'; });
+
+            const generateRecipe = async () => {
+                if (ingredients.size === 0) {
+                    statusDiv.textContent = translations.noIngredientStatus[currentLang];
+                    return;
+                }
+                const ingredientsString = Array.from(ingredients).join(', ');
+
+                generateBtn.disabled = true;
+                generateBtnText.textContent = translations.findingStatus[currentLang];
+                loader.style.display = 'inline-block';
+                resultContainer.style.display = 'none';
+                statusDiv.textContent = '';
+
+                try {
+                    const prompt = `Generate a creative recipe in ${currentLang} using ONLY the following ingredients: ${ingredientsString}. The recipe must be formatted in Markdown. It must include a catchy title (H2), a short and appealing description, an "Ingredients" section (H3) that lists only the provided ingredients, and a step-by-step "Instructions" section (H3). The tone should be friendly and encouraging.`;
+
+                    const response = await fetch('/api/generate-recipe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: prompt }) // Sending the full prompt now
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Something went wrong');
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.markdownContent) {
+                        resultContainer.innerHTML = marked.parse(result.markdownContent);
+                        resultContainer.style.display = 'block';
+                    } else {
+                        const fallbackError = result.error || translations.noRecipeStatus[currentLang];
+                        throw new Error(fallbackError);
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    statusDiv.textContent = `${translations.errorStatus[currentLang]} ${error.message}`;
+                } finally {
+                    generateBtn.disabled = false;
+                    generateBtnText.innerHTML = translations.findButton[currentLang];
+                    loader.style.display = 'none';
+                }
+            };
+            
+            generateBtn.addEventListener('click', generateRecipe);
+            
+            // Initial Setup
+            const initialLang = getLangFromURL();
+            setLanguage(initialLang);
+        });
+    </script>
+</body>
+</html>
+
