@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Recipe Finder | AI රස-සොයාගන්නා</title>
-    <meta name="description" content="Get instant recipe ideas from the ingredients you have at home using the power of AI. Supports English, Sinhala, and Tamil.">
-    <meta name="keywords" content="recipe finder, ai recipe, sri lankan food, sinhala recipes, tamil recipes, cooking ai, වට්ටෝරු, சமையல் குறிப்புகள்">
+    
+    <!-- SEO Meta Tags -->
+    <title>AI Recipe Finder | AI රස-සොයාගන්නා - Malith Studio®</title>
+    <meta name="description" content="Get instant recipe ideas in English, Sinhala, or Tamil from the ingredients you have at home. Powered by AI from Malith Studio®.">
+    <meta name="keywords" content="recipe finder, ai recipe, sri lankan food, sinhala recipes, tamil recipes, cooking ai, malith studio, වට්ටෝරු, சமையல் குறிப்புகள்">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudiodeploy.vercel.app/recipe-finder.html">
+    <meta property="og:title" content="AI Recipe Finder | AI රස-සොයාගන්නා - Malith Studio®">
+    <meta property="og:description" content="Get instant recipe ideas from the ingredients you have at home using the power of AI.">
+    <meta property="og:image" content="https://malithstudiodeploy.vercel.app/tool-recipefinder.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudiodeploy.vercel.app/recipe-finder.html">
+    <meta property="twitter:title" content="AI Recipe Finder | AI රස-සොයාගන්නා - Malith Studio®">
+    <meta property="twitter:description" content="Get instant recipe ideas from the ingredients you have at home using the power of AI.">
+    <meta property="twitter:image" content="https://malithstudiodeploy.vercel.app/tool-recipefinder.jpg">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -122,6 +140,18 @@
         .saved-recipe-item:hover { background-color: #fff7ed; }
         .saved-recipe-item h3 { margin: 0; color: #c2410c; }
         .no-saved-recipes { color: #57534e; text-align: center; padding: 2rem; }
+
+        .share-section { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #fed7aa; }
+        .share-section h3 { font-size: 1.125rem; font-weight: 600; color: #9a3412; margin-bottom: 1.5rem; text-align: center; }
+        .share-buttons-container { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .share-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; border: none; color: white; font-size: 1.25rem; text-decoration: none; cursor: pointer; transition: transform 0.3s ease; }
+        .share-btn:hover { transform: scale(1.1); }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #9a3412; }
+        #copy-message { margin-top: 1rem; text-align: center; color: #c2410c; font-weight: 500; opacity: 0; transition: opacity 0.5s; height: 1rem;}
+        #copy-message.visible { opacity: 1; }
     </style>
 </head>
 <body>
@@ -224,6 +254,18 @@
         </div>
         
         <div id="status"></div>
+        
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+
     </div>
 
      <div id="help-modal" class="modal-overlay">
@@ -279,6 +321,8 @@
             noRecipeStatus: { en: 'No recipe received from AI.', si: 'AI වෙතින් වට්ටෝරුවක් නොලැබුණි.', ta: 'AI இடமிருந்து செய்முறை எதுவும் பெறப்படவில்லை.' },
             savedRecipesTitle: { en: 'My Saved Recipes', si: 'මා සුරකින ලද වට්ටෝරු', ta: 'எனது சேமித்த சமையல் குறிப்புகள்' },
             noSavedRecipes: { en: 'You have no saved recipes yet.', si: 'ඔබ තවමත් කිසිදු වට්ටෝරුවක් සුරැක නැත.', ta: 'நீங்கள் இன்னும் சமையல் குறிப்புகளைச் சேமிக்கவில்லை.' },
+            shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use the Recipe Finder', si: 'රස-සොයාගන්නා භාවිතා කරන ආකාරය', ta: 'செய்முறை கண்டுபிடிப்பாளரை எவ்வாறு பயன்படுத்துவது' },
             helpContent: { 
                 en: `<ol><li>Enter ingredients you have and press <strong>Enter</strong>. Add all ingredients.</li><li>Click suggestion buttons for common ingredients.</li><li>Select your preferred meal type, dietary needs, and cuisine style.</li><li>Click the <strong>Find Recipes</strong> button to get a recipe.</li><li>Click <strong>Save Recipe</strong> to keep it for later.</li><li>View all your saved recipes by clicking the <i class="fas fa-bookmark"></i> icon at the top.</li></ol>`,
@@ -408,7 +452,7 @@
                 };
                 recipes.unshift(newRecipe);
                 saveRecipes(recipes);
-                saveBtnText.textContent = translations.savedButton[currentLang];
+                saveBtn.innerHTML = `<i class="fas fa-check"></i> ${translations.savedButton[currentLang]}`;
                 saveBtn.disabled = true;
             };
 
@@ -427,12 +471,30 @@
                             resultContainer.innerHTML = marked.parse(recipe.content);
                             resultWrapper.style.display = 'block';
                             saveBtn.disabled = true;
-                            saveBtnText.textContent = translations.savedButton[currentLang];
+                            saveBtn.innerHTML = `<i class="fas fa-check"></i> ${translations.savedButton[currentLang]}`;
                             savedRecipesModal.style.display = 'none';
                         };
                         savedRecipesList.appendChild(item);
                     });
                 }
+            };
+            
+            const initializeShareButtons = () => {
+                const pageUrl = window.location.href;
+                const pageTitle = document.title;
+                const textToShare = `Check out this amazing AI Recipe Finder on Malith Studio®!`;
+
+                document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+                document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+                document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+                document.getElementById('copy-link').addEventListener('click', () => {
+                    navigator.clipboard.writeText(pageUrl).then(() => {
+                        const copyMessage = document.getElementById('copy-message');
+                        copyMessage.classList.add('visible');
+                        setTimeout(() => copyMessage.classList.remove('visible'), 2000);
+                    }).catch(err => console.error('Failed to copy link: ', err));
+                });
             };
             
             const generateRecipe = async () => {
@@ -456,9 +518,9 @@
                     let prompt = `You are a helpful cooking assistant. Your entire response MUST be in the ${languageName} language. Do not write any English words, except for universal cooking terms if absolutely necessary.\n\n`;
                     prompt += `Generate a creative recipe using ONLY the following ingredients: ${ingredientsString}. You can assume the user has basic staples like salt, pepper, oil, and water.\n\n`;
                     if (selectedMealType !== 'any') { prompt += `The recipe MUST be suitable for ${selectedMealType}.\n\n`; }
-                    if (selectedDiet !== 'none') { prompt += `VERY IMPORTANT: The recipe MUST be strictly ${selectedDiet}. A vegetarian recipe must not contain any meat or fish. A vegan recipe must not contain any animal products at all, including eggs, dairy, and honey.\n\n`; }
+                    if (selectedDiet !== 'none') { prompt += `VERY IMPORTANT: The recipe MUST be strictly ${selectedDiet}.\n\n`; }
                     if (selectedCuisine !== 'any') { prompt += `The recipe MUST be in a ${selectedCuisine} style.\n\n`; }
-                    prompt += `The recipe must be formatted in Markdown. It must include: 1. A catchy title in ${languageName} (as a level 2 heading). 2. A short, appealing description. 3. An "Ingredients" section (as a level 3 heading). 4. A step-by-step "Instructions" section (as a level 3 heading). The tone should be friendly and encouraging.`;
+                    prompt += `The recipe must be formatted in Markdown. It must include: 1. A catchy title in ${languageName}. 2. A short, appealing description. 3. An "Ingredients" section. 4. A step-by-step "Instructions" section. The tone should be friendly.`;
 
                     const response = await fetch('/api/generate-recipe', {
                         method: 'POST',
@@ -478,7 +540,7 @@
                         resultContainer.innerHTML = marked.parse(currentRecipeMarkdown);
                         resultWrapper.style.display = 'block';
                         saveBtn.disabled = false;
-                        saveBtnText.innerHTML = `<i class="far fa-bookmark"></i> ${translations.saveButton[currentLang]}`;
+                        saveBtn.innerHTML = `<i class="far fa-bookmark"></i> ${translations.saveButton[currentLang]}`;
                     } else {
                         throw new Error(result.error || translations.noRecipeStatus[currentLang]);
                     }
@@ -514,6 +576,7 @@
             // Initial Setup
             const initialLang = getLangFromURL();
             setLanguage(initialLang);
+            initializeShareButtons();
         });
     </script>
 </body>
