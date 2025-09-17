@@ -47,7 +47,7 @@
         .back-btn svg { width: 1rem; height: 1rem; }
         .container { 
             width: 100%; 
-            max-width: 48rem; 
+            max-width: 56rem; /* Increased max-width */
             background-color: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(10px); 
             border-radius: 1rem; 
@@ -68,11 +68,21 @@
         .header h1 { font-size: 2.5rem; font-weight: 700; color: #c2410c; }
         .header p { color: #57534e; margin-top: 0.5rem; }
         
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-        @media (min-width: 640px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+        .options-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 1.5rem; 
+            margin-bottom: 1.5rem; 
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .options-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+            }
+        }
         
         .options-area label, .ingredients-area label { display: block; font-weight: 600; margin-bottom: 0.75rem; color: #9a3412; }
         
+        .ingredients-area { margin-bottom: 1.5rem; }
         #ingredients-container { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; width: 100%; background-color: #fff; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.5rem; box-sizing: border-box; cursor: text; transition: border-color 0.2s, box-shadow 0.2s; }
         #ingredients-container:focus-within { border-color: #fb923c; box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.4); }
         .ingredient-tag { display: inline-flex; align-items: center; background-color: #fed7aa; color: #9a3412; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500; }
@@ -185,6 +195,23 @@
                     <label for="diet-vegan" data-key="dietVegan">Vegan</label>
                 </div>
             </div>
+
+            <div class="options-area">
+                <label data-key="cuisineLabel">Cuisine Style</label>
+                <div class="custom-radio-group">
+                    <input type="radio" id="cuisine-any" name="cuisine-type" value="any" checked>
+                    <label for="cuisine-any" data-key="cuisineAny">Any Style</label>
+                    
+                    <input type="radio" id="cuisine-sl" name="cuisine-type" value="Sri Lankan">
+                    <label for="cuisine-sl" data-key="cuisineSL">Sri Lankan</label>
+
+                    <input type="radio" id="cuisine-indian" name="cuisine-type" value="Indian">
+                    <label for="cuisine-indian" data-key="cuisineIndian">Indian</label>
+                    
+                    <input type="radio" id="cuisine-chinese" name="cuisine-type" value="Chinese">
+                    <label for="cuisine-chinese" data-key="cuisineChinese">Chinese</label>
+                </div>
+            </div>
         </div>
 
         <div class="action-buttons">
@@ -232,6 +259,11 @@
             dietNone: { en: 'None', si: 'කිසිවක් නැත', ta: 'இல்லை' },
             dietVegetarian: { en: 'Vegetarian', si: 'නිර්මාංශ', ta: 'சைவம்' },
             dietVegan: { en: 'Vegan', si: 'සම්පූර්ණ නිර්මාංශ', ta: 'முழு சைவ உணவு' },
+            cuisineLabel: { en: 'Cuisine Style', si: 'පිසීමේ ක්‍රමය', ta: 'சமையல் பாணி' },
+            cuisineAny: { en: 'Any Style', si: 'ඕනෑම ක්‍රමයකට', ta: 'எந்த பாணியிலும்' },
+            cuisineSL: { en: 'Sri Lankan', si: 'ශ්‍රී ලාංකික', ta: 'இலங்கை' },
+            cuisineIndian: { en: 'Indian', si: 'ඉන්දියානු', ta: 'இந்திய' },
+            cuisineChinese: { en: 'Chinese', si: 'චීන', ta: 'சீன' },
             findButton: { en: 'Find Recipes', si: 'වට්ටෝරු සොයන්න', ta: 'செய்முறைகளைக் கண்டறியவும்' },
             clearButton: { en: 'Clear All', si: 'සියල්ල ඉවත් කරන්න', ta: 'அனைத்தையும் அழி' },
             findingStatus: { en: 'Finding...', si: 'සොයමින්...', ta: 'தேடுகிறது...' },
@@ -240,9 +272,9 @@
             noRecipeStatus: { en: 'No recipe received from AI.', si: 'AI වෙතින් වට්ටෝරුවක් නොලැබුණි.', ta: 'AI இடமிருந்து செய்முறை எதுவும் பெறப்படவில்லை.' },
             helpTitle: { en: 'How to Use the Recipe Finder', si: 'රස-සොයාගන්නා භාවිතා කරන ආකාරය', ta: 'செய்முறை கண்டுபிடிப்பாளரை எவ்வாறு பயன்படுத்துவது' },
             helpContent: { 
-                en: `<ol><li>Enter an ingredient you have in the input box and press <strong>Enter</strong>. Add all ingredients you have.</li><li>You can also click on the suggestion buttons to add common ingredients.</li><li>Select a meal type and a dietary preference if needed.</li><li>Once you're done, click the <strong>Find Recipes</strong> button.</li><li>The AI will generate a recipe based on your choices and display it below.</li><li>Click <strong>Clear All</strong> to start over.</li></ol>`,
-                si: `<ol><li>ඔබ සතුව ඇති අමුද්‍රව්‍යයක් කොටුව තුළට ඇතුළත් කර <strong>Enter</strong> යතුර ඔබන්න. ඔබ සතු සියලුම අමුද්‍රව්‍ය එලෙස ඇතුළත් කරන්න.</li><li>පොදුවේ භාවිතා වන අමුද්‍රව්‍ය එකතු කිරීමට යෝජිත බොත්තම් click කළ හැකිය.</li><li>අවශ්‍ය නම්, කෑම වේල සහ විශේෂ ආහාර අවශ්‍යතාවය තෝරන්න.</li><li>සියල්ල ඇතුළත් කළ පසු, <strong>'වට්ටෝරු සොයන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබගේ තේරීම් පදනම් කරගෙන වට්ටෝරුවක් සාදා පහතින් පෙන්වනු ඇත.</li><li>අලුතින් ආරම්භ කිරීමට <strong>'සියල්ල ඉවත් කරන්න'</strong> බොත්තම ඔබන්න.</li></ol>`,
-                ta: `<ol><li>உங்களிடம் உள்ள ஒரு மூலப்பொருளை உள்ளீட்டுப் பெட்டியில் உள்ளிட்டு <strong>Enter</strong> ஐ அழுத்தவும். உங்களிடம் உள்ள அனைத்து பொருட்களையும் சேர்க்கவும்.</li><li>பொதுவான பொருட்களைச் சேர்க்க பரிந்துரை பொத்தான்களைக் கிளிக் செய்யலாம்.</li><li>தேவைப்பட்டால், உணவு வகை மற்றும் உணவு விருப்பத்தைத் தேர்ந்தெடுக்கவும்.</li><li>முடிந்ததும், <strong>'செய்முறைகளைக் கண்டறியவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்கள் தேர்வுகளின் அடிப்படையில் ஒரு செய்முறையை உருவாக்கி கீழே காண்பிக்கும்.</li><li>புதிதாக தொடங்க <strong>'அனைத்தையும் அழி'</strong> என்பதைக் கிளிக் செய்யவும்.</li></ol>`
+                en: `<ol><li>Enter ingredients you have and press <strong>Enter</strong>. Add all ingredients.</li><li>Click suggestion buttons for common ingredients.</li><li>Select your preferred meal type, dietary needs, and cuisine style.</li><li>Click the <strong>Find Recipes</strong> button.</li><li>The AI will generate a recipe based on your choices and display it below.</li><li>Click <strong>Clear All</strong> to start over.</li></ol>`,
+                si: `<ol><li>ඔබ සතු අමුද්‍රව්‍ය ඇතුළත් කර <strong>Enter</strong> යතුර ඔබන්න.</li><li>යෝජිත බොත්තම් click කර පොදු අමුද්‍රව්‍ය එකතු කරන්න.</li><li>ඔබට අවශ්‍ය කෑම වේල, විශේෂ ආහාර අවශ්‍යතා, සහ පිසීමේ ක්‍රමය තෝරන්න.</li><li><strong>'වට්ටෝරු සොයන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඔබගේ තේරීම් පදනම් කරගෙන වට්ටෝරුවක් සාදා පහතින් පෙන්වනු ඇත.</li><li>අලුතින් ආරම්භ කිරීමට <strong>'සියල්ල ඉවත් කරන්න'</strong> බොත්තම ඔබන්න.</li></ol>`,
+                ta: `<ol><li>உங்களிடம் உள்ள பொருட்களை உள்ளிட்டு <strong>Enter</strong> ஐ அழுத்தவும்.</li><li>பொதுவான பொருட்களைச் சேர்க்க பரிந்துரை பொத்தான்களைக் கிளிக் செய்யவும்.</li><li>உங்களுக்கு விருப்பமான உணவு வகை, உணவுத் தேவைகள் மற்றும் சமையல் பாணியைத் தேர்ந்தெடுக்கவும்.</li><li><strong>'செய்முறைகளைக் கண்டறியவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI உங்கள் தேர்வுகளின் அடிப்படையில் ஒரு செய்முறையை உருவாக்கி கீழே காண்பிக்கும்.</li><li>புதிதாக தொடங்க <strong>'அனைத்தையும் அழி'</strong> என்பதைக் கிளிக் செய்யவும்.</li></ol>`
             }
         };
 
@@ -361,6 +393,7 @@
                 const ingredientsString = Array.from(ingredients).join(', ');
                 const selectedMealType = document.querySelector('input[name="meal-type"]:checked').value;
                 const selectedDiet = document.querySelector('input[name="diet-type"]:checked').value;
+                const selectedCuisine = document.querySelector('input[name="cuisine-type"]:checked').value;
 
                 generateBtn.disabled = true;
                 generateBtnText.textContent = translations.findingStatus[currentLang];
@@ -376,11 +409,15 @@
                     prompt += `Generate a creative recipe using ONLY the following ingredients: ${ingredientsString}. You can assume the user has basic staples like salt, pepper, oil, and water.\n\n`;
 
                     if (selectedMealType !== 'any') {
-                        prompt += `Critically, the recipe MUST be suitable for ${selectedMealType}.\n\n`;
+                        prompt += `The recipe MUST be suitable for ${selectedMealType}.\n\n`;
                     }
                     
                     if (selectedDiet !== 'none') {
                         prompt += `VERY IMPORTANT: The recipe MUST be strictly ${selectedDiet}. A vegetarian recipe must not contain any meat or fish. A vegan recipe must not contain any animal products at all, including eggs, dairy, and honey.\n\n`;
+                    }
+                    
+                    if (selectedCuisine !== 'any') {
+                         prompt += `The recipe MUST be in a ${selectedCuisine} style.\n\n`;
                     }
                     
                     prompt += `The recipe must be formatted in Markdown. It must include:
