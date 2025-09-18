@@ -288,6 +288,7 @@
         #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
         .chat-message { max-width: 80%; padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.5; }
         .bot-message { background-color: #374151; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
+        .bot-message p { margin: 0.5rem 0; }
         .user-message { background-color: #4f46e5; align-self: flex-end; border-bottom-right-radius: 0.25rem; color: white; }
         .typing-indicator { align-self: flex-start; }
         .typing-indicator span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #9ca3af; margin: 0 2px; animation: bounce 1.4s infinite ease-in-out both; }
@@ -893,9 +894,21 @@
             const addMessage = (message, sender) => {
                 const messageEl = document.createElement('div');
                 messageEl.className = `chat-message ${sender}-message`;
-                messageEl.textContent = message;
+                messageEl.innerHTML = message; // Use innerHTML to render styled messages
                 chatMessages.appendChild(messageEl);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            const displayWelcomeMessage = () => {
+                const welcomeHTML = `
+                    <div class="chat-message bot-message">
+                        <p style="margin:0; font-weight: bold;">Hello! Welcome to Malith Studio!</p>
+                        <hr style="border-color: rgba(255,255,255,0.2); margin: 8px 0;">
+                        <p style="margin:0;">ආයුබෝවන්! Malith Studio® වෙත ඔබව සාදරයෙන් පිළිගනිමු.</p>
+                        <p style="margin:0;">வணக்கம்! Malith Studio® க்கு வரவேற்கிறோம்.</p>
+                    </div>
+                `;
+                chatMessages.innerHTML = welcomeHTML;
             };
 
             const showTypingIndicator = () => {
@@ -923,7 +936,10 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ history: chatHistory })
                     });
-                    if (!response.ok) throw new Error('Network response was not ok.');
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Network response was not ok.');
+                    }
                     const data = await response.json();
                     
                     chatHistory.push({ role: 'model', parts: [{ text: data.text }] });
@@ -941,7 +957,7 @@
                 chatWindow.classList.toggle('active');
                 if (chatWindow.classList.contains('active') && isFirstChat) {
                     isFirstChat = false;
-                    getBotResponse(); // Get initial welcome message
+                    displayWelcomeMessage(); 
                 }
             });
 
