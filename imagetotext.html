@@ -403,7 +403,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 19.5H5.25A2.25 2.25 0 013 17.25z" />
             </svg>
             <p data-key="upload-instruction">Click or drag file here</p>
-            <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP, PDF (Max 5MB)</span>
+            <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP, PDF (Max 4MB)</span>
         </label>
         <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf">
         
@@ -456,7 +456,7 @@
             title: { en: 'AI File to Text (OCR)', si: 'AI ගොනුවකින් අකුරු (OCR)', ta: 'AI கோப்பிலிருந்து உரை (OCR)' },
             subtitle: { en: 'Upload an Image or PDF and let AI extract the text for you.', si: 'පින්තූරයක් හෝ PDF ගොනුවක් upload කර AI මගින් අකුරු ලබා ගන්න.', ta: 'ஒரு படம் அல்லது PDF ஐ பதிவேற்றி, AI உங்களுக்காக உரையைப் பிரித்தெடுக்கட்டும்.' },
             'upload-instruction': { en: 'Click or drag file here', si: 'මෙහි ක්ලික් කරන්න හෝ ගොනුවක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது கோப்பை இழுக்கவும்' },
-            'upload-note': { en: 'Supports: JPG, PNG, WEBP, PDF (Max 5MB)', si: 'සහය දක්වයි: JPG, PNG, WEBP, PDF (උපරිම 5MB)', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP, PDF (அதிகபட்சம் 5MB)' },
+            'upload-note': { en: 'Supports: JPG, PNG, WEBP, PDF (Max 4MB)', si: 'සහය දක්වයි: JPG, PNG, WEBP, PDF (උපරිම 4MB)', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP, PDF (அதிகபட்சம் 4MB)' },
             recognize: { en: 'Recognize Text', si: 'අකුරු හඳුනාගන්න', ta: 'உரையை அடையாளம் காணவும்' },
             recognizing: { en: 'Recognizing...', si: 'හඳුනාගනිමින්...', ta: 'அடையாளம் காண்கிறது...' },
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
@@ -467,7 +467,7 @@
             errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
             errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
             errorInvalidType: { en: 'Invalid file type. Please use JPG, PNG, WEBP, or PDF.', si: 'වලංගු නොවන ගොනු වර්ගයකි. කරුණාකර JPG, PNG, WEBP, හෝ PDF භාවිතා කරන්න.', ta: 'தவறான கோப்பு வகை. தயவுசெய்து JPG, PNG, WEBP, அல்லது PDF பயன்படுத்தவும்.' },
-            errorFileSize: { en: 'File is too large. Maximum size is 5MB.', si: 'ගොනුව විශාල වැඩිය. උපරිම ප්‍රමාණය 5MB වේ.', ta: 'கோப்பு மிகவும் பெரியது. அதிகபட்ச அளவு 5MB.' },
+            errorFileSize: { en: 'File is too large. Maximum size is 4MB.', si: 'ගොනුව විශාල වැඩිය. උපරිම ප්‍රමාණය 4MB වේ.', ta: 'கோப்பு மிகவும் பெரியது. அதிகபட்ச அளவு 4MB.' },
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use File to Text', si: 'File to Text භාවිතා කරන ආකාරය', ta: 'File to Text பயன்படுத்துவது எப்படி' },
@@ -540,7 +540,7 @@
 
         function handleFile(file) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
-            const maxSizeInMB = 5;
+            const maxSizeInMB = 4; // Reduced from 5MB to 4MB
 
             if (!allowedTypes.includes(file.type)) {
                 statusDiv.textContent = translations.errorInvalidType[currentLang];
