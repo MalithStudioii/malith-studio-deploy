@@ -643,8 +643,7 @@
             const prompt = `This file contains text, which could be in English, Sinhala, or Tamil. Please extract every piece of text from this file accurately. Maintain original line breaks and formatting as much as possible.`;
             
             try {
-                // NOTE: The backend API endpoint is assumed to handle the Base64 data correctly for both images and PDFs.
-                const response = await fetch('/api/image-to-text', { 
+                const response = await fetch(`${window.location.origin}/api/image-to-text`, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify({ 
@@ -694,3 +693,4 @@
     </script>
 </body>
 </html>
+
