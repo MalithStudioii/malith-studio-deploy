@@ -12,23 +12,23 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="og:url" content="https://malithstudiodeploy.vercel.app/textsummarizer.html">
     <meta property="og:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
     <meta property="og:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
-    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+    <meta property="og:image" content="https://malithstudiodeploy.vercel.app/tool-textsummarizer.jpg">
 
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="twitter:url" content="https://malithstudiodeploy.vercel.app/textsummarizer.html">
     <meta property="twitter:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
     <meta property="twitter:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
-    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+    <meta property="twitter:image" content="https://malithstudiodeploy.vercel.app/tool-textsummarizer.jpg">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;700&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
             background: linear-gradient(135deg, #1e3a8a, #312e81);
             color: #f9fafb;
             display: flex;
@@ -145,6 +145,7 @@
             resize: vertical;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
         }
         textarea:focus {
             outline: none;
@@ -500,7 +501,7 @@
             const prompt = `Summarize the following text concisely. The summary should be in ${currentLang}:\n\n${textToSummarize}`;
             
             try {
-                const response = await fetch('/api/generate', {
+                const response = await fetch(`${window.location.origin}/api/generate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt: prompt })
@@ -533,12 +534,12 @@
         
         copyBtn.addEventListener('click', () => {
              if (outputText.value) {
-                navigator.clipboard.writeText(outputText.value);
-                copyBtn.textContent = translations.copied[currentLang];
-                setTimeout(() => {
-                    copyBtn.textContent = translations.copy[currentLang];
-                }, 2000);
-            }
+                 navigator.clipboard.writeText(outputText.value);
+                 copyBtn.textContent = translations.copied[currentLang];
+                 setTimeout(() => {
+                     copyBtn.textContent = translations.copy[currentLang];
+                 }, 2000);
+             }
         });
 
         loadSampleBtn.addEventListener('click', () => {
@@ -565,6 +566,16 @@
             if (e.target === helpModal) helpModal.style.display = 'none';
         });
         
+        // This is the new part: Check for text passed from another tool
+        document.addEventListener('DOMContentLoaded', () => {
+            const textToProcess = localStorage.getItem('textToProcess');
+            if (textToProcess) {
+                inputText.value = textToProcess;
+                // Important: Remove the item so it doesn't load again on refresh
+                localStorage.removeItem('textToProcess');
+            }
+        });
+
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
         initializeShareButtons();
