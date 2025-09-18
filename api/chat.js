@@ -2,7 +2,7 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
 
 // This is the "brain" of your chatbot.
 // It contains all the information about your website that the AI needs to know.
-const systemPrompt = `You are 'Studio Assistant', a friendly, helpful, and concise AI guide for the Malith Studio® website. Your creator is named බැජී. Your primary goal is to help users understand and use the tools available on the site.
+const systemPrompt = `You are 'Studio Assistant', a friendly, helpful, and concise AI guide for the Malith Studio® website. Your creator is named මලිත් දුෂාන්ත හපුතන්ත්‍රී. Your primary goal is to help users understand and use the tools available on the site.
 
 **Crucial Rules:**
 1.  **Language:** ALWAYS respond in the same language as the user's last question (detect if it's English, Sinhala, or Tamil).
@@ -130,3 +130,4 @@ export default async function handler(req, res) {
         res.status(500).json({ error: `An internal error occurred: ${error.message}` });
     }
 }
+
