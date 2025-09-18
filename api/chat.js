@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+// This file uses a direct fetch call to the Google Generative AI REST API
+// instead of the Node.js library, making it compatible with simple Vercel deployments
+// that do not have a package.json or an installation step.
 
-// This is the "brain" of your chatbot.
-// It contains all the information about your website that the AI needs to know.
 const systemPrompt = `You are 'Studio Assistant', a friendly, helpful, and concise AI guide for the Malith Studio® website. Your creator is named මලිත් දුෂාන්ත හපුතන්ත්‍රී. Your primary goal is to help users understand and use the tools available on the site.
 
 **Crucial Rules:**
@@ -12,62 +12,25 @@ const systemPrompt = `You are 'Studio Assistant', a friendly, helpful, and conci
 
 **Information about Malith Studio® Tools:**
 
-* **AI Recipe Finder:**
-    * **Purpose:** Helps users get recipe ideas from ingredients they have.
-    * **How to use:** 1. Enter the ingredients you have (e.g., chicken, rice). 2. Select options like meal type (lunch/dinner), diet (vegetarian/vegan), and cuisine style (Sri Lankan/Indian). 3. Click "Find Recipes". The AI will generate a custom recipe. Users can also save their favorite recipes.
-
-* **Image to Text (OCR):**
-    * **Purpose:** Extracts text from an image.
-    * **How to use:** 1. Upload an image (JPG, PNG, WEBP). 2. Click "Recognize Text". 3. The extracted text will appear in a box, ready to be copied.
-
-* **Text Summarizer:**
-    * **Purpose:** Summarizes long articles or text into key points.
-    * **How to use:** 1. Paste the long text into the input box. 2. Click "Summarize". 3. A short summary will be generated.
-
-* **To-Do List:**
-    * **Purpose:** A simple tool to organize daily tasks.
-    * **How to use:** 1. Type a task and press Enter. 2. Click on a task to mark it as complete. 3. Data is saved privately in the user's browser.
-
-* **QR Code Generator:**
-    * **Purpose:** Creates QR codes for URLs, text, or numbers.
-    * **How to use:** 1. Enter the text or URL. 2. The QR code is generated instantly and can be downloaded.
-
-* **Password Generator:**
-    * **Purpose:** Creates strong, secure passwords.
-    * **How to use:** 1. Adjust options like length and character types. 2. A strong password is created and can be copied easily.
-
-* **AI Presentation Ideas:**
-    * **Purpose:** Generates creative ideas and outlines for presentations.
-    * **How to use:** 1. Enter a topic for the presentation. 2. The AI will provide a structured list of ideas and slide points.
-
-* **Sinhala Font Converter:**
-    * **Purpose:** Converts text between legacy Sinhala fonts (like FM-Abhaya) and standard Unicode.
-    * **How to use:** 1. Paste the Sinhala text in one box. 2. The converted text appears in the other box instantly.
-
-* **AI Social Media Post Generator:**
-    * **Purpose:** Helps create engaging posts for social media.
-    * **How to use:** 1. Describe the topic of the post. 2. The AI generates several post options.
-
-* **Resume Builder:**
-    * **Purpose:** A tool to create a professional resume quickly.
-    * **How to use:** 1. Fill in the sections (Personal Info, Education, etc.). 2. Choose a template. 3. Download the resume as a PDF. All data is private and processed in the browser.
-
-* **Voice Typing Tool:**
-    * **Purpose:** Types text by speaking in Sinhala, English, or Tamil.
-    * **How to use:** 1. Select the language. 2. Click the microphone button and start speaking. 3. The text appears in the editor.
-
-* **AI Writing Assistant:**
-    * **Purpose:** Improves writing by making it more professional, simpler, or fixing grammar.
-    * **How to use:** 1. Paste your text. 2. Choose an action (e.g., 'Make Professional'). 3. The AI provides the improved version.
+* **AI Recipe Finder:** Helps users get recipe ideas from ingredients they have. Users can specify meal type, diet, and cuisine style. They can also save recipes.
+* **Image to Text (OCR):** Extracts text from an uploaded image.
+* **Text Summarizer:** Summarizes long text into key points.
+* **To-Do List:** Organizes daily tasks. Data is saved in the browser.
+* **QR Code & Password Generators:** Creates QR codes and strong passwords.
+* **AI Presentation Ideas & Social Media Post Generator:** Generates creative content for presentations and social media.
+* **Sinhala Font Converter:** Converts between legacy (FM) and Unicode Sinhala fonts.
+* **Resume Builder:** Creates a professional resume. Data is private to the user's browser.
+* **Voice Typing Tool:** Types text by speaking in Sinhala, English, or Tamil.
+* **AI Writing Assistant:** Improves writing by making it professional, simpler, or fixing grammar.
 `;
-
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
         return res.status(500).json({ error: 'Server configuration error: API key is missing.' });
     }
 
@@ -77,53 +40,52 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Chat history is required.' });
         }
 
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        
-        const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
-            systemInstruction: systemPrompt,
-        });
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-        // The history from the client includes the latest user message.
-        // We separate the actual history from the new message to send.
-        const lastUserMessage = history.length > 0 ? history[history.length - 1] : { parts: [{ text: "Hello" }] };
-        const chatHistoryForModel = history.length > 0 ? history.slice(0, -1) : [];
-
-        const chat = model.startChat({
-            history: chatHistoryForModel,
-            generationConfig: {
-                maxOutputTokens: 1000,
+        const payload = {
+            contents: history,
+            systemInstruction: {
+                parts: [{ text: systemPrompt }]
             },
             safetySettings: [
-                {
-                    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-                    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                },
-                 {
-                    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-                    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                },
-                 {
-                    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-                    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                },
-                 {
-                    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                },
-            ]
+                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
+            ],
+            generationConfig: {
+                maxOutputTokens: 1000,
+            }
+        };
+
+        const apiResponse = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
         });
-        
-        const result = await chat.sendMessage(lastUserMessage.parts[0].text);
-        const response = result.response;
-        
-        if (!response || !response.candidates || response.candidates.length === 0 || !response.candidates[0].content) {
-             console.error("Gemini API Blocked Response:", JSON.stringify(response, null, 2));
-             return res.status(500).json({ text: "I'm sorry, I couldn't process that request due to safety filters. Please try rephrasing." });
+
+        if (!apiResponse.ok) {
+            const errorBody = await apiResponse.json();
+            console.error("Google API Error:", errorBody);
+            throw new Error(`Google API responded with status: ${apiResponse.status}`);
         }
 
-        const text = response.text();
-        res.status(200).json({ text });
+        const responseData = await apiResponse.json();
+
+        if (responseData.candidates && responseData.candidates.length > 0 && responseData.candidates[0].content) {
+            const text = responseData.candidates[0].content.parts[0].text;
+            res.status(200).json({ text });
+        } else {
+             console.error("Gemini API Blocked or Invalid Response:", JSON.stringify(responseData, null, 2));
+             // Check for promptFeedback which indicates a safety block
+             if(responseData.promptFeedback && responseData.promptFeedback.blockReason) {
+                 res.status(200).json({ text: "I'm sorry, I can't answer that due to safety guidelines. Could you ask about one of the tools?" });
+             } else {
+                 res.status(500).json({ text: "Sorry, I received an empty response from the AI. Please try again." });
+             }
+        }
 
     } catch (error) {
         console.error('Error in /api/chat:', error);
