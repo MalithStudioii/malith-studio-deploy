@@ -234,7 +234,7 @@
         .light-mode .comment-message { color: #374151; }
 
         /* --- Chatbot Styles --- */
-        #chat-widget { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; }
+        #chat-widget { position: fixed; bottom: 6rem; right: 2rem; z-index: 1000; }
         #chat-toggle-btn { 
             background: linear-gradient(135deg, #8b5cf6, #6366f1); 
             color: white; 
@@ -259,7 +259,7 @@
         }
         #chat-window { 
             position: fixed; 
-            bottom: 100px; 
+            bottom: calc(6rem + 70px); 
             right: 2rem; 
             width: 90%; 
             max-width: 380px; 
@@ -310,19 +310,17 @@
         .eye.right { right: 4px; }
         .eye::after { content: ''; width: 4px; height: 4px; background-color: #1f2937; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         
-        /* Blinking Animation */
         #chatbot-eyes.idle .eye { animation: blink 4s infinite; }
         @keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97.5% { transform: scaleY(0.1); } }
 
-        /* Looking Down (Typing) Animation */
         #chatbot-eyes.typing .eye { top: 10px; height: 8px; }
 
-        /* Thinking Animation */
-        #chatbot-eyes.thinking .eye { animation: thinking-anim 1.5s infinite; }
-        @keyframes thinking-anim { 0%, 100% { top: 4px; } 25% { left: 0; } 50% { top: 10px; } 75% { left: 8px; } }
-        #chatbot-eyes.thinking .eye.right { animation-delay: 0.1s; }
-        @keyframes thinking-anim-right { 0%, 100% { top: 4px; } 25% { right: 0; } 50% { top: 10px; } 75% { right: 8px; } }
-
+        #chatbot-eyes.thinking .eye.left { animation: thinking-anim-left 1.5s infinite; }
+        #chatbot-eyes.thinking .eye.right { animation: thinking-anim-right 1.5s infinite; }
+        @keyframes thinking-anim-left { 0%, 100% { top: 4px; left: 4px; } 25% { left: 0px; } 50% { top: 10px; } 75% { left: 8px; } }
+        @keyframes thinking-anim-right { 0%, 100% { top: 4px; right: 4px; } 25% { right: 8px; } 50% { top: 10px; } 75% { right: 0px; } }
+        .light-mode .eye { background-color: #60a5fa; }
+        .light-mode .eye::after { background-color: #fff; }
     </style>
 </head>
 <body>
@@ -731,7 +729,7 @@
             project12Title: { en: 'AI Recipe Finder', si: 'AI රස-සොයාගන්නා', ta: 'AI செய்முறை கண்டுபிடிப்பாளர்' }, project12Desc: { en: 'Get instant recipe ideas from the ingredients you have at home.', si: 'ඔබ සතුව ඇති අමුද්‍රව්‍ය වලින් ක්ෂණිකව කෑම වට්ටෝරු ලබා ගන්න.', ta: 'வீட்டில் உள்ள பொருட்களைக் கொண்டு உடனடி சமையல் குறிப்புகளைப் பெறுங்கள்.' },
             footerPrivacy: { en: 'Privacy Policy', si: 'රහස්‍යතා ප්‍රතිපත්තිය', ta: 'தனியுரிமைக் கொள்கை' }, footerCopyright: { en: '© 2025 Malith Studio®. All rights reserved.', si: '© 2025 මලිත් ස්ටුඩියෝ®. सर्व हक्क राखीव.', ta: '© 2025 மலித் ஸ்டுடியோ®. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.' },
             commentsTitle: { en: 'Leave a Comment', si: 'ඔබේ අදහස දක්වන්න', ta: 'ஒரு கருத்தை இடுங்கள்' }, commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' }, commentMessagePlaceholder: { en: 'Your comment...', si: 'ඔබේ අදහස...', ta: 'உங்கள் கருத்து...' }, commentSubmit: { en: 'Submit Comment', si: 'අදහස යොමු කරන්න', ta: 'கருத்தை சமர்ப்பிக்கவும்' }, noComments: { en: 'Be the first to comment!', si: 'පළමුවෙන් අදහස් දක්වන්න!', ta: 'முதலில் கருத்து தெரிவிக்கவும்!' },
-            chatTitle: { en: 'Studio Assistant', si: 'Studio සහායක', ta: 'ஸ்டுடியோ உதவியாளர்' }, chatPlaceholder: { en: 'Ask me anything...', si: 'මගෙන් ඕනෑම දෙයක් අසන්න...', ta: 'என்னிடம் எதையும் கேளுங்கள்...' }
+            chatTitle: { en: 'Studio Assistant', si: 'Studio සහායක', ta: 'ஸ்டுഡിയോ உதவியாளர்' }, chatPlaceholder: { en: 'Ask me anything...', si: 'මගෙන් ඕනෑම දෙයක් අසන්න...', ta: 'என்னிடம் எதையும் கேளுங்கள்...' }
         };
 
         let currentLang = 'en';
