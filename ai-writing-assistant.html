@@ -27,8 +27,8 @@
     <link rel="icon" href="logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1e3a8a, #312e81); color: #f9fafb; display: flex; align-items: center; justify-content: flex-start; flex-direction: column; min-height: 100vh; margin: 0; padding: 1rem; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;700&display=swap');
+        body { font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; background: linear-gradient(135deg, #1e3a8a, #312e81); color: #f9fafb; display: flex; align-items: center; justify-content: flex-start; flex-direction: column; min-height: 100vh; margin: 0; padding: 1rem; box-sizing: border-box; }
         .back-btn { position: fixed; top: 1.5rem; left: 1.5rem; display: flex; align-items: center; gap: 0.5rem; background-color: rgba(31, 41, 55, 0.8); backdrop-filter: blur(10px); color: #d1d5db; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; font-weight: 600; z-index: 10; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; }
         .back-btn:hover { background-color: rgba(55, 65, 81, 0.9); color: white; }
         .back-btn svg { width: 1rem; height: 1rem; }
@@ -44,7 +44,7 @@
         .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem;}
         .header h1 { font-size: 2.25rem; font-weight: 700; background-image: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .header p { color: #d1d5db; margin-top: 0.5rem; max-width: 600px; margin-left: auto; margin-right: auto;}
-        textarea { width: 100%; height: 150px; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.75rem; padding: 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; resize: vertical; transition: all 0.3s; }
+        textarea { width: 100%; height: 150px; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.75rem; padding: 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; resize: vertical; transition: all 0.3s; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; }
         textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
         .actions-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
         .action-btn { background-color: #374151; border: 1px solid #4b5563; color: #d1d5db; padding: 0.75rem 1.5rem; border-radius: 9999px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
@@ -83,8 +83,8 @@
                     <button data-lang="si">සිංහල</button>
                     <button data-lang="ta">தமிழ்</button>
                 </div>
-            </div>
-            <button id="help-btn" class="help-btn" title="Help">?</button>
+             </div>
+             <button id="help-btn" class="help-btn" title="Help">?</button>
         </div>
         <div class="header">
             <h1 data-key="title"><i class="fas fa-magic-wand-sparkles"></i> AI Writing Assistant</h1>
@@ -130,7 +130,6 @@
             btnSimplify: { en: 'Simplify', si: 'සරල කරන්න', ta: 'எளிதாக்கு' },
             btnGrammar: { en: 'Fix Grammar', si: 'ව්‍යාකරණ නිවැරදි කරන්න', ta: 'இலக்கணத்தை சரிசெய்' },
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
-
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             error: { en: 'Sorry, something went wrong. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.' },
             errorBlocked: { en: 'The response was blocked due to safety reasons.', si: 'ආරක්ෂක හේතූන් මත ප්‍රතිචාරය අවහිර කරන ලදී.', ta: 'பாதுகாப்புக் காரணங்களுக்காக பதில் தடுக்கப்பட்டது.' },
@@ -207,8 +206,7 @@
                 actionButtons.forEach(btn => btn.disabled = true);
 
                 try {
-                    // SECURE API CALL to our Vercel function
-                    const response = await fetch('https://malithstudiodeploy.vercel.app/api/refine-text', {
+                    const response = await fetch(`${window.location.origin}/api/refine-text`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ text: text, action: action, language: currentLang })
@@ -253,6 +251,16 @@
         helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
         closeModalBtn.addEventListener('click', () => helpModal.style.display = 'none');
         helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.style.display = 'none'; });
+
+        // This is the new part: Check for text passed from another tool
+        document.addEventListener('DOMContentLoaded', () => {
+            const textToProcess = localStorage.getItem('textToProcess');
+            if (textToProcess) {
+                inputText.value = textToProcess;
+                // Important: Remove the item so it doesn't load again on refresh
+                localStorage.removeItem('textToProcess');
+            }
+        });
 
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
