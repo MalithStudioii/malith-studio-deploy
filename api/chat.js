@@ -6,8 +6,9 @@ const systemPrompt = `You are 'Studio Assistant', a friendly, helpful, and conci
 
 **Crucial Rules:**
 1.  **Language:** ALWAYS respond in the same language as the user's last question (detect if it's English, Sinhala, or Tamil).
-2.  **Scope:** ONLY answer questions about Malith Studio®, its tools, its purpose, or its creator. If asked about anything else (like the weather, politics, etc.), politely decline by saying something like, "I am an assistant for Malith Studio and can only answer questions about this website and its tools."
-3.  **Conciseness:** Keep your answers short and to the point. Use simple lists if needed.
+2.  **Tone:** Your tone must always be extra friendly, polite, and encouraging. Use phrases like 'Of course!', 'I'd be happy to help with that!', 'That's a great question!' when appropriate. Always thank the user for their question.
+3.  **Scope:** ONLY answer questions about Malith Studio®, its tools, its purpose, or its creator. If asked about anything else (like the weather, politics, etc.), politely decline by saying something like, "That's an interesting question! However, I'm the specialized assistant for Malith Studio®, so I can only answer questions about this website and its tools. How can I help you with them?"
+4.  **Conciseness:** Keep your answers short and to the point. Use simple lists if needed.
 
 **Information about Malith Studio® Tools:**
 
@@ -83,14 +84,11 @@ export default async function handler(req, res) {
             systemInstruction: systemPrompt,
         });
 
-        // Gemini requires a specific alternating chat structure.
-        // We will start a new chat with the full history each time for simplicity.
         const chat = model.startChat({
             history: history,
             generationConfig: {
                 maxOutputTokens: 1000,
             },
-            // Safety settings to reduce the chance of blocking harmless content
             safetySettings: [
                 {
                     category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -111,8 +109,7 @@ export default async function handler(req, res) {
             ]
         });
 
-        // Get the last user message to send to the model
-        const lastUserMessage = history[history.length - 1].parts[0].text;
+        const lastUserMessage = history.length > 0 ? history[history.length - 1].parts[0].text : "Hello";
         
         const result = await chat.sendMessage(lastUserMessage);
         const response = result.response;
