@@ -248,7 +248,7 @@
             border-radius: 0.5rem;
             padding: 1rem;
             color: #d1d5db;
-            font-family: monospace;
+            font-family: 'Noto Sans Sinhala', monospace;
             white-space: pre-wrap;
             box-sizing: border-box;
             resize: vertical;
@@ -256,6 +256,7 @@
         .result-actions {
             margin-top: 1rem;
             display: flex;
+            flex-wrap: wrap;
             justify-content: flex-end;
             gap: 0.75rem;
         }
@@ -267,11 +268,15 @@
             border-radius: 0.375rem;
             cursor: pointer;
             font-weight: 600;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
         }
         .result-btn:hover { background-color: #6b7280; }
+        .action-btn { background-color: #3730a3; }
+        .action-btn:hover { background-color: #4338ca; }
+
         #status {
             text-align: center;
             color: #f87171;
@@ -432,6 +437,8 @@
         <div class="result-box" id="result-box" style="display: none;">
             <textarea id="result-text" data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
             <div class="result-actions">
+                <button id="summarizeBtn" class="result-btn action-btn"><i class="fas fa-compress-alt"></i> <span data-key="summarize">Summarize</span></button>
+                <button id="improveBtn" class="result-btn action-btn"><i class="fas fa-magic"></i> <span data-key="improve">Improve Writing</span></button>
                 <button id="exportBtn" class="result-btn"><i class="fas fa-file-word"></i> <span data-key="export">Export</span></button>
                 <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy</span></button>
             </div>
@@ -474,6 +481,8 @@
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             export: { en: 'Export to Word', si: 'Word වෙත යවන්න', ta: 'Wordக்கு ஏற்றுமதி செய்' },
+            summarize: { en: 'Summarize', si: 'සාරාංශ කරන්න', ta: 'சுருக்கவும்' },
+            improve: { en: 'Improve Writing', si: 'ලිවීම වැඩි දියුණු කරන්න', ta: 'எழுத்தை மேம்படுத்து' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
             errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
             errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
@@ -507,6 +516,8 @@
         const resultText = document.getElementById('result-text');
         const copyBtn = document.getElementById('copyBtn');
         const exportBtn = document.getElementById('exportBtn');
+        const summarizeBtn = document.getElementById('summarizeBtn');
+        const improveBtn = document.getElementById('improveBtn');
         const statusDiv = document.getElementById('status');
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
@@ -524,11 +535,7 @@
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[key]?.[lang]) {
-                    if (key === 'helpContent') {
-                        el.innerHTML = translations[key][lang];
-                    } else {
-                        el.innerHTML = translations[key][lang];
-                    }
+                    el.innerHTML = translations[key][lang];
                 }
             });
             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
@@ -631,16 +638,8 @@
                 <head>
                     <meta charset="UTF-8">
                     <style>
-                        @page {
-                            mso-footnote-separator:none;
-                            mso-footnote-continuation-separator:none;
-                            mso-endnote-separator:none;
-                            mso-endnote-continuation-separator:none;
-                        }
-                        body {
-                            font-family: ${font};
-                            font-size: 12pt;
-                        }
+                        @page { mso-footnote-separator:none; mso-footnote-continuation-separator:none; mso-endnote-separator:none; mso-endnote-continuation-separator:none; }
+                        body { font-family: ${font}; font-size: 12pt; }
                     </style>
                 </head>
                 <body>
@@ -649,9 +648,7 @@
                 </html>
             `;
 
-            const blob = new Blob(['\ufeff', htmlContent], {
-                type: 'application/msword'
-            });
+            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
             
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -752,6 +749,20 @@
         });
 
         exportBtn.addEventListener('click', exportToWord);
+
+        summarizeBtn.addEventListener('click', () => {
+            if (resultText.value) {
+                localStorage.setItem('textToProcess', resultText.value);
+                window.location.href = `textsummarizer.html?lang=${currentLang}`;
+            }
+        });
+
+        improveBtn.addEventListener('click', () => {
+            if (resultText.value) {
+                localStorage.setItem('textToProcess', resultText.value);
+                window.location.href = `ai-writing-assistant.html?lang=${currentLang}`;
+            }
+        });
 
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
