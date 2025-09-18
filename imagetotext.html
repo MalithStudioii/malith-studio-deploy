@@ -253,18 +253,25 @@
             box-sizing: border-box;
             resize: vertical;
         }
-        #copyBtn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
+        .result-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        .result-btn {
             background-color: #4b5563;
             border: none;
             color: white;
-            padding: 0.5rem 0.75rem;
+            padding: 0.6rem 1rem;
             border-radius: 0.375rem;
             cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        #copyBtn:hover { background-color: #6b7280; }
+        .result-btn:hover { background-color: #6b7280; }
         #status {
             text-align: center;
             color: #f87171;
@@ -424,7 +431,10 @@
 
         <div class="result-box" id="result-box" style="display: none;">
             <textarea id="result-text" data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
-            <button id="copyBtn" data-key="copy">Copy</button>
+            <div class="result-actions">
+                <button id="exportBtn" class="result-btn"><i class="fas fa-file-word"></i> <span data-key="export">Export</span></button>
+                <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy</span></button>
+            </div>
         </div>
         
         <div id="status"></div>
@@ -463,6 +473,7 @@
             placeholderOutput: { en: 'Extracted text will appear here...', si: 'ලබාගත් පෙළ මෙහි දිස්වනු ඇත...', ta: 'பிரித்தெடுக்கப்பட்ட உரை இங்கே தோன்றும்...' },
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            export: { en: 'Export to Word', si: 'Word වෙත යවන්න', ta: 'Wordக்கு ஏற்றுமதி செய்' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
             errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
             errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
@@ -472,9 +483,9 @@
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use File to Text', si: 'File to Text භාවිතා කරන ආකාරය', ta: 'File to Text பயன்படுத்துவது எப்படி' },
             helpContent: { 
-                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the file and extract the text.</li><li>The extracted text will appear in the box below.</li><li>You can make edits to the text directly in the box before copying.</li></ol>`,
-                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පිටපත් කිරීමට පෙර, ඔබට සෘජුවම එම කොටුව තුළ ඇති පෙළ සංස්කරණය කළ හැක.</li></ol>`,
-                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>நகலெடுப்பதற்கு முன், நீங்கள் நேரடியாக பெட்டியில் உள்ள உரையைத் திருத்தலாம்.</li></ol>`
+                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the file and extract the text.</li><li>The extracted text will appear in the box below.</li><li>You can make edits to the text directly in the box before copying or exporting.</li></ol>`,
+                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පිටපත් කිරීමට හෝ export කිරීමට පෙර, ඔබට සෘජුවම එම කොටුව තුළ ඇති පෙළ සංස්කරණය කළ හැක.</li></ol>`,
+                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>நகலெடுப்பதற்கு அல்லது ஏற்றுமதி செய்வதற்கு முன், நீங்கள் நேரடியாக பெட்டியில் உள்ள உரையைத் திருத்தலாம்.</li></ol>`
             }
         };
 
@@ -495,6 +506,7 @@
         const resultBox = document.getElementById('result-box');
         const resultText = document.getElementById('result-text');
         const copyBtn = document.getElementById('copyBtn');
+        const exportBtn = document.getElementById('exportBtn');
         const statusDiv = document.getElementById('status');
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
@@ -515,7 +527,7 @@
                     if (key === 'helpContent') {
                         el.innerHTML = translations[key][lang];
                     } else {
-                        el.textContent = translations[key][lang];
+                        el.innerHTML = translations[key][lang];
                     }
                 }
             });
@@ -540,7 +552,7 @@
 
         function handleFile(file) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
-            const maxSizeInMB = 4; // Reduced from 5MB to 4MB
+            const maxSizeInMB = 4;
 
             if (!allowedTypes.includes(file.type)) {
                 statusDiv.textContent = translations.errorInvalidType[currentLang];
@@ -604,6 +616,54 @@
                 }).catch(err => console.error('Failed to copy text: ', err));
             });
         }
+        
+        function exportToWord() {
+            if (!resultText.value) return;
+
+            let font = "'Times New Roman', Times, serif";
+            if (currentLang === 'si' || currentLang === 'ta') {
+                font = "'Noto Sans Sinhala', sans-serif";
+            }
+
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        @page {
+                            mso-footnote-separator:none;
+                            mso-footnote-continuation-separator:none;
+                            mso-endnote-separator:none;
+                            mso-endnote-continuation-separator:none;
+                        }
+                        body {
+                            font-family: ${font};
+                            font-size: 12pt;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${resultText.value.replace(/\n/g, '<br>')}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "malith-studio-export.doc";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);  
+            }, 0);
+        }
 
         uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
         uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
@@ -638,7 +698,7 @@
             recognizeBtnText.textContent = translations.recognizing[currentLang];
             loader.style.display = 'inline-block';
             resultText.value = '';
-            copyBtn.style.display = 'none';
+            resultBox.style.display = 'none';
             statusDiv.textContent = '';
 
             const prompt = `This file contains text, which could be in English, Sinhala, or Tamil. Please extract every piece of text from this file accurately. Maintain original line breaks and formatting as much as possible.`;
@@ -666,7 +726,6 @@
                 if (result.text) {
                     resultText.value = result.text;
                     resultBox.style.display = 'block';
-                    copyBtn.style.display = 'block';
                     resultText.readOnly = false; // Allow editing
                 } else {
                      console.error("API Response Blocked or invalid:", result);
@@ -685,11 +744,14 @@
         
         copyBtn.addEventListener('click', () => {
              if (resultText.value) {
+                const copySpan = copyBtn.querySelector('span');
                  navigator.clipboard.writeText(resultText.value);
-                 copyBtn.textContent = translations.copied[currentLang];
-                 setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+                 copySpan.textContent = translations.copied[currentLang];
+                 setTimeout(() => { copySpan.textContent = translations.copy[currentLang]; }, 2000);
              }
         });
+
+        exportBtn.addEventListener('click', exportToWord);
 
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
