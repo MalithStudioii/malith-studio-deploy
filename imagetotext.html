@@ -4,31 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags for Image/PDF to Text Page -->
-    <title>AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®</title>
-    <meta name="description" content="Extract text from images (JPG, PNG) and PDF documents in Sinhala, English, and Tamil with Malith Studio's free AI-powered OCR tool.">
-    <meta name="keywords" content="image to text, pdf to text, ocr, sinhala ocr, photo to text, ai ocr, malith studio, sri lanka, free tool">
+    <!-- SEO Meta Tags for Image to Text Page -->
+    <title>AI Image to Text (OCR) Converter - Malith Studio®</title>
+    <meta name="description" content="Extract text from images in Sinhala, English, and Tamil with Malith Studio's free AI-powered OCR tool. Convert photos to editable text instantly.">
+    <meta name="keywords" content="image to text, ocr, sinhala ocr, photo to text, ai ocr, malith studio, sri lanka, free tool">
     <meta name="author" content="Malith Studio®">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://malithstudiodeploy.vercel.app/imagetotext.html">
-    <meta property="og:title" content="AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®">
-    <meta property="og:description" content="Extract text from images and PDF documents in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
-    <meta property="og:image" content="https://malithstudiodeploy.vercel.app/tool-imagetotext.jpg">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="og:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="og:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
 
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://malithstudiodeploy.vercel.app/imagetotext.html">
-    <meta property="twitter:title" content="AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®">
-    <meta property="twitter:description" content="Extract text from images and PDF documents in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
-    <meta property="twitter:image" content="https://malithstudiodeploy.vercel.app/tool-imagetotext.jpg">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="twitter:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="twitter:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #1e3a8a, #312e81);
             color: #f9fafb;
             display: flex;
@@ -147,7 +147,7 @@
             align-items: center;
             justify-content: center;
         }
-        .upload-area.dragover {
+        .upload-area:hover {
             border-color: #8b5cf6;
             background-color: rgba(139, 92, 246, 0.1);
         }
@@ -167,8 +167,8 @@
             color: #6b7280;
             margin-top: 0.5rem;
         }
-        #file-input { display: none; }
-        #file-display-area {
+        #image-input { display: none; }
+        #image-display-area {
              display: none;
              text-align: center;
              margin-bottom: 1.5rem;
@@ -180,19 +180,6 @@
             border: 1px solid #4b5563;
             margin-bottom: 1rem;
         }
-        #pdf-preview {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            padding: 2rem;
-            background-color: #111827;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        #pdf-preview i { font-size: 3rem; color: #ef4444; }
-        #pdf-name { font-weight: 600; }
-
         .action-buttons {
             display: flex;
             gap: 1rem;
@@ -251,7 +238,6 @@
             font-family: monospace;
             white-space: pre-wrap;
             box-sizing: border-box;
-            resize: vertical;
         }
         #copyBtn {
             position: absolute;
@@ -394,25 +380,21 @@
              <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
         </div>
         <div class="header">
-            <h1 data-key="title">AI File to Text (OCR)</h1>
-            <p data-key="subtitle">Upload an Image or PDF and let AI extract the text for you.</p>
+            <h1 data-key="title">AI Image to Text (OCR)</h1>
+            <p data-key="subtitle">Upload an image and let AI extract the text for you.</p>
         </div>
 
-        <label for="file-input" id="upload-area" class="upload-area">
+        <label for="image-input" id="upload-area" class="upload-area">
             <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M3 17.25V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v10.5A2.25 2.25 0 0118.75 19.5H5.25A2.25 2.25 0 013 17.25z" />
             </svg>
-            <p data-key="upload-instruction">Click or drag file here</p>
-            <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP, PDF (Max 4MB)</span>
+            <p data-key="upload-instruction">Click or drag image here</p>
+            <span class="upload-area-note" data-key="upload-note">Supports: JPG, PNG, WEBP</span>
         </label>
-        <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, application/pdf">
+        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp">
         
-        <div id="file-display-area">
-            <img id="image-preview" src="" alt="Selected image preview" style="display: none;">
-            <div id="pdf-preview" style="display: none;">
-                <i class="fas fa-file-pdf"></i>
-                <span id="pdf-name"></span>
-            </div>
+        <div id="image-display-area">
+            <img id="image-preview" src="" alt="Selected image preview">
             <div class="action-buttons">
                  <button id="recognize-btn" class="main-btn">
                      <span data-key="recognize">Recognize Text</span>
@@ -423,7 +405,7 @@
         </div>
 
         <div class="result-box" id="result-box" style="display: none;">
-            <textarea id="result-text" data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
+            <textarea id="result-text" readonly data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
             <button id="copyBtn" data-key="copy">Copy</button>
         </div>
         
@@ -444,7 +426,7 @@
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
-            <h2 data-key="helpTitle">How to Use File to Text</h2>
+            <h2 data-key="helpTitle">How to Use Image to Text</h2>
             <div data-key="helpContent">
             </div>
         </div>
@@ -453,10 +435,10 @@
     <script>
         const translations = {
             backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
-            title: { en: 'AI File to Text (OCR)', si: 'AI ගොනුවකින් අකුරු (OCR)', ta: 'AI கோப்பிலிருந்து உரை (OCR)' },
-            subtitle: { en: 'Upload an Image or PDF and let AI extract the text for you.', si: 'පින්තූරයක් හෝ PDF ගොනුවක් upload කර AI මගින් අකුරු ලබා ගන්න.', ta: 'ஒரு படம் அல்லது PDF ஐ பதிவேற்றி, AI உங்களுக்காக உரையைப் பிரித்தெடுக்கட்டும்.' },
-            'upload-instruction': { en: 'Click or drag file here', si: 'මෙහි ක්ලික් කරන්න හෝ ගොනුවක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது கோப்பை இழுக்கவும்' },
-            'upload-note': { en: 'Supports: JPG, PNG, WEBP, PDF (Max 4MB)', si: 'සහය දක්වයි: JPG, PNG, WEBP, PDF (උපරිම 4MB)', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP, PDF (அதிகபட்சம் 4MB)' },
+            title: { en: 'AI Image to Text (OCR)', si: 'AI පින්තූරයෙන් අකුරු (OCR)', ta: 'AI படத்திலிருந்து உரை (OCR)' },
+            subtitle: { en: 'Upload an image and let AI extract the text for you.', si: 'පින්තූරයක් upload කර AI මගින් අකුරු ලබා ගන්න.', ta: 'ஒரு படத்தைப் பதிவேற்றி, AI உங்களுக்காக உரையைப் பிரித்தெடுக்கட்டும்.' },
+            'upload-instruction': { en: 'Click or drag image here', si: 'මෙහි ක්ලික් කරන්න හෝ පින්තූරයක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது படத்தை இழுக்கவும்' },
+            'upload-note': { en: 'Supports: JPG, PNG, WEBP', si: 'සහය දක්වයි: JPG, PNG, WEBP', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP' },
             recognize: { en: 'Recognize Text', si: 'අකුරු හඳුනාගන්න', ta: 'உரையை அடையாளம் காணவும்' },
             recognizing: { en: 'Recognizing...', si: 'හඳුනාගනිමින්...', ta: 'அடையாளம் காண்கிறது...' },
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
@@ -464,17 +446,14 @@
             copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
-            errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
-            errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
-            errorInvalidType: { en: 'Invalid file type. Please use JPG, PNG, WEBP, or PDF.', si: 'වලංගු නොවන ගොනු වර්ගයකි. කරුණාකර JPG, PNG, WEBP, හෝ PDF භාවිතා කරන්න.', ta: 'தவறான கோப்பு வகை. தயவுசெய்து JPG, PNG, WEBP, அல்லது PDF பயன்படுத்தவும்.' },
-            errorFileSize: { en: 'File is too large. Maximum size is 4MB.', si: 'ගොනුව විශාල වැඩිය. උපරිම ප්‍රමාණය 4MB වේ.', ta: 'கோப்பு மிகவும் பெரியது. அதிகபட்ச அளவு 4MB.' },
+            errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different image.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් පින්තූරයක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு படத்தைப் முயற்சிக்கவும்.'},
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
-            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
-            helpTitle: { en: 'How to Use File to Text', si: 'File to Text භාවිතා කරන ආකාරය', ta: 'File to Text பயன்படுத்துவது எப்படி' },
+            linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            helpTitle: { en: 'How to Use Image to Text', si: 'Image to Text භාවිතා කරන ආකාරය', ta: 'Image to Text பயன்படுத்துவது எப்படி' },
             helpContent: { 
-                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the file and extract the text.</li><li>The extracted text will appear in the box below.</li><li>You can make edits to the text directly in the box before copying.</li></ol>`,
-                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පිටපත් කිරීමට පෙර, ඔබට සෘජුවම එම කොටුව තුළ ඇති පෙළ සංස්කරණය කළ හැක.</li></ol>`,
-                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>நகலெடுப்பதற்கு முன், நீங்கள் நேரடியாக பெட்டியில் உள்ள உரையைத் திருத்தலாம்.</li></ol>`
+                en: `<ol><li>Click the 'Click or drag image here' area to select an image from your device.</li><li>Once the image is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the image and extract the text.</li><li>The extracted text will appear in the box below.</li><li>Use the <strong>Copy</strong> button to copy the text to your clipboard.</li></ol>`,
+                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් තේරීමට 'මෙහි ක්ලික් කරන්න හෝ පින්තූරයක් අදින්න' යන කොටස click කරන්න.</li><li>ඡායාරූපය දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ඡායාරූපය විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පෙළ පිටපත් කර ගැනීමට <strong>'පිටපත් කරන්න'</strong> බොත්තම භාවිතා කරන්න.</li></ol>`,
+                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து படத்தைத் தேர்ந்தெடுக்க, 'இங்கே கிளிக் செய்யவும் அல்லது படத்தை இழுக்கவும்' என்ற பகுதியைக் கிளிக் செய்யவும்.</li><li>படம் காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI படத்தை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>உரையை நகலெடுக்க <strong>'நகலெடு'</strong> பொத்தானைப் பயன்படுத்தவும்.</li></ol>`
             }
         };
 
@@ -483,11 +462,9 @@
         let fileMimeType = null;
 
         const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.getElementById('file-input');
-        const fileDisplayArea = document.getElementById('file-display-area');
+        const imageInput = document.getElementById('image-input');
+        const imageDisplayArea = document.getElementById('image-display-area');
         const imagePreview = document.getElementById('image-preview');
-        const pdfPreview = document.getElementById('pdf-preview');
-        const pdfName = document.getElementById('pdf-name');
         const recognizeBtn = document.getElementById('recognize-btn');
         const recognizeBtnText = recognizeBtn.querySelector('span');
         const loader = document.getElementById('loader');
@@ -539,37 +516,12 @@
         }
 
         function handleFile(file) {
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
-            const maxSizeInMB = 4; // Reduced from 5MB to 4MB
-
-            if (!allowedTypes.includes(file.type)) {
-                statusDiv.textContent = translations.errorInvalidType[currentLang];
-                return;
-            }
-
-            if (file.size > maxSizeInMB * 1024 * 1024) {
-                statusDiv.textContent = `${translations.errorFileSize[currentLang]}`;
-                return;
-            }
-
-            statusDiv.textContent = '';
             uploadArea.style.display = 'none';
-            fileDisplayArea.style.display = 'block';
-            
-            if (file.type.startsWith('image/')) {
-                imagePreview.style.display = 'block';
-                pdfPreview.style.display = 'none';
-                const reader = new FileReader();
-                reader.onloadend = () => { imagePreview.src = reader.result; };
-                reader.readAsDataURL(file);
-            } else if (file.type === 'application/pdf') {
-                imagePreview.style.display = 'none';
-                pdfPreview.style.display = 'flex';
-                pdfName.textContent = file.name;
-            }
+            imageDisplayArea.style.display = 'block';
             
             const reader = new FileReader();
             reader.onloadend = () => {
+                imagePreview.src = reader.result;
                 fileAsBase64 = reader.result.split(',')[1];
                 fileMimeType = file.type;
             };
@@ -578,13 +530,11 @@
 
         function resetUI() {
             uploadArea.style.display = 'flex';
-            fileDisplayArea.style.display = 'none';
+            imageDisplayArea.style.display = 'none';
             resultBox.style.display = 'none';
-            fileInput.value = '';
+            imageInput.value = '';
             fileAsBase64 = null;
             fileMimeType = null;
-            resultText.value = '';
-            statusDiv.textContent = '';
         }
 
         function initializeShareButtons() {
@@ -605,30 +555,28 @@
             });
         }
 
-        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                fileInput.files = e.dataTransfer.files;
-                handleFile(file);
-            }
-        });
-
-        fileInput.addEventListener('change', (e) => {
+        imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) handleFile(file);
         });
-
         resetBtn.addEventListener('click', resetUI);
-        languageBtn.addEventListener('click', (e) => { e.stopPropagation(); languageOptions.classList.toggle('show'); });
-        document.querySelectorAll('#language-options button').forEach(button => { button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang'))); });
-        window.addEventListener('click', (e) => { if (languageBtn && !languageBtn.parentElement.contains(e.target)) languageOptions.classList.remove('show'); });
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
         helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
         closeModalBtn.addEventListener('click', () => helpModal.style.display = 'none');
-        helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.style.display = 'none'; });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) helpModal.style.display = 'none';
+        });
 
         recognizeBtn.addEventListener('click', async () => {
             if (!fileAsBase64) return;
@@ -641,40 +589,37 @@
             copyBtn.style.display = 'none';
             statusDiv.textContent = '';
 
-            const prompt = `This file contains text, which could be in English, Sinhala, or Tamil. Please extract every piece of text from this file accurately. Maintain original line breaks and formatting as much as possible.`;
+            const prompt = `Extract all text from this image. The text is in ${currentLang}.`;
             
             try {
-                const response = await fetch(`${window.location.origin}/api/image-to-text`, { 
+                const response = await fetch('/api/image-to-text', { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify({ 
                         prompt: prompt,
-                        fileData: fileAsBase64,
+                        imageData: fileAsBase64,
                         mimeType: fileMimeType
                     }) 
                 });
 
-                const contentType = response.headers.get("content-type");
-                if (!response.ok || !contentType || !contentType.includes("application/json")) {
-                    const errorText = await response.text();
-                    console.error("Server returned a non-JSON response:", errorText);
-                    throw new Error(translations.errorServer[currentLang] || "The server returned an unexpected response.");
+                if (!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
                 }
-
                 const result = await response.json();
                 
-                if (result.text) {
-                    resultText.value = result.text;
+                if (result.candidates?.[0]?.content) {
+                    const extractedText = result.candidates[0].content.parts[0].text;
+                    resultText.value = extractedText;
                     resultBox.style.display = 'block';
                     copyBtn.style.display = 'block';
-                    resultText.readOnly = false; // Allow editing
                 } else {
-                     console.error("API Response Blocked or invalid:", result);
-                    throw new Error(result.error || "Blocked");
+                    console.error("API Response Blocked:", result);
+                    throw new Error("Blocked");
                 }
             } catch (error) {
                 console.error("Error:", error);
-                statusDiv.textContent = error.message === "Blocked" ? translations.errorBlocked[currentLang] : (error.message || translations.error[currentLang]);
+                statusDiv.textContent = error.message === "Blocked" ? translations.errorBlocked[currentLang] : translations.error[currentLang];
             } finally {
                 recognizeBtn.disabled = false;
                 resetBtn.disabled = false;
@@ -685,10 +630,10 @@
         
         copyBtn.addEventListener('click', () => {
              if (resultText.value) {
-                 navigator.clipboard.writeText(resultText.value);
-                 copyBtn.textContent = translations.copied[currentLang];
-                 setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
-             }
+                navigator.clipboard.writeText(resultText.value);
+                copyBtn.textContent = translations.copied[currentLang];
+                setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+            }
         });
 
         const initialLang = getLangFromURL();
@@ -697,4 +642,3 @@
     </script>
 </body>
 </html>
-
