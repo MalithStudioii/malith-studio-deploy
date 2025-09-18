@@ -283,8 +283,8 @@
             transform: translateY(0);
             pointer-events: auto;
         }
-        .chat-header { padding: 1rem; background-color: rgba(11, 15, 25, 0.7); border-bottom: 1px solid #4b5563; text-align: center; }
-        .chat-header h4 { margin: 0; font-weight: 700; }
+        .chat-header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background-color: rgba(11, 15, 25, 0.7); border-bottom: 1px solid #4b5563; }
+        .chat-header h4 { margin: 0; font-weight: 700; flex-grow: 1; text-align: center; }
         #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
         .chat-message { max-width: 80%; padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.5; }
         .bot-message { background-color: #374151; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
@@ -302,6 +302,27 @@
         .light-mode .chat-header { background-color: rgba(229, 231, 235, 0.7); border-color: #d1d5db; }
         .light-mode .bot-message { background-color: #e5e7eb; }
         .light-mode #chat-input { background-color: #fff; border-color: #d1d5db; color: #111827; }
+
+        /* Chatbot Eyes Animation */
+        #chatbot-eyes { width: 40px; height: 20px; position: relative; }
+        .eye { width: 12px; height: 12px; background-color: #93c5fd; border-radius: 50%; position: absolute; top: 4px; transition: all 0.3s ease-in-out; }
+        .eye.left { left: 4px; }
+        .eye.right { right: 4px; }
+        .eye::after { content: ''; width: 4px; height: 4px; background-color: #1f2937; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        
+        /* Blinking Animation */
+        #chatbot-eyes.idle .eye { animation: blink 4s infinite; }
+        @keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97.5% { transform: scaleY(0.1); } }
+
+        /* Looking Down (Typing) Animation */
+        #chatbot-eyes.typing .eye { top: 10px; height: 8px; }
+
+        /* Thinking Animation */
+        #chatbot-eyes.thinking .eye { animation: thinking-anim 1.5s infinite; }
+        @keyframes thinking-anim { 0%, 100% { top: 4px; } 25% { left: 0; } 50% { top: 10px; } 75% { left: 8px; } }
+        #chatbot-eyes.thinking .eye.right { animation-delay: 0.1s; }
+        @keyframes thinking-anim-right { 0%, 100% { top: 4px; } 25% { right: 0; } 50% { top: 10px; } 75% { right: 8px; } }
+
     </style>
 </head>
 <body>
@@ -521,6 +542,10 @@
     <div id="chat-widget">
         <div id="chat-window">
             <div class="chat-header">
+                <div id="chatbot-eyes" class="idle">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                </div>
                 <h4 data-key="chatTitle">Studio Assistant</h4>
             </div>
             <div id="chat-messages">
@@ -697,7 +722,7 @@
             project3Title: { en: 'Text Summarizer', si: 'ලිපි සාරාංශකරණය', ta: 'உரை சுருக்கம்' }, project3Desc: { en: "Don't waste time reading long articles, just summarize the most important points.", si: 'ረጅም ලිපි කියවීමට කාලය නාස්ති නොකර, වැදගත්ම කරුණු පමණක් සාරාංශගත කරන්න.', ta: 'நீண்ட கட்டுரைகளைப் படிப்பதில் நேரத்தை வீணாக்காதீர்கள், மிக முக்கியமான புள்ளிகளைச் சுருக்கவும்.' }, 
             project4Title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' }, project4Desc: { en: 'Organize your daily tasks simply and efficiently. Your list is saved in your browser.', si: 'ඔබේ දෛනික කාර්යයන් සරලව හා කාර්යක්ෂමව සංවිධානය කරන්න. ඔබගේ ලැයිස්තුව ඔබගේ බ්‍රව්සරයේම සුරැකේ.', ta: 'உங்கள் தினசரி பணிகளை எளிமையாகவும் திறமையாகவும் ஒழுங்கமைக்கவும். உங்கள் பட்டியல் உங்கள் உலாவியில் சேமிக்கப்படும்.' }, 
             project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' }, project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' }, 
-            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' }, project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුரපத සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' }, 
+            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' }, project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුரפத සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' }, 
             project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' }, project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' }, 
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' }, project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොन्ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' }, 
             project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' }, project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' }, 
@@ -862,6 +887,10 @@
             const chatMessages = document.getElementById('chat-messages');
             const chatForm = document.getElementById('chat-form');
             const chatInput = document.getElementById('chat-input');
+            const chatbotEyes = document.getElementById('chatbot-eyes');
+
+            chatInput.addEventListener('focus', () => chatbotEyes.className = 'typing');
+            chatInput.addEventListener('blur', () => chatbotEyes.className = 'idle');
 
             const addMessage = (message, sender) => {
                 const messageEl = document.createElement('div');
@@ -872,6 +901,7 @@
             };
 
             const showTypingIndicator = () => {
+                chatbotEyes.className = 'thinking';
                 const typingEl = document.createElement('div');
                 typingEl.className = 'chat-message bot-message typing-indicator';
                 typingEl.innerHTML = '<span></span><span></span><span></span>';
@@ -880,6 +910,7 @@
             };
 
             const removeTypingIndicator = () => {
+                chatbotEyes.className = 'idle';
                 const typingEl = chatMessages.querySelector('.typing-indicator');
                 if (typingEl) {
                     typingEl.remove();
