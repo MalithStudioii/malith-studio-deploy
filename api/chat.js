@@ -84,8 +84,13 @@ export default async function handler(req, res) {
             systemInstruction: systemPrompt,
         });
 
+        // The history from the client includes the latest user message.
+        // We separate the actual history from the new message to send.
+        const lastUserMessage = history.length > 0 ? history[history.length - 1] : { parts: [{ text: "Hello" }] };
+        const chatHistoryForModel = history.length > 0 ? history.slice(0, -1) : [];
+
         const chat = model.startChat({
-            history: history,
+            history: chatHistoryForModel,
             generationConfig: {
                 maxOutputTokens: 1000,
             },
@@ -108,10 +113,8 @@ export default async function handler(req, res) {
                 },
             ]
         });
-
-        const lastUserMessage = history.length > 0 ? history[history.length - 1].parts[0].text : "Hello";
         
-        const result = await chat.sendMessage(lastUserMessage);
+        const result = await chat.sendMessage(lastUserMessage.parts[0].text);
         const response = result.response;
         
         if (!response || !response.candidates || response.candidates.length === 0 || !response.candidates[0].content) {
