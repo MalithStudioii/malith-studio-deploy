@@ -235,15 +235,59 @@
 
         /* --- Chatbot Styles --- */
         #chat-widget { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; }
-        #chat-toggle-btn { background: linear-gradient(to right, #8b5cf6, #ec4899); color: white; width: 60px; height: 60px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: transform 0.3s; }
-        #chat-toggle-btn:hover { transform: scale(1.1); }
-        #chat-window { display: none; position: fixed; bottom: 100px; right: 2rem; width: 90%; max-width: 380px; height: 70%; max-height: 500px; background-color: rgba(31, 41, 55, 0.9); backdrop-filter: blur(10px); border: 1px solid #4b5563; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; }
-        #chat-window.active { display: flex; }
-        .chat-header { padding: 1rem; background-color: rgba(17, 24, 39, 0.7); border-bottom: 1px solid #4b5563; text-align: center; }
+        #chat-toggle-btn { 
+            background: linear-gradient(135deg, #8b5cf6, #6366f1); 
+            color: white; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            border: none; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.75rem; 
+            cursor: pointer; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25); 
+            transition: transform 0.3s;
+            animation: pulse-chat 2.5s infinite;
+        }
+        #chat-toggle-btn:hover { transform: scale(1.1); animation-play-state: paused; }
+        @keyframes pulse-chat {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+        #chat-window { 
+            position: fixed; 
+            bottom: 100px; 
+            right: 2rem; 
+            width: 90%; 
+            max-width: 380px; 
+            height: 70%; 
+            max-height: 500px; 
+            background-color: rgba(17, 24, 39, 0.8); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid #4b5563; 
+            border-radius: 1rem; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            display: flex;
+            flex-direction: column; 
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+        #chat-window.active { 
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .chat-header { padding: 1rem; background-color: rgba(11, 15, 25, 0.7); border-bottom: 1px solid #4b5563; text-align: center; }
         .chat-header h4 { margin: 0; font-weight: 700; }
         #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
         .chat-message { max-width: 80%; padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.5; }
-        .bot-message { background-color: #4b5563; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
+        .bot-message { background-color: #374151; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
         .user-message { background-color: #4f46e5; align-self: flex-end; border-bottom-right-radius: 0.25rem; color: white; }
         .typing-indicator { align-self: flex-start; }
         .typing-indicator span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #9ca3af; margin: 0 2px; animation: bounce 1.4s infinite ease-in-out both; }
@@ -252,7 +296,7 @@
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
         #chat-form { display: flex; padding: 1rem; border-top: 1px solid #4b5563; gap: 0.5rem; }
         #chat-input { flex-grow: 1; background-color: #111827; border: 1px solid #4b5563; border-radius: 9999px; padding: 0.75rem 1rem; color: #f9fafb; font-size: 0.9rem; }
-        #chat-input:focus { outline: none; border-color: #6366f1; }
+        #chat-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4); }
         #chat-send-btn { background-color: #6366f1; border: none; color: white; width: 44px; height: 44px; border-radius: 50%; font-size: 1rem; cursor: pointer; flex-shrink: 0; }
         .light-mode #chat-window { background-color: rgba(243, 244, 246, 0.9); border-color: #d1d5db; }
         .light-mode .chat-header { background-color: rgba(229, 231, 235, 0.7); border-color: #d1d5db; }
@@ -488,7 +532,7 @@
             </form>
         </div>
         <button id="chat-toggle-btn" aria-label="Toggle Chat">
-            <i class="fas fa-comment-dots"></i>
+            <i class="fas fa-robot"></i>
         </button>
     </div>
 
@@ -653,7 +697,7 @@
             project3Title: { en: 'Text Summarizer', si: 'ලිපි සාරාංශකරණය', ta: 'உரை சுருக்கம்' }, project3Desc: { en: "Don't waste time reading long articles, just summarize the most important points.", si: 'ረጅም ලිපි කියවීමට කාලය නාස්ති නොකර, වැදගත්ම කරුණු පමණක් සාරාංශගත කරන්න.', ta: 'நீண்ட கட்டுரைகளைப் படிப்பதில் நேரத்தை வீணாக்காதீர்கள், மிக முக்கியமான புள்ளிகளைச் சுருக்கவும்.' }, 
             project4Title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' }, project4Desc: { en: 'Organize your daily tasks simply and efficiently. Your list is saved in your browser.', si: 'ඔබේ දෛනික කාර්යයන් සරලව හා කාර්යක්ෂමව සංවිධානය කරන්න. ඔබගේ ලැයිස්තුව ඔබගේ බ්‍රව්සරයේම සුරැකේ.', ta: 'உங்கள் தினசரி பணிகளை எளிமையாகவும் திறமையாகவும் ஒழுங்கமைக்கவும். உங்கள் பட்டியல் உங்கள் உலாவியில் சேமிக்கப்படும்.' }, 
             project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' }, project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' }, 
-            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' }, project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුரපද සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' }, 
+            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' }, project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුரපத සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' }, 
             project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' }, project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' }, 
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' }, project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොन्ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' }, 
             project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' }, project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' }, 
@@ -845,7 +889,7 @@
             const getBotResponse = async () => {
                 showTypingIndicator();
                 try {
-                    const response = await fetch('/api/chat', {
+                    const response = await fetch(`${window.location.origin}/api/chat`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ history: chatHistory })
