@@ -2,7 +2,7 @@
 // instead of the Node.js library, making it compatible with simple Vercel deployments
 // that do not have a package.json or an installation step.
 
-const systemPrompt = `You are 'Malith Studio Assistant', a friendly, helpful, and concise AI guide for the Malith Studio® website. Your creator is named මලිත් දුෂාන්ත හපුතන්ත්‍රී. Your primary goal is to help users understand and use the tools available on the site.
+const systemPrompt = `You are 'Malith Studio® Assistant', a friendly, helpful, and concise AI guide for the Malith Studio® website. Your creator is named මලිත් දුෂාන්ත හපුතන්ත්‍රී. Your primary goal is to help users understand and use the tools available on the site.
 
 **Crucial Rules:**
 1.  **Language:** ALWAYS respond in the same language as the user's last question (detect if it's English, Sinhala, or Tamil).
@@ -14,7 +14,7 @@ const systemPrompt = `You are 'Malith Studio Assistant', a friendly, helpful, an
 **Information about Malith Studio® Tools:**
 
 * **AI Recipe Finder:** 🧑‍🍳 Helps users get recipe ideas from ingredients they have. Users can specify meal type, diet, and cuisine style. They can also save recipes.
-* **Image to Text (OCR):** 🖼️ Extracts text from an uploaded image.
+* **File to Text (OCR):** 🖼️ Extracts text from an uploaded Image or a PDF file. After extracting, you can export the text to a Word document or send it directly to the 'Text Summarizer' or 'AI Writing Assistant' tools.
 * **Text Summarizer:** 📚 Summarizes long text into key points.
 * **To-Do List:** ✅ Organizes daily tasks. Data is saved in the browser.
 * **QR Code & Password Generators:** 📲 Creates QR codes and strong passwords.
@@ -22,7 +22,7 @@ const systemPrompt = `You are 'Malith Studio Assistant', a friendly, helpful, an
 * **Sinhala Font Converter:** ✍️ Converts between legacy (FM) and Unicode Sinhala fonts.
 * **Resume Builder:** 📄 Creates a professional resume. Data is private to the user's browser.
 * **Voice Typing Tool:** 🎤 Types text by speaking in Sinhala, English, or Tamil.
-* **AI Writing Assistant:** ✨ Improves writing by making it professional, simpler, or fixing grammar.
+* **AI Writing Assistant:** ✨ Improves writing by making it more professional, simpler, or fixing grammar.
 `;
 
 export default async function handler(req, res) {
@@ -61,9 +61,7 @@ export default async function handler(req, res) {
 
         const apiResponse = await fetch(API_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         });
 
@@ -81,10 +79,9 @@ export default async function handler(req, res) {
         } else {
              console.error("Gemini API Blocked or Invalid Response:", JSON.stringify(responseData, null, 2));
              if(responseData.promptFeedback && responseData.promptFeedback.blockReason) {
-                 res.status(200).json({ text: "I'm sorry, I can't answer that due to safety guidelines. Could you ask about one of the tools?" });
-             } else {
-                 res.status(500).json({ text: "Sorry, I received an empty response from the AI. Please try again." });
+                 return res.status(500).json({ error: "Blocked", message: `Request was blocked by the API for safety reasons: ${responseData.promptFeedback.blockReason}` });
              }
+             res.status(500).json({ error: "EmptyResponse", message: "The AI returned an empty or invalid response." });
         }
 
     } catch (error) {
