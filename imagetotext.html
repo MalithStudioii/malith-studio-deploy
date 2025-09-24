@@ -475,6 +475,7 @@
         <div class="result-box" id="result-box" style="display: none;">
             <div id="result-display"></div>
             <div class="result-actions">
+                <button id="copyTableBtn" class="result-btn" style="display: none;"><i class="fas fa-table"></i> <span data-key="copyTable">Copy Table</span></button>
                 <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy Text</span></button>
             </div>
         </div>
@@ -517,6 +518,8 @@
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
             copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            copyTable: { en: 'Copy Table', si: 'වගුව පිටපත් කරන්න', ta: 'அட்டவணையை நகலெடு' },
+            tableCopied: { en: 'Table Copied!', si: 'වගුව පිටපත් කලා!', ta: 'அட்டவணை நகலெடுக்கப்பட்டது!' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
             errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
             errorBlocked: { en: 'Could not analyze the content due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අන්තර්ගතය විශ්ලේෂණය කිරීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உள்ளடக்கத்தை பகுப்பாய்வு செய்ய முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
@@ -526,9 +529,9 @@
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use Document Analyzer', si: 'Document Analyzer භාවිතා කරන ආකාරය', ta: 'Document Analyzer பயன்படுத்துவது எப்படி' },
             helpContent: { 
-                en: `<ol><li>Click the upload area to select an image or PDF.</li><li>Choose a mode: <strong>Analyze Document</strong> for a structured summary, or <strong>Extract Full Text</strong> for raw text.</li><li>Click the main button to start processing.</li><li>The result will appear below, formatted for easy reading.</li></ol>`,
-                si: `<ol><li>ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ක්‍රමයක් තෝරන්න: ක්‍රමවත් සාරාංශයක් සඳහා <strong>'ලේඛනය විශ්ලේෂණය'</strong>, හෝ සරල පෙළ සඳහා <strong>'සම්පූර්ණ පෙළ'</strong>.</li><li>ක්‍රියාවලිය ආරම්භ කිරීමට ප්‍රධාන බොත්තම ඔබන්න.</li><li>ප්‍රතිඵලය පහසුවෙන් කියවිය හැකි පරිදි සකසා, පහත දිස්වනු ඇත.</li></ol>`,
-                ta: `<ol><li>ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>ஒரு பயன்முறையைத் தேர்ந்தெடுக்கவும்: ஒரு கட்டமைக்கப்பட்ட சுருக்கத்திற்கு <strong>'ஆவணத்தை பகுப்பாய்வு செய்'</strong>, அல்லது மூல உரைக்கு <strong>'முழு உரையை பிரித்தெடு'</strong>.</li><li>செயலாக்கத்தைத் தொடங்க பிரதான பொத்தானைக் கிளிக் செய்யவும்.</li><li>முடிவு எளிதாகப் படிக்கும்படி வடிவமைக்கப்பட்டு, கீழே தோன்றும்.</li></ol>`
+                en: `<ol><li>Click the upload area to select an image or PDF.</li><li>Choose a mode: <strong>Analyze Document</strong> for a structured summary, or <strong>Extract Full Text</strong> for raw text.</li><li>Click the main button to start processing.</li><li>The result will appear below. If a table is found, a 'Copy Table' button will appear.</li></ol>`,
+                si: `<ol><li>ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ක්‍රමයක් තෝරන්න: ක්‍රමවත් සාරාංශයක් සඳහා <strong>'ලේඛනය විශ්ලේෂණය'</strong>, හෝ සරල පෙළ සඳහා <strong>'සම්පූර්ණ පෙළ'</strong>.</li><li>ක්‍රියාවලිය ආරම්භ කිරීමට ප්‍රධාන බොත්තම ඔබන්න.</li><li>ප්‍රතිඵලය පහත දිස්වනු ඇත. වගුවක් හමු වුවහොත්, 'වගුව පිටපත් කරන්න' බොත්තමක් දිස්වනු ඇත.</li></ol>`,
+                ta: `<ol><li>ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>ஒரு பயன்முறையைத் தேர்ந்தெடுக்கவும்: ஒரு கட்டமைக்கப்பட்ட சுருக்கத்திற்கு <strong>'ஆவணத்தை பகுப்பாய்வு செய்'</strong>, அல்லது மூல உரைக்கு <strong>'முழு உரையை பிரித்தெடு'</strong>.</li><li>செயலாக்கத்தைத் தொடங்க பிரதான பொத்தானைக் கிளிக் செய்யவும்.</li><li>முடிவு கீழே தோன்றும். ஒரு அட்டவணை காணப்பட்டால், 'அட்டவணையை நகலெடு' பொத்தான் தோன்றும்.</li></ol>`
             }
         };
 
@@ -550,6 +553,7 @@
         const resultBox = document.getElementById('result-box');
         const resultDisplay = document.getElementById('result-display');
         const copyBtn = document.getElementById('copyBtn');
+        const copyTableBtn = document.getElementById('copyTableBtn');
         const statusDiv = document.getElementById('status');
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
@@ -715,7 +719,7 @@
                         language: currentLang,
                         fileData: fileAsBase64,
                         mimeType: fileMimeType,
-                        mode: currentMode // Pass the selected mode to the API
+                        mode: currentMode
                     }) 
                 });
 
@@ -729,8 +733,15 @@
                 const result = await response.json();
                 
                 if (result.text) {
-                    resultDisplay.innerHTML = marked.parse(result.text);
+                    const htmlResult = marked.parse(result.text);
+                    resultDisplay.innerHTML = htmlResult;
                     resultBox.style.display = 'block';
+
+                    if (resultDisplay.querySelector('table')) {
+                        copyTableBtn.style.display = 'inline-flex';
+                    } else {
+                        copyTableBtn.style.display = 'none';
+                    }
                 } else {
                      console.error("API Response Blocked or invalid:", result);
                     throw new Error(result.error || "Blocked");
@@ -755,8 +766,34 @@
                 const copySpan = copyBtn.querySelector('span');
                  navigator.clipboard.writeText(resultDisplay.textContent);
                  copySpan.textContent = translations.copied[currentLang];
-                 setTimeout(() => { copySpan.textContent = translations.copy[currentLang]; }, 2000);
+                 setTimeout(() => { copySpan.innerHTML = `<i class="fas fa-copy"></i> ${translations.copy[currentLang]}`; }, 2000);
              }
+        });
+
+        copyTableBtn.addEventListener('click', () => {
+            const table = resultDisplay.querySelector('table');
+            if (table) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = table.outerHTML;
+                document.body.appendChild(tempDiv);
+                
+                const range = document.createRange();
+                range.selectNode(tempDiv);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                
+                try {
+                    document.execCommand('copy');
+                    const copySpan = copyTableBtn.querySelector('span');
+                    copySpan.textContent = translations.tableCopied[currentLang];
+                    setTimeout(() => { copySpan.innerHTML = `<i class="fas fa-table"></i> ${translations.copyTable[currentLang]}`; }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy table: ', err);
+                }
+
+                document.body.removeChild(tempDiv);
+                window.getSelection().removeAllRanges();
+            }
         });
 
         const initialLang = getLangFromURL();
