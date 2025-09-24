@@ -475,6 +475,7 @@
         <div class="result-box" id="result-box" style="display: none;">
             <div id="result-display"></div>
             <div class="result-actions">
+                 <button id="exportBtn" class="result-btn"><i class="fas fa-file-word"></i> <span data-key="export">Export</span></button>
                 <button id="copyTableBtn" class="result-btn" style="display: none;"><i class="fas fa-table"></i> <span data-key="copyTable">Copy Table</span></button>
                 <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy Text</span></button>
             </div>
@@ -518,6 +519,7 @@
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
             copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            export: { en: 'Export to Word', si: 'Word වෙත යවන්න', ta: 'Wordக்கு ஏற்றுமதி செய்' },
             copyTable: { en: 'Copy Table', si: 'වගුව පිටපත් කරන්න', ta: 'அட்டவணையை நகலெடு' },
             tableCopied: { en: 'Table Copied!', si: 'වගුව පිටපත් කලා!', ta: 'அட்டவணை நகலெடுக்கப்பட்டது!' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
@@ -553,6 +555,7 @@
         const resultBox = document.getElementById('result-box');
         const resultDisplay = document.getElementById('result-display');
         const copyBtn = document.getElementById('copyBtn');
+        const exportBtn = document.getElementById('exportBtn');
         const copyTableBtn = document.getElementById('copyTableBtn');
         const statusDiv = document.getElementById('status');
         const languageBtn = document.getElementById('language-btn');
@@ -661,6 +664,48 @@
             });
         }
         
+        function exportToWord() {
+            if (!resultDisplay.innerHTML) return;
+
+            let font = "'Times New Roman', Times, serif";
+            if (currentLang === 'si' || currentLang === 'ta') {
+                font = "'Noto Sans Sinhala', Arial, sans-serif";
+            }
+
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { font-family: ${font}; font-size: 12pt; }
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid #cccccc; padding: 8px; }
+                        th { background-color: #f2f2f2; }
+                    </style>
+                </head>
+                <body>
+                    ${resultDisplay.innerHTML}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "malith-studio-export.doc";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);  
+            }, 0);
+        }
+
         modeSelector.addEventListener('click', (e) => {
             if (e.target.classList.contains('mode-btn')) {
                 modeSelector.querySelector('.active').classList.remove('active');
@@ -773,28 +818,22 @@
         copyTableBtn.addEventListener('click', () => {
             const table = resultDisplay.querySelector('table');
             if (table) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = table.outerHTML;
-                document.body.appendChild(tempDiv);
-                
-                const range = document.createRange();
-                range.selectNode(tempDiv);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                
-                try {
-                    document.execCommand('copy');
+                // Use a modern approach to copy HTML to the clipboard
+                const type = "text/html";
+                const blob = new Blob([table.outerHTML], { type });
+                const data = [new ClipboardItem({ [type]: blob })];
+
+                navigator.clipboard.write(data).then(() => {
                     const copySpan = copyTableBtn.querySelector('span');
                     copySpan.textContent = translations.tableCopied[currentLang];
                     setTimeout(() => { copySpan.innerHTML = `<i class="fas fa-table"></i> ${translations.copyTable[currentLang]}`; }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy table: ', err);
-                }
-
-                document.body.removeChild(tempDiv);
-                window.getSelection().removeAllRanges();
+                }).catch(err => {
+                     console.error('Failed to copy table: ', err);
+                });
             }
         });
+
+        exportBtn.addEventListener('click', exportToWord);
 
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
