@@ -4,27 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags for Image/PDF to Text Page -->
-    <title>AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®</title>
-    <meta name="description" content="Extract text from images (JPG, PNG) and PDF documents in Sinhala, English, and Tamil with Malith Studio's free AI-powered OCR tool.">
-    <meta name="keywords" content="image to text, pdf to text, ocr, sinhala ocr, photo to text, ai ocr, malith studio, sri lanka, free tool">
+    <!-- SEO Meta Tags for Document Analyzer Page -->
+    <title>AI Document Analyzer (OCR) for Images & PDFs - Malith Studio®</title>
+    <meta name="description" content="Analyze and extract structured information, text, summaries, and table data from images (JPG, PNG) and PDF documents with Malith Studio's free AI tool.">
+    <meta name="keywords" content="document analyzer, image to text, pdf to text, ocr, sinhala ocr, data extraction, ai ocr, malith studio, sri lanka">
     <meta name="author" content="Malith Studio®">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://malithstudiodeploy.vercel.app/imagetotext.html">
-    <meta property="og:title" content="AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®">
-    <meta property="og:description" content="Extract text from images and PDF documents in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="og:title" content="AI Document Analyzer (OCR) - Malith Studio®">
+    <meta property="og:description" content="Analyze and extract structured information from images and PDF documents with our free AI-powered tool.">
     <meta property="og:image" content="https://malithstudiodeploy.vercel.app/tool-imagetotext.jpg">
 
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://malithstudiodeploy.vercel.app/imagetotext.html">
-    <meta property="twitter:title" content="AI File to Text (OCR) Converter for Images & PDFs - Malith Studio®">
-    <meta property="twitter:description" content="Extract text from images and PDF documents in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="twitter:title" content="AI Document Analyzer (OCR) - Malith Studio®">
+    <meta property="twitter:description" content="Analyze and extract structured information from images and PDF documents with our free AI-powered tool.">
     <meta property="twitter:image" content="https://malithstudiodeploy.vercel.app/tool-imagetotext.jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;700&display=swap');
         body {
@@ -67,7 +68,7 @@
         }
         .container {
             width: 100%;
-            max-width: 48rem;
+            max-width: 56rem; /* max-w-3xl */
             background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
@@ -240,19 +241,28 @@
             position: relative;
             margin-top: 2rem;
         }
-        #result-text {
+        #result-display {
             width: 100%;
-            min-height: 150px;
+            min-height: 200px;
             background-color: #111827;
             border: 1px solid #4b5563;
             border-radius: 0.5rem;
-            padding: 1rem;
+            padding: 1.5rem;
             color: #d1d5db;
-            font-family: 'Noto Sans Sinhala', monospace;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
             white-space: pre-wrap;
             box-sizing: border-box;
             resize: vertical;
+            overflow-y: auto;
+            text-align: left;
         }
+        #result-display h2 { margin-top: 0; color: #93c5fd; }
+        #result-display h3 { margin-top: 1.5em; color: #a5b4fc; }
+        #result-display ul, #result-display ol { padding-left: 2em; }
+        #result-display table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+        #result-display th, #result-display td { border: 1px solid #4b5563; padding: 0.5em; }
+        #result-display th { background-color: #1f2937; }
+
         .result-actions {
             margin-top: 1rem;
             display: flex;
@@ -274,8 +284,6 @@
             font-family: 'Inter', sans-serif;
         }
         .result-btn:hover { background-color: #6b7280; }
-        .action-btn { background-color: #3730a3; }
-        .action-btn:hover { background-color: #4338ca; }
 
         #status {
             text-align: center;
@@ -406,8 +414,8 @@
              <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
         </div>
         <div class="header">
-            <h1 data-key="title">AI File to Text (OCR)</h1>
-            <p data-key="subtitle">Upload an Image or PDF and let AI extract the text for you.</p>
+            <h1 data-key="title">AI Document Analyzer</h1>
+            <p data-key="subtitle">Upload an Image or PDF and let AI analyze its content for you.</p>
         </div>
 
         <label for="file-input" id="upload-area" class="upload-area">
@@ -427,7 +435,7 @@
             </div>
             <div class="action-buttons">
                  <button id="recognize-btn" class="main-btn">
-                     <span data-key="recognize">Recognize Text</span>
+                     <span data-key="recognize">Analyze Document</span>
                      <div id="loader" class="loader" style="display: none;"></div>
                  </button>
                  <button id="reset-btn" class="secondary-btn" data-key="reset">Choose Another</button>
@@ -435,12 +443,9 @@
         </div>
 
         <div class="result-box" id="result-box" style="display: none;">
-            <textarea id="result-text" data-key-placeholder="placeholderOutput" placeholder="Extracted text will appear here..."></textarea>
+            <div id="result-display"></div>
             <div class="result-actions">
-                <button id="summarizeBtn" class="result-btn action-btn"><i class="fas fa-compress-alt"></i> <span data-key="summarize">Summarize</span></button>
-                <button id="improveBtn" class="result-btn action-btn"><i class="fas fa-magic"></i> <span data-key="improve">Improve Writing</span></button>
-                <button id="exportBtn" class="result-btn"><i class="fas fa-file-word"></i> <span data-key="export">Export</span></button>
-                <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy</span></button>
+                <button id="copyBtn" class="result-btn"><i class="fas fa-copy"></i> <span data-key="copy">Copy Text</span></button>
             </div>
         </div>
         
@@ -461,7 +466,7 @@
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
-            <h2 data-key="helpTitle">How to Use File to Text</h2>
+            <h2 data-key="helpTitle">How to Use Document Analyzer</h2>
             <div data-key="helpContent">
             </div>
         </div>
@@ -470,31 +475,27 @@
     <script>
         const translations = {
             backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
-            title: { en: 'AI File to Text (OCR)', si: 'AI ගොනුවකින් අකුරු (OCR)', ta: 'AI கோப்பிலிருந்து உரை (OCR)' },
-            subtitle: { en: 'Upload an Image or PDF and let AI extract the text for you.', si: 'පින්තූරයක් හෝ PDF ගොනුවක් upload කර AI මගින් අකුරු ලබා ගන්න.', ta: 'ஒரு படம் அல்லது PDF ஐ பதிவேற்றி, AI உங்களுக்காக உரையைப் பிரித்தெடுக்கட்டும்.' },
+            title: { en: 'AI Document Analyzer', si: 'AI ලේඛන විශ්ලේෂකය', ta: 'AI ஆவண பகுப்பாய்வி' },
+            subtitle: { en: 'Upload an Image or PDF and let AI analyze its content for you.', si: 'පින්තූරයක් හෝ PDF ගොනුවක් upload කර, එහි අන්තර්ගතය AI මගින් විශ්ලේෂණය කරගන්න.', ta: 'ஒரு படம் அல்லது PDF ஐ பதிவேற்றி, AI உங்களுக்காக அதன் உள்ளடக்கத்தை பகுப்பாய்வு செய்யட்டும்.' },
             'upload-instruction': { en: 'Click or drag file here', si: 'මෙහි ක්ලික් කරන්න හෝ ගොනුවක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது கோப்பை இழுக்கவும்' },
             'upload-note': { en: 'Supports: JPG, PNG, WEBP, PDF (Max 4MB)', si: 'සහය දක්වයි: JPG, PNG, WEBP, PDF (උපරිම 4MB)', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP, PDF (அதிகபட்சம் 4MB)' },
-            recognize: { en: 'Recognize Text', si: 'අකුරු හඳුනාගන්න', ta: 'உரையை அடையாளம் காணவும்' },
-            recognizing: { en: 'Recognizing...', si: 'හඳුනාගනිමින්...', ta: 'அடையாளம் காண்கிறது...' },
+            recognize: { en: 'Analyze Document', si: 'ලේඛනය විශ්ලේෂණය කරන්න', ta: 'ஆவணத்தை பகுப்பாய்வு செய்' },
+            recognizing: { en: 'Analyzing...', si: 'විශ්ලේෂණය කරමින්...', ta: 'பகுப்பாய்வு செய்கிறது...' },
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
-            placeholderOutput: { en: 'Extracted text will appear here...', si: 'ලබාගත් පෙළ මෙහි දිස්වනු ඇත...', ta: 'பிரித்தெடுக்கப்பட்ட உரை இங்கே தோன்றும்...' },
-            copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
+            copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
-            export: { en: 'Export to Word', si: 'Word වෙත යවන්න', ta: 'Wordக்கு ஏற்றுமதி செய்' },
-            summarize: { en: 'Summarize', si: 'සාරාංශ කරන්න', ta: 'சுருக்கவும்' },
-            improve: { en: 'Improve Writing', si: 'ලිවීම වැඩි දියුණු කරන්න', ta: 'எழுத்தை மேம்படுத்து' },
             error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
             errorServer: { en: 'The server returned an unexpected response. Please ensure the API is deployed correctly.', si: 'සේවාදායකයෙන් අනපේක්ෂිත ප්‍රතිචාරයක් ලැබුණි. කරුණාකර API එක නිවැරදිව deploy කර ඇත්දැයි පරීක්ෂා කරන්න.', ta: 'சேவையகத்திலிருந்து எதிர்பாராத பதில் கிடைத்தது. API சரியாகப் பயன்படுத்தப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.' },
-            errorBlocked: { en: 'Could not extract text due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අකුරු ලබාගැනීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உரையை பிரித்தெடுக்க முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
+            errorBlocked: { en: 'Could not analyze the content due to safety restrictions. Please try a different file.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අන්තර්ගතය විශ්ලේෂණය කිරීමට නොහැක. කරුණාකර වෙනත් ගොනුවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக உள்ளடக்கத்தை பகுப்பாய்வு செய்ய முடியவில்லை. தயவுசெய்து வேறு கோப்பைப் முயற்சிக்கவும்.'},
             errorInvalidType: { en: 'Invalid file type. Please use JPG, PNG, WEBP, or PDF.', si: 'වලංගු නොවන ගොනු වර්ගයකි. කරුණාකර JPG, PNG, WEBP, හෝ PDF භාවිතා කරන්න.', ta: 'தவறான கோப்பு வகை. தயவுசெய்து JPG, PNG, WEBP, அல்லது PDF பயன்படுத்தவும்.' },
             errorFileSize: { en: 'File is too large. Maximum size is 4MB.', si: 'ගොනුව විශාල වැඩිය. උපරිම ප්‍රමාණය 4MB වේ.', ta: 'கோப்பு மிகவும் பெரியது. அதிகபட்ச அளவு 4MB.' },
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
-            helpTitle: { en: 'How to Use File to Text', si: 'File to Text භාවිතා කරන ආකාරය', ta: 'File to Text பயன்படுத்துவது எப்படி' },
+            helpTitle: { en: 'How to Use Document Analyzer', si: 'Document Analyzer භාවිතා කරන ආකාරය', ta: 'Document Analyzer பயன்படுத்துவது எப்படி' },
             helpContent: { 
-                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Recognize Text</strong> button.</li><li>The AI will process the file and extract the text.</li><li>The extracted text will appear in the box below.</li><li>You can make edits to the text directly in the box before copying or exporting.</li></ol>`,
-                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'අකුරු හඳුනාගන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර එහි ඇති අකුරු උපුටා ගනු ඇත.</li><li>උපුටා ගත් පෙළ පහත කොටුවේ දිස්වනු ඇත.</li><li>පිටපත් කිරීමට හෝ export කිරීමට පෙර, ඔබට සෘජුවම එම කොටුව තුළ ඇති පෙළ සංස්කරණය කළ හැක.</li></ol>`,
-                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'உரையை அடையாளம் காணவும்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து அதிலுள்ள உரையை பிரித்தெடுக்கும்.</li><li>பிரித்தெடுக்கப்பட்ட உரை கீழே உள்ள பெட்டியில் தோன்றும்.</li><li>நகலெடுப்பதற்கு அல்லது ஏற்றுமதி செய்வதற்கு முன், நீங்கள் நேரடியாக பெட்டியில் உள்ள உரையைத் திருத்தலாம்.</li></ol>`
+                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Analyze Document</strong> button.</li><li>The AI will process the file and generate a structured analysis of its content.</li><li>The result will appear in the box below, formatted for easy reading.</li></ol>`,
+                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'ලේඛනය විශ්ලේෂණය කරන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර, එහි අන්තර්ගතය පිළිබඳව ක්‍රමවත් විස්තරයක් ලබා දෙනු ඇත.</li><li>ප්‍රතිඵලය පහසුවෙන් කියවිය හැකි පරිදි සකසා, පහත කොටුවේ දිස්වනු ඇත.</li></ol>`,
+                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'ஆவணத்தை பகுப்பாய்வு செய்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து, அதன் உள்ளடக்கத்தின் கட்டமைக்கப்பட்ட பகுப்பாய்வை உருவாக்கும்.</li><li>முடிவு எளிதாகப் படிக்கும்படி வடிவமைக்கப்பட்டு, கீழே உள்ள பெட்டியில் தோன்றும்.</li></ol>`
             }
         };
 
@@ -513,11 +514,8 @@
         const loader = document.getElementById('loader');
         const resetBtn = document.getElementById('reset-btn');
         const resultBox = document.getElementById('result-box');
-        const resultText = document.getElementById('result-text');
+        const resultDisplay = document.getElementById('result-display');
         const copyBtn = document.getElementById('copyBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const summarizeBtn = document.getElementById('summarizeBtn');
-        const improveBtn = document.getElementById('improveBtn');
         const statusDiv = document.getElementById('status');
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
@@ -602,7 +600,7 @@
             fileInput.value = '';
             fileAsBase64 = null;
             fileMimeType = null;
-            resultText.value = '';
+            resultDisplay.innerHTML = '';
             statusDiv.textContent = '';
         }
 
@@ -622,44 +620,6 @@
                     setTimeout(() => copyMessage.classList.remove('visible'), 2000);
                 }).catch(err => console.error('Failed to copy text: ', err));
             });
-        }
-        
-        function exportToWord() {
-            if (!resultText.value) return;
-
-            let font = "'Times New Roman', Times, serif";
-            if (currentLang === 'si' || currentLang === 'ta') {
-                font = "'Noto Sans Sinhala', sans-serif";
-            }
-
-            const htmlContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <style>
-                        @page { mso-footnote-separator:none; mso-footnote-continuation-separator:none; mso-endnote-separator:none; mso-endnote-continuation-separator:none; }
-                        body { font-family: ${font}; font-size: 12pt; }
-                    </style>
-                </head>
-                <body>
-                    ${resultText.value.replace(/\n/g, '<br>')}
-                </body>
-                </html>
-            `;
-
-            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
-            
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "malith-studio-export.doc";
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);  
-            }, 0);
         }
 
         uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
@@ -694,18 +654,16 @@
             resetBtn.disabled = true;
             recognizeBtnText.textContent = translations.recognizing[currentLang];
             loader.style.display = 'inline-block';
-            resultText.value = '';
+            resultDisplay.innerHTML = '';
             resultBox.style.display = 'none';
             statusDiv.textContent = '';
 
-            const prompt = `This file contains text, which could be in English, Sinhala, or Tamil. Please extract every piece of text from this file accurately. Maintain original line breaks and formatting as much as possible.`;
-            
             try {
                 const response = await fetch(`${window.location.origin}/api/image-to-text`, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify({ 
-                        prompt: prompt,
+                        language: currentLang,
                         fileData: fileAsBase64,
                         mimeType: fileMimeType
                     }) 
@@ -721,9 +679,8 @@
                 const result = await response.json();
                 
                 if (result.text) {
-                    resultText.value = result.text;
+                    resultDisplay.innerHTML = marked.parse(result.text);
                     resultBox.style.display = 'block';
-                    resultText.readOnly = false; // Allow editing
                 } else {
                      console.error("API Response Blocked or invalid:", result);
                     throw new Error(result.error || "Blocked");
@@ -734,34 +691,18 @@
             } finally {
                 recognizeBtn.disabled = false;
                 resetBtn.disabled = false;
-                recognizeBtnText.textContent = translations.recognize[currentLang];
+                recognizeBtnText.innerHTML = translations.recognize[currentLang];
                 loader.style.display = 'none';
             }
         });
         
         copyBtn.addEventListener('click', () => {
-             if (resultText.value) {
+             if (resultDisplay.textContent) {
                 const copySpan = copyBtn.querySelector('span');
-                 navigator.clipboard.writeText(resultText.value);
+                 navigator.clipboard.writeText(resultDisplay.textContent);
                  copySpan.textContent = translations.copied[currentLang];
                  setTimeout(() => { copySpan.textContent = translations.copy[currentLang]; }, 2000);
              }
-        });
-
-        exportBtn.addEventListener('click', exportToWord);
-
-        summarizeBtn.addEventListener('click', () => {
-            if (resultText.value) {
-                localStorage.setItem('textToProcess', resultText.value);
-                window.location.href = `textsummarizer.html?lang=${currentLang}`;
-            }
-        });
-
-        improveBtn.addEventListener('click', () => {
-            if (resultText.value) {
-                localStorage.setItem('textToProcess', resultText.value);
-                window.location.href = `ai-writing-assistant.html?lang=${currentLang}`;
-            }
         });
 
         const initialLang = getLangFromURL();
