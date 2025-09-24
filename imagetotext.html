@@ -198,6 +198,7 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
+            margin-top: 1rem;
         }
         .main-btn, .secondary-btn {
             padding: 0.8rem 1.5rem;
@@ -225,6 +226,31 @@
             background-color: #6b7280;
         }
         
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(17, 24, 39, 0.5);
+            border-radius: 9999px;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: none;
+            background-color: transparent;
+            color: #d1d5db;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mode-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
         .loader {
             width: 20px;
             height: 20px;
@@ -433,6 +459,10 @@
                 <i class="fas fa-file-pdf"></i>
                 <span id="pdf-name"></span>
             </div>
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="analyze" data-key="modeAnalyze">Analyze Document</button>
+                <button class="mode-btn" data-mode="extract" data-key="modeExtract">Extract Full Text</button>
+            </div>
             <div class="action-buttons">
                  <button id="recognize-btn" class="main-btn">
                      <span data-key="recognize">Analyze Document</span>
@@ -479,8 +509,11 @@
             subtitle: { en: 'Upload an Image or PDF and let AI analyze its content for you.', si: 'පින්තූරයක් හෝ PDF ගොනුවක් upload කර, එහි අන්තර්ගතය AI මගින් විශ්ලේෂණය කරගන්න.', ta: 'ஒரு படம் அல்லது PDF ஐ பதிவேற்றி, AI உங்களுக்காக அதன் உள்ளடக்கத்தை பகுப்பாய்வு செய்யட்டும்.' },
             'upload-instruction': { en: 'Click or drag file here', si: 'මෙහි ක්ලික් කරන්න හෝ ගොනුවක් අදින්න', ta: 'இங்கே கிளிக் செய்யவும் அல்லது கோப்பை இழுக்கவும்' },
             'upload-note': { en: 'Supports: JPG, PNG, WEBP, PDF (Max 4MB)', si: 'සහය දක්වයි: JPG, PNG, WEBP, PDF (උපරිම 4MB)', ta: 'ஆதரிக்கிறது: JPG, PNG, WEBP, PDF (அதிகபட்சம் 4MB)' },
+            modeAnalyze: { en: 'Analyze Document', si: 'ලේඛනය විශ්ලේෂණය', ta: 'ஆவணத்தை பகுப்பாய்வு செய்' },
+            modeExtract: { en: 'Extract Full Text', si: 'සම්පූර්ණ පෙළ', ta: 'முழு உரையை பிரித்தெடு' },
             recognize: { en: 'Analyze Document', si: 'ලේඛනය විශ්ලේෂණය කරන්න', ta: 'ஆவணத்தை பகுப்பாய்வு செய்' },
-            recognizing: { en: 'Analyzing...', si: 'විශ්ලේෂණය කරමින්...', ta: 'பகுப்பாய்வு செய்கிறது...' },
+            recognizeExtract: { en: 'Extract Text', si: 'අකුරු හඳුනාගන්න', ta: 'உரையை பிரித்தெடு' },
+            recognizing: { en: 'Processing...', si: 'සකසමින්...', ta: 'செயலாக்கப்படுகிறது...' },
             reset: { en: 'Choose Another', si: 'වෙනත් එකක් තෝරන්න', ta: 'மற்றொன்றைத் தேர்ந்தெடுக்கவும்' },
             copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
@@ -493,15 +526,16 @@
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක පිටපත් විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
             helpTitle: { en: 'How to Use Document Analyzer', si: 'Document Analyzer භාවිතා කරන ආකාරය', ta: 'Document Analyzer பயன்படுத்துவது எப்படி' },
             helpContent: { 
-                en: `<ol><li>Click the upload area to select an image or PDF from your device.</li><li>Once the file is displayed, click the <strong>Analyze Document</strong> button.</li><li>The AI will process the file and generate a structured analysis of its content.</li><li>The result will appear in the box below, formatted for easy reading.</li></ol>`,
-                si: `<ol><li>ඔබගේ උපාංගයෙන් ඡායාරූපයක් හෝ PDF ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ගොනුව දිස් වූ පසු, <strong>'ලේඛනය විශ්ලේෂණය කරන්න'</strong> බොත්තම ඔබන්න.</li><li>AI මගින් ගොනුව විශ්ලේෂණය කර, එහි අන්තර්ගතය පිළිබඳව ක්‍රමවත් විස්තරයක් ලබා දෙනු ඇත.</li><li>ප්‍රතිඵලය පහසුවෙන් කියවිය හැකි පරිදි සකසා, පහත කොටුවේ දිස්වනු ඇත.</li></ol>`,
-                ta: `<ol><li>உங்கள் சாதனத்திலிருந்து ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க, பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>கோப்பு காட்டப்பட்டதும், <strong>'ஆவணத்தை பகுப்பாய்வு செய்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>AI கோப்பை ஆராய்ந்து, அதன் உள்ளடக்கத்தின் கட்டமைக்கப்பட்ட பகுப்பாய்வை உருவாக்கும்.</li><li>முடிவு எளிதாகப் படிக்கும்படி வடிவமைக்கப்பட்டு, கீழே உள்ள பெட்டியில் தோன்றும்.</li></ol>`
+                en: `<ol><li>Click the upload area to select an image or PDF.</li><li>Choose a mode: <strong>Analyze Document</strong> for a structured summary, or <strong>Extract Full Text</strong> for raw text.</li><li>Click the main button to start processing.</li><li>The result will appear below, formatted for easy reading.</li></ol>`,
+                si: `<ol><li>ගොනුවක් තේරීමට upload කරන කොටස click කරන්න.</li><li>ක්‍රමයක් තෝරන්න: ක්‍රමවත් සාරාංශයක් සඳහා <strong>'ලේඛනය විශ්ලේෂණය'</strong>, හෝ සරල පෙළ සඳහා <strong>'සම්පූර්ණ පෙළ'</strong>.</li><li>ක්‍රියාවලිය ආරම්භ කිරීමට ප්‍රධාන බොත්තම ඔබන්න.</li><li>ප්‍රතිඵලය පහසුවෙන් කියවිය හැකි පරිදි සකසා, පහත දිස්වනු ඇත.</li></ol>`,
+                ta: `<ol><li>ஒரு படம் அல்லது PDF ஐத் தேர்ந்தெடுக்க பதிவேற்றப் பகுதியைக் கிளிக் செய்யவும்.</li><li>ஒரு பயன்முறையைத் தேர்ந்தெடுக்கவும்: ஒரு கட்டமைக்கப்பட்ட சுருக்கத்திற்கு <strong>'ஆவணத்தை பகுப்பாய்வு செய்'</strong>, அல்லது மூல உரைக்கு <strong>'முழு உரையை பிரித்தெடு'</strong>.</li><li>செயலாக்கத்தைத் தொடங்க பிரதான பொத்தானைக் கிளிக் செய்யவும்.</li><li>முடிவு எளிதாகப் படிக்கும்படி வடிவமைக்கப்பட்டு, கீழே தோன்றும்.</li></ol>`
             }
         };
 
         let currentLang = 'en';
         let fileAsBase64 = null;
         let fileMimeType = null;
+        let currentMode = 'analyze';
 
         const uploadArea = document.getElementById('upload-area');
         const fileInput = document.getElementById('file-input');
@@ -522,6 +556,7 @@
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
+        const modeSelector = document.querySelector('.mode-selector');
         
         function setLanguage(lang) {
             currentLang = lang;
@@ -621,6 +656,20 @@
                 }).catch(err => console.error('Failed to copy text: ', err));
             });
         }
+        
+        modeSelector.addEventListener('click', (e) => {
+            if (e.target.classList.contains('mode-btn')) {
+                modeSelector.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                currentMode = e.target.dataset.mode;
+                
+                if (currentMode === 'analyze') {
+                    recognizeBtnText.innerHTML = translations.recognize[currentLang];
+                } else {
+                    recognizeBtnText.innerHTML = translations.recognizeExtract[currentLang];
+                }
+            }
+        });
 
         uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
         uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
@@ -665,7 +714,8 @@
                     body: JSON.stringify({ 
                         language: currentLang,
                         fileData: fileAsBase64,
-                        mimeType: fileMimeType
+                        mimeType: fileMimeType,
+                        mode: currentMode // Pass the selected mode to the API
                     }) 
                 });
 
@@ -691,7 +741,11 @@
             } finally {
                 recognizeBtn.disabled = false;
                 resetBtn.disabled = false;
-                recognizeBtnText.innerHTML = translations.recognize[currentLang];
+                if (currentMode === 'analyze') {
+                    recognizeBtnText.innerHTML = translations.recognize[currentLang];
+                } else {
+                    recognizeBtnText.innerHTML = translations.recognizeExtract[currentLang];
+                }
                 loader.style.display = 'none';
             }
         });
