@@ -1,4 +1,4 @@
-// This API endpoint is now an Advanced Document Analyzer.
+// This API endpoint is now a dual-mode Advanced Document Analyzer.
 // It receives a file (Image or PDF) and a language, then instructs the AI
 // to provide a structured analysis of the content in that language.
 
@@ -19,31 +19,42 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { language, fileData, mimeType } = req.body;
+        const { language, fileData, mimeType, mode } = req.body;
 
-        if (!language || !fileData || !mimeType) {
-            return res.status(400).json({ error: 'Missing required fields: language, fileData, or mimeType.' });
+        if (!language || !fileData || !mimeType || !mode) {
+            return res.status(400).json({ error: 'Missing required fields: language, fileData, mimeType, or mode.' });
         }
         
         const languageName = getLanguageName(language);
-        const prompt = `
-            You are an expert document analyst. Analyze the provided file (image or PDF) and provide a structured breakdown of its content.
-            Your entire response MUST be in the ${languageName} language.
-            
-            Format your response in Markdown with the following sections:
+        let prompt;
 
-            ## 📄 Summary
-            (Provide a concise, one-paragraph summary of the entire document's content.)
+        if (mode === 'extract') {
+            // Simple prompt for full text extraction
+            prompt = `Your task is to extract every piece of text from the provided file (image or PDF). 
+            The text could be in English, Sinhala, or Tamil. 
+            Preserve the original line breaks and formatting as accurately as possible. 
+            Do not add any titles, summaries, or explanations. Provide only the raw, extracted text.`;
+        } else {
+            // Default to 'analyze' mode
+            prompt = `
+                You are an expert document analyst. Analyze the provided file (image or PDF) and provide a structured breakdown of its content.
+                Your entire response MUST be in the ${languageName} language.
+                
+                Format your response in Markdown with the following sections:
 
-            ### 🔑 Key Points
-            (List the most important takeaways or data points as a bulleted list.)
+                ## 📄 Summary
+                (Provide a concise, one-paragraph summary of the entire document's content.)
 
-            ### 🖼️ Image Descriptions (if any)
-            (If there are images, briefly describe what each one shows. If no images, state "No images found.")
+                ### 🔑 Key Points
+                (List the most important takeaways or data points as a bulleted list.)
 
-            ### 📋 Full Text / Data
-            (Extract the full text content. If you identify tables, recreate them using Markdown table format.)
-        `;
+                ### 🖼️ Image Descriptions (if any)
+                (If there are images, briefly describe what each one shows. If no images, state "No images found.")
+
+                ### 📋 Tables / Data (if any)
+                (If you identify tables, recreate them using Markdown table format. If no tables, state "No structured data tables found.")
+            `;
+        }
         
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
