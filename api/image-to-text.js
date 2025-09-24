@@ -1,5 +1,12 @@
-// This API endpoint is designed to receive either an image or a PDF,
-// convert it to text using the Gemini API, and return the result.
+// This API endpoint is now an Advanced Document Analyzer.
+// It receives a file (Image or PDF) and a language, then instructs the AI
+// to provide a structured analysis of the content in that language.
+
+const getLanguageName = (langCode) => {
+    if (langCode === 'si') return 'Sinhala';
+    if (langCode === 'ta') return 'Tamil';
+    return 'English';
+};
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -12,11 +19,31 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { prompt, fileData, mimeType } = req.body;
+        const { language, fileData, mimeType } = req.body;
 
-        if (!prompt || !fileData || !mimeType) {
-            return res.status(400).json({ error: 'Missing required fields: prompt, fileData, or mimeType.' });
+        if (!language || !fileData || !mimeType) {
+            return res.status(400).json({ error: 'Missing required fields: language, fileData, or mimeType.' });
         }
+        
+        const languageName = getLanguageName(language);
+        const prompt = `
+            You are an expert document analyst. Analyze the provided file (image or PDF) and provide a structured breakdown of its content.
+            Your entire response MUST be in the ${languageName} language.
+            
+            Format your response in Markdown with the following sections:
+
+            ## 📄 Summary
+            (Provide a concise, one-paragraph summary of the entire document's content.)
+
+            ### 🔑 Key Points
+            (List the most important takeaways or data points as a bulleted list.)
+
+            ### 🖼️ Image Descriptions (if any)
+            (If there are images, briefly describe what each one shows. If no images, state "No images found.")
+
+            ### 📋 Full Text / Data
+            (Extract the full text content. If you identify tables, recreate them using Markdown table format.)
+        `;
         
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
@@ -41,7 +68,7 @@ export default async function handler(req, res) {
                 { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
             ],
             generationConfig: {
-                maxOutputTokens: 8192, // Increased token limit for potentially long PDFs
+                maxOutputTokens: 8192,
             }
         };
 
