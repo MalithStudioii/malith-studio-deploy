@@ -19,16 +19,18 @@ export default async function handler(req, res) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    // --- MODEL CHANGED HERE ---
+    // We are now using the 'gemini-pro' model to see if it resolves the issue.
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const result = await model.generateContent(prompt);
     
-    // THE FIX: Send the ENTIRE response object from Gemini directly to the frontend.
-    // Do not process or change it here.
+    // Send the ENTIRE response object from Gemini directly to the frontend.
     res.status(200).json(result.response);
 
   } catch (error) {
-    console.error("Error in API function:", error);
+    console.error("Error in API function with gemini-pro:", error);
     res.status(500).json({ error: "Failed to generate ideas from the AI model." });
   }
 }
