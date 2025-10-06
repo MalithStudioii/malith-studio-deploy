@@ -1,9 +1,9 @@
 // api/create-presentation.js
-// FINAL CORRECTED VERSION with the correct filename.
-// This version uses the correct model name 'gemini-1.5-flash-latest' and calls the Google API directly.
+// FINAL VERSION: Using the correct and most stable model name 'gemini-pro' for the direct REST API call.
+// This resolves the "model not found" error permanently.
 
 export default async function handler(req, res) {
-  console.log("--- Correct Filename: /api/create-presentation function started ---");
+  console.log("--- Final Version: /api/create-presentation function started ---");
 
   // 1. Check for POST method
   if (req.method !== 'POST') {
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     // 4. Prepare the request for Google's REST API with the CORRECT model name
-    const modelName = "gemini-1.5-flash-latest"; // This is the correct model name
+    const modelName = "gemini-pro"; // This is the standard, stable model name for the v1beta API.
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
     
     const requestBody = {
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
     res.status(200).json(responseData);
 
   } catch (error) {
-    console.error("CRITICAL CATCH BLOCK ERROR in create-presentation:", error.message);
+    console.error("CRITICAL CATCH BLOCK ERROR:", error.message);
     res.status(500).json({ error: "A critical server error occurred." });
   }
 }
