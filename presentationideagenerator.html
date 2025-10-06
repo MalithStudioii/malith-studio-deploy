@@ -112,7 +112,8 @@
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
             errorGeneral: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
             errorBlocked: { en: 'Could not generate ideas due to safety restrictions. Please try a different topic.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අදහස් ජනනය කිරීමට නොහැක. කරුණාකර වෙනත් මාතෘකාවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக யோசனைகளை உருவாக்க முடியவில்லை. தயவுசெய்து வேறு தலைப்பை முயற்சிக்கவும்.'},
-            errorTopic: { en: 'Please enter a topic to generate ideas.', si: 'කරුණාකර අදහස් ජනනය කිරීමට මාතෘකාවක් ඇතුළත් කරන්න.', ta: 'யோசனைகளை உருவாக்க ஒரு தலைப்பை உள்ளிடவும்.'}
+            errorTopic: { en: 'Please enter a topic to generate ideas.', si: 'කරුණාකර අදහස් ජනනය කිරීමට මාතෘකාවක් ඇතුළත් කරන්න.', ta: 'யோசனைகளை உருவாக்க ஒரு தலைப்பை உள்ளிடவும்.'},
+            errorInvalidResponse: { en: 'The server sent an invalid response. Please check Vercel logs for details.', si: 'සර්වර් එකෙන් වැරදි ප්‍රතිචාරයක් ලැබුනි. කරුණාකර විස්තර සඳහා Vercel ලොග්ස් පරීක්ෂා කරන්න.', ta: 'சேவையகம் தவறான பதிலை அனுப்பியது. விவரங்களுக்கு Vercel பதிவுகளைச் சரிபார்க்கவும்.'}
         };
         
         let currentLang = 'en';
@@ -148,35 +149,47 @@
             }
 
             setLoading(true);
-
             const prompt = `Generate a structured presentation idea outline for the topic: "${topic}". The outline must be in ${language}. Include a title, an introduction, 3 main body points with sub-points, and a conclusion.`;
 
             try {
-                // Calling the NEW endpoint name: /api/create-presentation
                 const response = await fetch('/api/create-presentation', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt }),
                 });
 
+                // --- Improved Error Handling ---
+                // Try to parse the response as JSON. If it fails, it's not valid JSON.
                 const data = await response.json();
 
                 if (!response.ok) {
+                    // If the server explicitly said content was blocked
+                    if (data.error === "Blocked by safety settings") {
+                        throw new Error(translations.errorBlocked[currentLang]);
+                    }
+                    // For other errors sent by our backend
                     throw new Error(data.error || translations.errorGeneral[currentLang]);
                 }
                 
+                // If the response is OK, but the content is missing (e.g., blocked)
                 if (data.candidates && data.candidates.length > 0 && data.candidates[0].content) {
                     const generatedText = data.candidates[0].content.parts[0].text;
                     dom.resultContainer.value = generatedText;
                     dom.formContainer.classList.add('hidden');
                     dom.resultBox.classList.remove('hidden');
                 } else {
-                    console.error("API Response Blocked or Empty:", data);
+                    console.error("API Response OK but empty/blocked:", data);
                     showError(translations.errorBlocked[currentLang]);
                 }
+
             } catch (error) {
-                console.error('Fetch Error:', error);
-                showError(error.message || translations.errorGeneral[currentLang]);
+                console.error('Fetch/Parse Error:', error);
+                // This specifically catches the "Unexpected token 'T'" error
+                if (error instanceof SyntaxError) {
+                    showError(translations.errorInvalidResponse[currentLang]);
+                } else {
+                    showError(error.message || translations.errorGeneral[currentLang]);
+                }
             } finally {
                 setLoading(false);
             }
@@ -205,37 +218,30 @@
 
         // --- Event Listeners ---
         dom.generateBtn.addEventListener('click', generateIdeas);
-
         dom.languageBtn.addEventListener('click', () => dom.languageOptions.classList.toggle('show'));
-        
         document.querySelectorAll('#language-options button').forEach(button => {
             button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
         });
-
         document.addEventListener('click', (e) => {
             if (!dom.languageBtn.contains(e.target) && !dom.languageOptions.contains(e.target)) {
                 dom.languageOptions.classList.remove('show');
             }
         });
-        
         dom.copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(dom.resultContainer.value);
             dom.copyBtn.textContent = translations.copied[currentLang];
-            setTimeout(() => {
-                dom.copyBtn.textContent = translations.copy[currentLang];
-            }, 2000);
+            setTimeout(() => { dom.copyBtn.textContent = translations.copy[currentLang]; }, 2000);
         });
-
         dom.newBtn.addEventListener('click', () => {
             dom.resultBox.classList.add('hidden');
             dom.formContainer.classList.remove('hidden');
             dom.topicInput.value = '';
             dom.resultContainer.value = '';
+            hideError();
         });
 
         // Initialize with default language
         setLanguage('en');
-
     </script>
 </body>
 </html>
