@@ -1,60 +1,70 @@
 // api/create-presentation.js
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// FORCE REBUILD v2 - This version calls the Google API directly using fetch.
+// This is the definitive fix for the Vercel networking/caching issue.
 
 export default async function handler(req, res) {
-  // Add logs to trace the function's execution path
-  console.log("--- /api/create-presentation function started ---");
+  console.log("--- Direct Fetch v2 /api/create-presentation function started ---");
+
+  // 1. Check for POST method
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
+  // 2. Securely get the API Key
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.error("CRITICAL: GEMINI_API_KEY is not set.");
+    return res.status(500).json({ error: "API key is not configured." });
+  }
 
   try {
-    if (req.method !== 'POST') {
-      console.log("Method not allowed:", req.method);
-      return res.status(405).json({ error: 'Method Not Allowed' });
-    }
-
-    console.log("Fetching API key...");
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error("CRITICAL: GEMINI_API_KEY is not set.");
-      // Ensure a JSON response is sent
-      return res.status(500).json({ error: "API key is not configured." });
-    }
-    console.log("API key found.");
-
+    // 3. Get the prompt from the request body
     const { prompt } = req.body;
     if (!prompt) {
-      console.log("Prompt is missing.");
       return res.status(400).json({ error: "Missing prompt." });
     }
-    console.log("Received prompt (first 50 chars):", prompt.substring(0, 50) + "...");
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // 4. Prepare the request for Google's REST API
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
     
-    console.log("Calling Gemini API...");
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    console.log("Received response from Gemini.");
+    const requestBody = {
+      contents: [{
+        parts: [{
+          text: prompt
+        }]
+      }]
+    };
 
-    // Defensive check specifically for safety settings block
-    if (!response || !response.candidates || response.candidates.length === 0) {
-        console.warn("Gemini response was blocked or empty.", response?.promptFeedback);
-        // Send a specific JSON error for blocked content
-        return res.status(400).json({ 
-            error: "Blocked by safety settings", 
-            promptFeedback: response?.promptFeedback 
-        });
+    console.log("Calling Gemini REST API directly via fetch...");
+    
+    // 5. Make the direct API call using the global fetch function
+    const apiResponse = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    
+    // 6. Parse the JSON response from Google
+    const responseData = await apiResponse.json();
+    
+    // 7. Check if the call was successful
+    if (!apiResponse.ok) {
+      console.error("Error response from Gemini REST API:", responseData);
+      const errorMessage = responseData?.error?.message || "Failed to get a valid response from the AI model.";
+      return res.status(apiResponse.status).json({ error: errorMessage });
     }
-
-    console.log("Sending successful response to frontend.");
-    // Send the valid, successful JSON response
-    res.status(200).json(response);
+    
+    console.log("Successfully received response from REST API.");
+    
+    // 8. Send the successful response to the frontend
+    res.status(200).json(responseData);
 
   } catch (error) {
-    // This block will catch any unexpected crash
-    console.error("--- CATCH BLOCK EXECUTED ---");
+    console.error("--- CATCH BLOCK EXECUTED (Direct Fetch v2) ---");
     console.error("CRITICAL ERROR in /api/create-presentation:", error.message);
-    // Ensure we ALWAYS send a JSON response, even in case of a crash
-    res.status(500).json({ error: "A critical error occurred on the server." });
+    res.status(500).json({ error: "A critical server error occurred." });
   }
 }
 
