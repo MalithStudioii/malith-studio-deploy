@@ -1,9 +1,9 @@
 // api/create-presentation.js
-// FORCE REBUILD v2 - This version calls the Google API directly using fetch.
-// This is the definitive fix for the Vercel networking/caching issue.
+// FINAL CORRECTED VERSION with the correct filename.
+// This version uses the correct model name 'gemini-1.5-flash-latest' and calls the Google API directly.
 
 export default async function handler(req, res) {
-  console.log("--- Direct Fetch v2 /api/create-presentation function started ---");
+  console.log("--- Correct Filename: /api/create-presentation function started ---");
 
   // 1. Check for POST method
   if (req.method !== 'POST') {
@@ -24,8 +24,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing prompt." });
     }
 
-    // 4. Prepare the request for Google's REST API
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+    // 4. Prepare the request for Google's REST API with the CORRECT model name
+    const modelName = "gemini-1.5-flash-latest"; // This is the correct model name
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
     
     const requestBody = {
       contents: [{
@@ -35,23 +36,19 @@ export default async function handler(req, res) {
       }]
     };
 
-    console.log("Calling Gemini REST API directly via fetch...");
+    console.log(`Calling Gemini REST API with model: ${modelName}`);
     
-    // 5. Make the direct API call using the global fetch function
+    // 5. Make the direct API call using fetch
     const apiResponse = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     });
     
-    // 6. Parse the JSON response from Google
     const responseData = await apiResponse.json();
     
-    // 7. Check if the call was successful
     if (!apiResponse.ok) {
-      console.error("Error response from Gemini REST API:", responseData);
+      console.error("Error response from Gemini API:", responseData);
       const errorMessage = responseData?.error?.message || "Failed to get a valid response from the AI model.";
       return res.status(apiResponse.status).json({ error: errorMessage });
     }
@@ -62,8 +59,7 @@ export default async function handler(req, res) {
     res.status(200).json(responseData);
 
   } catch (error) {
-    console.error("--- CATCH BLOCK EXECUTED (Direct Fetch v2) ---");
-    console.error("CRITICAL ERROR in /api/create-presentation:", error.message);
+    console.error("CRITICAL CATCH BLOCK ERROR in create-presentation:", error.message);
     res.status(500).json({ error: "A critical server error occurred." });
   }
 }
