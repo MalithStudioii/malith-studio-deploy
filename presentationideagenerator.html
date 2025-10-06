@@ -152,7 +152,8 @@
             const prompt = `Generate a structured presentation idea outline for the topic: "${topic}". The outline must be in ${language}. Include a title, an introduction, 3 main body points with sub-points, and a conclusion.`;
 
             try {
-                const response = await fetch('/api/generate-ideas', {
+                // Calling the NEW endpoint name: /api/create-presentation
+                const response = await fetch('/api/create-presentation', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt }),
