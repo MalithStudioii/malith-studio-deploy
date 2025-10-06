@@ -1,10 +1,11 @@
 {
-    "version": 2,
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/api/"
-        }
-    ]
+  "version": 2,
+  "regions": ["sfo1"],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/"
+    }
+  ]
 }
 
