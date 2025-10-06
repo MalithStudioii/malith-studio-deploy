@@ -16,10 +16,10 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "API key is not configured on the server." });
   }
 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
   try {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
     // Get the prompt from the request body
     const { prompt } = req.body;
     if (!prompt) {
@@ -28,8 +28,19 @@ export default async function handler(req, res) {
 
     // Call the Google Gemini API
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = result.response;
+
+    // --- THIS IS THE CORRECTED LINE ---
+    // --- මෙන්න නිවැරදි කරන ලද පේළිය ---
+    // The generated text is nested deep inside the response object.
+    // We use optional chaining (?.) to safely access it.
+    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    // If text could not be extracted, it means the response format was unexpected or empty.
+    if (!text) {
+        console.error("Could not extract text from Gemini response:", response);
+        return res.status(500).json({ error: "Failed to parse a valid response from the AI model." });
+    }
 
     // Send the successful response back to the frontend
     res.status(200).json({ text });
@@ -43,3 +54,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Failed to generate ideas with the AI model." });
   }
 }
+
