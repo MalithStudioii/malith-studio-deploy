@@ -2,9 +2,11 @@
   "name": "malith-studio-project",
   "version": "1.0.0",
   "description": "Dependencies for Malith Studio Vercel functions.",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.14.1",
     "marked": "^13.0.2"
   }
 }
-
