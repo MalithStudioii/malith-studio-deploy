@@ -11,71 +11,147 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #030712; /* Very dark blue-gray */
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
         }
         .spinner {
             border-top-color: transparent;
         }
+        #language-options { display: none; }
+        #language-options.show { display: block; }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4">
-    <div class="w-full max-w-3xl mx-auto p-6 md:p-8 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700">
-        <header class="text-center mb-6">
-            <h1 class="text-3xl md:text-4xl font-bold text-cyan-400">AI Presentation Idea Generator</h1>
-            <p class="text-gray-400 mt-2">ඔබේ ඉදිරිපත් කිරීමට ඕනෑම මාතෘකාවක් ලබා දී ව්‍යුහගත අදහස් ජනනය කරන්න.</p>
+
+    <a href="index.html#projects" class="fixed top-6 left-6 flex items-center gap-2 bg-gray-800/80 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full no-underline font-semibold z-10 border border-white/10 transition-colors hover:bg-gray-700/90 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="w-full max-w-3xl mx-auto p-6 md:p-8 bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 relative">
+        <div class="absolute top-6 right-6">
+            <div class="relative">
+                <button id="language-btn" class="bg-gray-700/80 border border-white/10 text-gray-300 px-4 py-2 rounded-md font-semibold">English</button>
+                <div id="language-options" class="absolute right-0 mt-2 w-32 bg-gray-900 border border-gray-700 rounded-md p-2 z-20">
+                    <button data-lang="en" class="block w-full text-left px-3 py-1.5 text-sm rounded hover:bg-gray-700">English</button>
+                    <button data-lang="si" class="block w-full text-left px-3 py-1.5 text-sm rounded hover:bg-gray-700">සිංහල</button>
+                    <button data-lang="ta" class="block w-full text-left px-3 py-1.5 text-sm rounded hover:bg-gray-700">தமிழ்</button>
+                </div>
+            </div>
+        </div>
+
+        <header class="text-center mb-6 mt-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-cyan-400" data-key="title">AI Presentation Idea Generator</h1>
+            <p class="text-gray-400 mt-2" data-key="subtitle">Generate structured ideas for your presentation.</p>
         </header>
         
-        <main>
+        <main id="form-container">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div class="flex flex-col">
-                    <label for="topic-input" class="mb-2 font-semibold text-gray-300">මාතෘකාව (Topic)</label>
-                    <input id="topic-input" type="text" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 transition" placeholder="උදා: The Future of AI">
+                    <label for="topic-input" class="mb-2 font-semibold text-gray-300" data-key="topicLabel">Topic</label>
+                    <input id="topic-input" type="text" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 transition" data-key-placeholder="topicPlaceholder" placeholder="e.g., The Future of AI">
                 </div>
                 <div class="flex flex-col">
-                    <label for="language-select" class="mb-2 font-semibold text-gray-300">ප්‍රතිදාන භාෂාව (Output Language)</label>
+                    <label for="language-select" class="mb-2 font-semibold text-gray-300" data-key="languageLabel">Output Language</label>
                     <select id="language-select" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 transition">
-                        <option value="English">English</option>
-                        <option value="Sinhala">Sinhala</option>
-                        <option value="Tamil">Tamil</option>
+                        <option value="English" data-key="langEnglish">English</option>
+                        <option value="Sinhala" data-key="langSinhala">Sinhala</option>
+                        <option value="Tamil" data-key="langTamil">Tamil</option>
                     </select>
                 </div>
             </div>
             
             <button id="generate-btn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
-                <span id="button-text">අදහස් ජනනය කරන්න</span>
-                <div id="spinner" class="hidden ml-3 w-5 h-5 border-2 border-white rounded-full animate-spin"></div>
+                <span id="button-text" data-key="generate">Generate Ideas</span>
+                <div id="spinner" class="hidden ml-3 w-5 h-5 border-2 border-white rounded-full animate-spin spinner"></div>
             </button>
-            
-            <textarea id="result-container" readonly class="mt-6 p-4 w-full bg-gray-900 rounded-lg min-h-[250px] border border-gray-700 whitespace-pre-wrap text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="ජනනය කරන ලද අදහස් මෙහි දිස්වනු ඇත..."></textarea>
-
-            <div id="error-container" class="mt-4 p-3 bg-red-900/50 border border-red-700 text-red-300 rounded-lg hidden"></div>
         </main>
+        
+        <div id="result-box" class="hidden">
+             <textarea id="result-container" readonly class="mt-6 p-4 w-full bg-gray-900 rounded-lg min-h-[250px] border border-gray-700 whitespace-pre-wrap text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500" data-key-placeholder="placeholderOutput" placeholder="Generated ideas will appear here..."></textarea>
+             <div class="flex justify-end gap-4 mt-4">
+                 <button id="newBtn" class="bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg transition" data-key="newPresentation">New Presentation</button>
+                 <button id="copyBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-5 rounded-lg transition" data-key="copy">Copy</button>
+             </div>
+        </div>
+
+        <div id="error-container" class="mt-4 p-3 bg-red-900/50 border border-red-700 text-red-300 rounded-lg hidden"></div>
     </div>
 
     <script>
-        const topicInput = document.getElementById('topic-input');
-        const languageSelect = document.getElementById('language-select');
-        const generateBtn = document.getElementById('generate-btn');
-        const resultContainer = document.getElementById('result-container');
-        const errorContainer = document.getElementById('error-container');
-        const buttonText = document.getElementById('button-text');
-        const spinner = document.getElementById('spinner');
+        const dom = {
+            topicInput: document.getElementById('topic-input'),
+            languageSelect: document.getElementById('language-select'),
+            generateBtn: document.getElementById('generate-btn'),
+            resultContainer: document.getElementById('result-container'),
+            errorContainer: document.getElementById('error-container'),
+            buttonText: document.getElementById('button-text'),
+            spinner: document.getElementById('spinner'),
+            languageBtn: document.getElementById('language-btn'),
+            languageOptions: document.getElementById('language-options'),
+            formContainer: document.getElementById('form-container'),
+            resultBox: document.getElementById('result-box'),
+            copyBtn: document.getElementById('copyBtn'),
+            newBtn: document.getElementById('newBtn'),
+        };
 
-        generateBtn.addEventListener('click', async () => {
-            const topic = topicInput.value.trim();
-            const language = languageSelect.value;
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Presentation Idea Generator', si: 'AI ඉදිරිපත් කිරීමේ අදහස් සාදන්නා', ta: 'AI விளக்கக்காட்சி யோசனை ஜெனரேட்டர்' },
+            subtitle: { en: 'Generate structured ideas for your presentation.', si: 'ඔබේ ඉදිරිපත් කිරීමට ව්‍යුහගත අදහස් ජනනය කරන්න.', ta: 'உங்கள் விளக்கக்காட்சிக்கு கட்டமைக்கப்பட்ட யோசனைகளை உருவாக்கவும்.' },
+            topicLabel: { en: 'Topic', si: 'මාතෘකාව', ta: 'தலைப்பு' },
+            topicPlaceholder: { en: 'e.g., The Future of AI', si: 'උදා: කෘත්‍රිම බුද්ධියේ අනාගතය', ta: 'எ.கா., AI இன் எதிர்காலம்' },
+            languageLabel: { en: 'Output Language', si: 'ප්‍රතිදාන භාෂාව', ta: 'வெளியீட்டு மொழி' },
+            langEnglish: { en: 'English', si: 'ඉංග්‍රීසි', ta: 'ஆங்கிலம்' },
+            langSinhala: { en: 'Sinhala', si: 'සිංහල', ta: 'சிங்களம்' },
+            langTamil: { en: 'Tamil', si: 'දෙමළ', ta: 'தமிழ்' },
+            generate: { en: 'Generate Ideas', si: 'අදහස් ජනනය කරන්න', ta: 'யோசனைகளை உருவாக்கவும்' },
+            generating: { en: 'Generating...', si: 'ජනනය කරමින්...', ta: 'உருவாக்குகிறது...' },
+            placeholderOutput: { en: 'Generated ideas will appear here...', si: 'ජනනය කළ අදහස් මෙහි දිස්වනු ඇත...', ta: 'உருவாக்கப்பட்ட யோசனைகள் இங்கே தோன்றும்...' },
+            newPresentation: { en: 'New Presentation', si: 'නව ඉදිරිපත් කිරීමක්', ta: 'புதிய விளக்கக்காட்சி' },
+            copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            errorGeneral: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'},
+            errorBlocked: { en: 'Could not generate ideas due to safety restrictions. Please try a different topic.', si: 'ආරක්ෂක සීමා කිරීම් නිසා අදහස් ජනනය කිරීමට නොහැක. කරුණාකර වෙනත් මාතෘකාවක් උත්සාහ කරන්න.', ta: 'பாதுகாப்புக் கட்டுப்பாடுகள் காரணமாக யோசனைகளை உருவாக்க முடியவில்லை. தயவுசெய்து வேறு தலைப்பை முயற்சிக்கவும்.'},
+            errorTopic: { en: 'Please enter a topic to generate ideas.', si: 'කරුණාකර අදහස් ජනනය කිරීමට මාතෘකාවක් ඇතුළත් කරන්න.', ta: 'யோசனைகளை உருவாக்க ஒரு தலைப்பை உள்ளிடவும்.'}
+        };
+        
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            if(lang === 'en') dom.languageBtn.textContent = 'English';
+            if(lang === 'si') dom.languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') dom.languageBtn.textContent = 'தமிழ்';
+            dom.languageOptions.classList.remove('show');
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+        }
+
+        async function generateIdeas() {
+            const topic = dom.topicInput.value.trim();
+            const language = dom.languageSelect.value;
             if (!topic) {
-                showError("කරුණාකර අදහස් ජනනය කිරීමට මාතෘකාවක් ඇතුළත් කරන්න.");
+                showError(translations.errorTopic[currentLang]);
                 return;
             }
 
             setLoading(true);
-            resultContainer.value = ""; // Clear previous results
 
             const prompt = `Generate a structured presentation idea outline for the topic: "${topic}". The outline must be in ${language}. Include a title, an introduction, 3 main body points with sub-points, and a conclusion.`;
 
             try {
-                // Call our simplified backend API endpoint
                 const response = await fetch('/api/generate-ideas', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -85,49 +161,80 @@
                 const data = await response.json();
 
                 if (!response.ok) {
-                    // This catches server-side errors (like 500)
-                    throw new Error(data.error || 'The server returned an error.');
+                    throw new Error(data.error || translations.errorGeneral[currentLang]);
                 }
                 
-                // **THE FIX**: Parse the full response object received from the backend
-                if (data.candidates && data.candidates.length > 0) {
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content) {
                     const generatedText = data.candidates[0].content.parts[0].text;
-                    resultContainer.value = generatedText;
+                    dom.resultContainer.value = generatedText;
+                    dom.formContainer.classList.add('hidden');
+                    dom.resultBox.classList.remove('hidden');
                 } else {
-                    // This handles cases where Gemini blocks the response for safety reasons
                     console.error("API Response Blocked or Empty:", data);
-                    showError('ආරක්ෂක සීමා කිරීම් නිසා අදහස් ජනනය කිරීමට නොහැක. කරුණාකර වෙනත් මාතෘකාවක් උත්සාහ කරන්න.');
+                    showError(translations.errorBlocked[currentLang]);
                 }
-
             } catch (error) {
                 console.error('Fetch Error:', error);
-                // This catches network errors (like fetch failed) or errors thrown from above
-                showError(`දෝෂයක් ඇතිවිය: ${error.message}`);
+                showError(error.message || translations.errorGeneral[currentLang]);
             } finally {
                 setLoading(false);
             }
-        });
+        }
         
         function setLoading(isLoading) {
-            generateBtn.disabled = isLoading;
+            dom.generateBtn.disabled = isLoading;
             if (isLoading) {
-                buttonText.textContent = 'ජනනය කරමින්...';
-                spinner.classList.remove('hidden');
+                dom.buttonText.textContent = translations.generating[currentLang];
+                dom.spinner.classList.remove('hidden');
                 hideError();
             } else {
-                buttonText.textContent = 'අදහස් ජනනය කරන්න';
-                spinner.classList.add('hidden');
+                dom.buttonText.textContent = translations.generate[currentLang];
+                dom.spinner.classList.add('hidden');
             }
         }
 
         function showError(message) {
-            errorContainer.textContent = message;
-            errorContainer.classList.remove('hidden');
+            dom.errorContainer.textContent = message;
+            dom.errorContainer.classList.remove('hidden');
         }
 
         function hideError() {
-            errorContainer.classList.add('hidden');
+            dom.errorContainer.classList.add('hidden');
         }
+
+        // --- Event Listeners ---
+        dom.generateBtn.addEventListener('click', generateIdeas);
+
+        dom.languageBtn.addEventListener('click', () => dom.languageOptions.classList.toggle('show'));
+        
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => setLanguage(button.getAttribute('data-lang')));
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dom.languageBtn.contains(e.target) && !dom.languageOptions.contains(e.target)) {
+                dom.languageOptions.classList.remove('show');
+            }
+        });
+        
+        dom.copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(dom.resultContainer.value);
+            dom.copyBtn.textContent = translations.copied[currentLang];
+            setTimeout(() => {
+                dom.copyBtn.textContent = translations.copy[currentLang];
+            }, 2000);
+        });
+
+        dom.newBtn.addEventListener('click', () => {
+            dom.resultBox.classList.add('hidden');
+            dom.formContainer.classList.remove('hidden');
+            dom.topicInput.value = '';
+            dom.resultContainer.value = '';
+        });
+
+        // Initialize with default language
+        setLanguage('en');
+
     </script>
 </body>
 </html>
